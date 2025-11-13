@@ -1,0 +1,68 @@
+@using System.Security.Claims
+@using DMF_MUSIC_PLATFORM.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@if (isFounder)
+{
+    @ChildContent
+}
+else if (isLoading)
+{
+    <div class="founder-gate-loading">
+        <p>Checking authorization...</p>
+    </div>
+}
+else
+{
+    <div class="founder-gate-denied">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Access Denied</h4>
+            <p>This section is reserved for the DMF platform founder only.</p>
+            <hr>
+            <p class="mb-0">If you believe this is an error, please contact support.</p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool isFounder = false;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        isFounder = DmfAuthorizationService.IsFounder(user);
+        isLoading = false;
+    }
+}
+
+<style>
+    .founder-gate-loading {
+        padding: 20px;
+        text-align: center;
+        color: #666;
+    }
+
+    .founder-gate-denied {
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    .alert {
+        padding: 15px 20px;
+        border-radius: 4px;
+        border: 1px solid #f5c6cb;
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .alert-heading {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+</style>

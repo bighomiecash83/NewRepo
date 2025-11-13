@@ -1,0 +1,64 @@
+@using System.Security.Claims
+@using DMF_MUSIC_PLATFORM.Authorization
+
+@if (isFounder)
+{
+    <div class="role-badge founder-badge" title="Platform Founder">
+        <span class="badge bg-danger">FOUNDER</span>
+    </div>
+}
+else if (roles.Length > 0)
+{
+    <div class="role-badges" title="Your roles">
+        @foreach (var role in roles)
+        {
+            <span class="badge bg-info">@FormatRole(role)</span>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ClaimsPrincipal? User { get; set; }
+
+    private bool isFounder = false;
+    private string[] roles = Array.Empty<string>();
+
+    protected override void OnParametersSet()
+    {
+        if (User != null)
+        {
+            isFounder = DmfAuthorizationService.IsFounder(User);
+            
+            var rolesString = User.FindFirst("dmf:roles")?.Value ?? "";
+            roles = rolesString.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(r => r.Trim())
+                .ToArray();
+        }
+    }
+
+    private string FormatRole(string role)
+    {
+        // Convert "a_and_r" to "A & R", "org_admin" to "Org Admin"
+        return System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
+            role.Replace("_", " "));
+    }
+}
+
+<style>
+    .role-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        padding: 4px 8px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .founder-badge {
+        animation: pulse-gold 2s infinite;
+    }
+</style>

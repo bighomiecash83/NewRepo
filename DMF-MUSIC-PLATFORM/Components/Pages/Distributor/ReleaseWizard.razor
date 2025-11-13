@@ -1,0 +1,375 @@
+@page "/distributor/wizard"
+@using System.ComponentModel.DataAnnotations
+@using DMF_MUSIC_PLATFORM.Data.Distribution
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject NavigationManager Nav
+
+<PageTitle>Release Wizard | DMF Music Platform</PageTitle>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mb-4">?? Release Wizard</h2>
+
+            @if (errorMessage != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @errorMessage
+                </div>
+            }
+
+            @if (successMessage != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @successMessage
+                </div>
+            }
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <!-- Step Indicator -->
+                    <div class="mb-4">
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar @(step >= 1 ? "bg-success" : "bg-secondary")" style="width: 25%">Step 1</div>
+                            <div class="progress-bar @(step >= 2 ? "bg-success" : "bg-secondary")" style="width: 25%">Step 2</div>
+                            <div class="progress-bar @(step >= 3 ? "bg-success" : "bg-secondary")" style="width: 25%">Step 3</div>
+                            <div class="progress-bar @(step >= 4 ? "bg-success" : "bg-secondary")" style="width: 25%">Step 4</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Basic Info -->
+                    @if (step == 1)
+                    {
+                        <h4>Step 1: Basic Information</h4>
+                        <div class="form-group">
+                            <label for="title">Release Title *</label>
+                            <input type="text" class="form-control" id="title" @bind="release.Title" placeholder="Album or single name" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="upc">UPC (12 or 13 digits) *</label>
+                            <input type="text" class="form-control" id="upc" @bind="release.Upc" placeholder="1234567890123" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="genre">Genre</label>
+                            <input type="text" class="form-control" id="genre" @bind="release.Genre" placeholder="e.g., Hip-Hop, Pop, Electronic" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="release-type">Release Type</label>
+                            <select class="form-control" id="release-type" @onchange="e => release.ReleaseType = e.Value?.ToString()">
+                                <option value="">-- Select --</option>
+                                <option value="Single">Single</option>
+                                <option value="EP">EP</option>
+                                <option value="Album">Album</option>
+                                <option value="Compilation">Compilation</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="label">Label Name</label>
+                            <input type="text" class="form-control" id="label" @bind="release.LabelName" placeholder="Your label" />
+                        </div>
+                    }
+
+                    <!-- Step 2: Metadata -->
+                    @if (step == 2)
+                    {
+                        <h4>Step 2: Metadata & Artwork</h4>
+
+                        <div class="form-group">
+                            <label for="release-date">Release Date *</label>
+                            <input type="date" class="form-control" id="release-date" @bind="releaseDate" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="c-line">C-Line (Copyright)</label>
+                            <input type="text" class="form-control" id="c-line" @bind="release.CLine" placeholder="© 2025 Your Company" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="p-line">P-Line (Producer)</label>
+                            <input type="text" class="form-control" id="p-line" @bind="release.PLine" placeholder="? 2025 Your Label" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="artwork">Artwork URL (GCS or HTTPS)</label>
+                            <input type="url" class="form-control" id="artwork" @bind="release.CoverArtRef" placeholder="https://..." />
+                            @if (!string.IsNullOrEmpty(release.CoverArtRef))
+                            {
+                                <div class="mt-2">
+                                    <img src="@release.CoverArtRef" alt="Cover Art" class="img-thumbnail" style="max-width: 150px;" />
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <!-- Step 3: Tracks -->
+                    @if (step == 3)
+                    {
+                        <h4>Step 3: Add Tracks</h4>
+
+                        @if (tracks.Count == 0)
+                        {
+                            <p class="text-muted">No tracks added yet.</p>
+                        }
+                        else
+                        {
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Seq</th>
+                                        <th>Title</th>
+                                        <th>ISRC</th>
+                                        <th>Duration</th>
+                                        <th>Explicit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var t in tracks)
+                                    {
+                                        <tr>
+                                            <td>@t.SequenceNumber</td>
+                                            <td>@t.Title</td>
+                                            <td>@(t.Isrc ?? "-")</td>
+                                            <td>@(t.DurationSeconds != null ? $"{t.DurationSeconds}s" : "-")</td>
+                                            <td>@(t.Explicit ? "?" : "")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+
+                        <h5 class="mt-4">Add Track</h5>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="track-title">Track Title *</label>
+                                <input type="text" class="form-control" id="track-title" @bind="newTrack.Title" placeholder="Song name" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="track-isrc">ISRC</label>
+                                <input type="text" class="form-control" id="track-isrc" @bind="newTrack.Isrc" placeholder="USRCY2450001" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="track-seq">Sequence #</label>
+                                <input type="number" class="form-control" id="track-seq" @bind="newTrack.SequenceNumber" min="1" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="track-duration">Duration (seconds)</label>
+                                <input type="number" class="form-control" id="track-duration" @bind="newTrack.DurationSeconds" min="1" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>&nbsp;</label>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="track-explicit" @bind="newTrack.Explicit" />
+                                    <label class="form-check-label" for="track-explicit">Explicit</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-sm btn-primary" @onclick="AddTrack">+ Add Track</button>
+                    }
+
+                    <!-- Step 4: Review & DSPs -->
+                    @if (step == 4)
+                    {
+                        <h4>Step 4: Review & Select DSPs</h4>
+
+                        <div class="alert alert-info">
+                            <strong>Release Summary:</strong>
+                            <ul class="mb-0">
+                                <li>Title: @release.Title</li>
+                                <li>UPC: @release.Upc</li>
+                                <li>Genre: @(release.Genre ?? "N/A")</li>
+                                <li>Tracks: @tracks.Count</li>
+                                <li>Release Date: @releaseDate?.ToString("yyyy-MM-dd")</li>
+                            </ul>
+                        </div>
+
+                        <h5>Select Distribution Platforms:</h5>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dsp-spotify" @onchange="HandleSpotifyToggle" />
+                            <label class="form-check-label" for="dsp-spotify">Spotify</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dsp-apple" @onchange="HandleAppleToggle" />
+                            <label class="form-check-label" for="dsp-apple">Apple Music</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dsp-youtube" @onchange="HandleYouTubeToggle" />
+                            <label class="form-check-label" for="dsp-youtube">YouTube Music</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dsp-tiktok" @onchange="HandleTikTokToggle" />
+                            <label class="form-check-label" for="dsp-tiktok">TikTok</label>
+                        </div>
+
+                        <p class="mt-3 text-muted">Selected: @string.Join(", ", selectedDsps)</p>
+                    }
+
+                    <!-- Navigation -->
+                    <div class="mt-4 d-flex justify-content-between">
+                        <button class="btn btn-outline-secondary" @onclick="PreviousStep" disabled="@(step == 1)">? Previous</button>
+
+                        @if (step < 4)
+                        {
+                            <button class="btn btn-primary" @onclick="NextStep">Next ?</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-success" @onclick="SubmitRelease" disabled="@isSubmitting">
+                                @if (isSubmitting)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                }
+                                Submit Release
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int step = 1;
+    private Release release = new();
+    private List<Track> tracks = new();
+    private Track newTrack = new();
+    private DateTime? releaseDate;
+    private List<string> selectedDsps = new();
+    private bool isSubmitting = false;
+    private string? errorMessage;
+    private string? successMessage;
+
+    private void NextStep()
+    {
+        if (step == 1)
+        {
+            if (string.IsNullOrWhiteSpace(release.Title) || string.IsNullOrWhiteSpace(release.Upc))
+            {
+                errorMessage = "Please fill in Title and UPC.";
+                return;
+            }
+        }
+        if (step < 4) step++;
+        errorMessage = null;
+    }
+
+    private void PreviousStep()
+    {
+        if (step > 1) step--;
+    }
+
+    private void AddTrack()
+    {
+        if (string.IsNullOrWhiteSpace(newTrack.Title))
+        {
+            errorMessage = "Track title is required.";
+            return;
+        }
+
+        newTrack.SequenceNumber = tracks.Count + 1;
+        tracks.Add(new Track
+        {
+            Title = newTrack.Title,
+            Isrc = newTrack.Isrc,
+            SequenceNumber = newTrack.SequenceNumber,
+            DurationSeconds = newTrack.DurationSeconds,
+            Explicit = newTrack.Explicit
+        });
+
+        newTrack = new();
+        errorMessage = null;
+    }
+
+    private void ToggleDsp(string dsp, bool selected)
+    {
+        if (selected && !selectedDsps.Contains(dsp))
+            selectedDsps.Add(dsp);
+        else if (!selected && selectedDsps.Contains(dsp))
+            selectedDsps.Remove(dsp);
+    }
+
+    private void HandleSpotifyToggle(ChangeEventArgs e)
+    {
+        ToggleDsp("spotify", (bool?)e.Value ?? false);
+    }
+
+    private void HandleAppleToggle(ChangeEventArgs e)
+    {
+        ToggleDsp("apple", (bool?)e.Value ?? false);
+    }
+
+    private void HandleYouTubeToggle(ChangeEventArgs e)
+    {
+        ToggleDsp("youtube", (bool?)e.Value ?? false);
+    }
+
+    private void HandleTikTokToggle(ChangeEventArgs e)
+    {
+        ToggleDsp("tiktok", (bool?)e.Value ?? false);
+    }
+
+    private async Task SubmitRelease()
+    {
+        if (tracks.Count == 0)
+        {
+            errorMessage = "Please add at least one track.";
+            return;
+        }
+
+        if (selectedDsps.Count == 0)
+        {
+            errorMessage = "Please select at least one DSP.";
+            return;
+        }
+
+        isSubmitting = true;
+        try
+        {
+            release.ReleaseDate = releaseDate;
+            release.SelectedDsps = selectedDsps;
+
+            var createResponse = await Http.PostAsJsonAsync("api/releases", new
+            {
+                release.Title,
+                release.Upc,
+                release.ReleaseType,
+                release.ReleaseDate,
+                release.CoverArtRef,
+                release.Genre,
+                release.LabelName,
+                release.CLine,
+                release.PLine
+            });
+
+            if (createResponse.IsSuccessStatusCode)
+            {
+                var releaseResult = await createResponse.Content.ReadFromJsonAsync<Release>();
+                successMessage = $"? Release created: {releaseResult?.Id}";
+
+                await Task.Delay(2000);
+                Nav.NavigateTo("/distributor/status");
+            }
+            else
+            {
+                errorMessage = "Failed to create release.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

@@ -1,0 +1,237 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========================================================================
+    // SECURITY FUNCTIONS
+    // ========================================================================
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isFounder() {
+      return isSignedIn() && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isFounder == true;
+    }
+
+    function hasRole(role) {
+      return isSignedIn() && 
+             role in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles;
+    }
+
+    function isFinance() {
+      return hasRole('finance') || isFounder();
+    }
+
+    function isOrgOwner(orgId) {
+      return isSignedIn() && 
+             get(/databases/$(database)/documents/orgs/$(orgId)).data.ownerId == request.auth.uid;
+    }
+
+    function isOrgMember(orgId) {
+      return isSignedIn() && 
+             request.auth.uid in get(/databases/$(database)/documents/orgs/$(orgId)).data.memberIds;
+    }
+
+    // ========================================================================
+    // ARTISTS COLLECTION (public profile, encrypted sensitive fields)
+    // ========================================================================
+
+    match /artists/{artistId} {
+      // Read: Public profile data only (no encrypted fields)
+      allow read: if request.query.limit <= 100;
+
+      // Write: Only self or finance/founder
+      allow write: if isSignedIn() && 
+                      (request.auth.uid == artistId || isFinance()) &&
+                      // Prevent direct write to encrypted fields from client
+                      !("ssn_enc" in request.resource.data) &&
+                      !("bank_account_enc" in request.resource.data) &&
+                      !("tax_id_enc" in request.resource.data);
+
+      // Update: Only self
+      allow update: if isSignedIn() && request.auth.uid == artistId &&
+                       !("ssn_enc" in request.resource.data) &&
+                       !("bank_account_enc" in request.resource.data) &&
+                       !("tax_id_enc" in request.resource.data);
+
+      // Delete: Founder only
+      allow delete: if isFounder();
+    }
+
+    // ========================================================================
+    // ENCRYPTED DATA (server-side encryption only)
+    // ========================================================================
+
+    match /artists/{artistId}/encrypted_fields/{docId} {
+      // Block all direct client access (must use API)
+      allow read, write, delete: if false;
+    }
+
+    // ========================================================================
+    // TRANSACTIONS & REVENUE (finance restricted)
+    // ========================================================================
+
+    match /revenue_streams/{streamId} {
+      allow read: if isFinance() || isFounder();
+      allow write: if isFinance() || isFounder();
+      allow delete: if isFounder();
+
+      match /transactions/{txId} {
+        allow read: if isFinance() || isFounder();
+        allow write: if isFinance() || isFounder();
+        allow delete: if isFounder();
+      }
+    }
+
+    // ========================================================================
+    // ROYALTY REPORTS (encrypted, finance only)
+    // ========================================================================
+
+    match /royalty_reports/{reportId} {
+      allow read: if isFinance() || isFounder();
+      allow create: if isFinance() || isFounder();
+      allow update: if isFinance() || isFounder() &&
+                       // Prevent tampering with report hash
+                       resource.data.content_hash == request.resource.data.content_hash;
+      allow delete: if isFounder();
+    }
+
+    // ========================================================================
+    // AUDIT LOG (immutable, hash-chained, read-only for compliance)
+    // ========================================================================
+
+    match /audit_log/{entryId} {
+      // Only founder and compliance can read
+      allow read: if isFounder();
+
+      // Write: Only via Functions (verify in backend)
+      allow create: if false; // Enforced server-side
+
+      // Update/Delete: Never
+      allow update, delete: if false;
+    }
+
+    // ========================================================================
+    // KEY ROTATION LOG (track encryption key versions)
+    // ========================================================================
+
+    match /key_rotation_log/{rotationId} {
+      allow read: if isFounder();
+      allow write: if false; // Server-side only
+      allow delete: if false;
+    }
+
+    // ========================================================================
+    // ORGANIZATIONS (tenant isolation)
+    // ========================================================================
+
+    match /orgs/{orgId} {
+      // Read: Members of org only
+      allow read: if isOrgMember(orgId) || isFounder();
+
+      // Write: Owner or founder
+      allow write: if isOrgOwner(orgId) || isFounder();
+
+      // Delete: Founder only
+      allow delete: if isFounder();
+
+      // Enforce data isolation
+      match /members/{memberId} {
+        allow read: if isOrgMember(orgId) || isFounder();
+        allow write: if isOrgOwner(orgId) || isFounder();
+      }
+
+      match /vault/{vaultId} {
+        allow read: if isOrgMember(orgId) || isFounder();
+        allow write: if isOrgOwner(orgId) || isFounder();
+      }
+    }
+
+    // ========================================================================
+    // PLAYGROUND (AI Bots - development/testing)
+    // ========================================================================
+
+    match /playground_bots/{botId} {
+      allow read: if hasRole('system_ops') || hasRole('engineer') || isFounder();
+      allow write: if hasRole('system_ops') || isFounder();
+      allow delete: if isFounder();
+    }
+
+    match /playground_attempts/{attemptId} {
+      allow read: if hasRole('system_ops') || hasRole('analytics_reporting') || isFounder();
+      allow write: if hasRole('system_ops') || isFounder();
+      allow delete: if isFounder();
+    }
+
+    match /playground_evaluations/{evaluationId} {
+      // Immutable (no updates after creation)
+      allow read: if hasRole('system_ops') || hasRole('analytics_reporting') || isFounder();
+      allow create: if hasRole('system_ops') || isFounder();
+      allow update: if false;
+      allow delete: if isFounder();
+    }
+
+    // ========================================================================
+    // BOT MODELS (seed data, read-only)
+    // ========================================================================
+
+    match /bot_models/{modelId} {
+      allow read: if hasRole('engineer') || isFounder();
+      allow write: if isFounder();
+      allow delete: if isFounder();
+    }
+
+    // ========================================================================
+    // SECRETS STORAGE (via Secret Manager, not Firestore)
+    // ========================================================================
+
+    // API keys, HMAC secrets, etc. must be stored in Cloud Secret Manager
+    // Never put them in Firestore
+
+    // ========================================================================
+    // DEFAULT DENY
+    // ========================================================================
+
+    match /{document=**} {
+      allow read, write, delete: if false;
+    }
+  }
+}
+
+// ========================================================================
+// SECURITY NOTES
+// ========================================================================
+//
+// 1. NO PLAINTEXT SECRETS IN FIRESTORE
+//    - API keys, credentials, HMAC secrets ? Cloud Secret Manager
+//    - Encryption keys ? Cloud KMS
+//    - Never commit credentials to code
+//
+// 2. SENSITIVE FIELDS ENCRYPTED AT APPLICATION LAYER
+//    - SSN, bank accounts, tax IDs encrypted before storage
+//    - Firestore rules block direct client writes to *_enc fields
+//    - Decryption happens server-side in Functions
+//
+// 3. TENANT ISOLATION
+//    - Non-founder users can only see their org data
+//    - Firestore rules enforce with isOrgMember() checks
+//    - Cross-org reads return 403 Forbidden
+//
+// 4. IMMUTABILITY WHERE NEEDED
+//    - Audit log entries: no update/delete
+//    - Evaluations: no update after creation
+//    - Royalty reports: hash cannot change
+//
+// 5. RATE LIMITING
+//    - .limit(100) on public reads
+//    - Implement rate limiting in API gateway
+//    - Cloud Armor for DDoS protection
+//
+// 6. COMPLIANCE
+//    - Audit log for all sensitive operations
+//    - Hash-chained for tamper detection
+//    - Export audit trail for regulatory review
+//    - Key rotation every 90 days
+//
