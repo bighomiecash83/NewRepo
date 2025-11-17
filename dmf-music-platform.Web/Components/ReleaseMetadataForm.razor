@@ -1,0 +1,28 @@
+@namespace dmf_music_platform.Web.Components
+@inject NavigationManager NavManager
+
+<div class="dmf-card">
+    <h3 class="text-xl font-semibold mb-4">Release Metadata (@ReleaseType)</h3>
+
+    <input placeholder="Artist Name" class="dmf-input" @bind="artistName" />
+    <input placeholder="Release Title" class="dmf-input" @bind="releaseTitle" />
+    <textarea placeholder="Description" class="dmf-input" @bind="description"></textarea>
+
+    <input type="date" class="dmf-input" @bind="releaseDate" @bind:format="yyyy-MM-dd" />
+
+    <button class="dmf-btn-gold mt-4" @onclick="GoToTracklist">Next: Tracklist</button>
+</div>
+
+@code {
+    [Parameter] public string? ReleaseType { get; set; }
+
+    string? artistName;
+    string? releaseTitle;
+    string? description;
+    DateTime releaseDate = DateTime.Today;
+
+    void GoToTracklist()
+    {
+        NavManager.NavigateTo($"/distributor/tracklist/{ReleaseType}");
+    }
+}

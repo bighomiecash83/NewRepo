@@ -1,0 +1,38 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="chartGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="chartGrad2" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#00A8FF;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#00A8FF;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Chart background -->
+  <rect width="800" height="600" fill="#0a0a0a" stroke="#333333" stroke-width="1"/>
+  
+  <!-- Grid lines -->
+  <g stroke="#333333" stroke-width="0.5" opacity="0.3">
+    <line x1="60" y1="500" x2="780" y2="500"/>
+    <line x1="60" y1="400" x2="780" y2="400"/>
+    <line x1="60" y1="300" x2="780" y2="300"/>
+    <line x1="60" y1="200" x2="780" y2="200"/>
+    <line x1="60" y1="100" x2="780" y2="100"/>
+  </g>
+  
+  <!-- Sample line chart (Streams) -->
+  <polyline points="60,450 150,380 240,320 330,350 420,250 510,200 600,280 690,180 780,220" 
+            fill="none" stroke="#FFD700" stroke-width="2" opacity="0.8"/>
+  <polygon points="60,450 150,380 240,320 330,350 420,250 510,200 600,280 690,180 780,220 780,550 60,550" 
+           fill="url(#chartGrad1)"/>
+  
+  <!-- Axis labels -->
+  <text x="40" y="560" font-size="12" fill="#FFD700">0</text>
+  <text x="30" y="80" font-size="12" fill="#FFD700">100K</text>
+  <text x="760" y="560" font-size="12" fill="#FFD700">30d</text>
+  
+  <!-- Title -->
+  <text x="400" y="30" font-size="16" font-weight="bold" fill="#FFD700" text-anchor="middle">Streams Overview (Placeholder)</text>
+</svg>

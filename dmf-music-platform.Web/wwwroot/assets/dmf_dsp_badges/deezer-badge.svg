@@ -1,0 +1,13 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="deezerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF0084;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6699;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="240" fill="url(#deezerGrad)"/>
+  <!-- "D" shape -->
+  <g fill="#ffffff" opacity="0.95">
+    <path d="M 200 160 L 280 160 Q 320 160 320 220 L 320 292 Q 320 352 280 352 L 200 352 Z M 220 200 L 220 312 L 280 312 Q 300 312 300 280 L 300 220 Q 300 200 280 200 Z"/>
+  </g>
+</svg>

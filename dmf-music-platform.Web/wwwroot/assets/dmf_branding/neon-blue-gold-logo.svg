@@ -1,0 +1,35 @@
+<svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="neonBlueGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="neonGoldGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- "DMF" text with neon effect -->
+  <text x="120" y="100" font-family="Arial, sans-serif" font-size="64" font-weight="bold" 
+        fill="none" stroke="#00A8FF" stroke-width="1.5" filter="url(#neonBlueGlow)" 
+        text-anchor="middle" letter-spacing="8">DMF</text>
+  
+  <!-- Gold underline accent -->
+  <line x1="60" y1="120" x2="180" y2="120" stroke="#FFD700" stroke-width="3" 
+        filter="url(#neonGoldGlow)" stroke-linecap="round"/>
+  
+  <!-- Tech circuit elements -->
+  <g stroke="#00A8FF" stroke-width="1" fill="none" filter="url(#neonBlueGlow)" opacity="0.8">
+    <path d="M 40 60 L 60 60 L 60 80"/>
+    <circle cx="60" cy="80" r="2" fill="#00A8FF"/>
+    <path d="M 200 70 L 180 70 L 180 90"/>
+    <circle cx="180" cy="90" r="2" fill="#00A8FF"/>
+  </g>
+</svg>

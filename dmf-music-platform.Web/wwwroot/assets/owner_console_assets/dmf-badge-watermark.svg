@@ -1,0 +1,24 @@
+<svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- DMF watermark badge -->
+  <defs>
+    <linearGradient id="badgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFC700;stop-opacity:1" />
+    </linearGradient>
+    <filter id="badgeGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Shield shape -->
+  <path d="M 500 50 L 650 120 L 650 220 Q 500 280 500 280 Q 500 280 350 220 L 350 120 Z" 
+        fill="url(#badgeGrad)" stroke="#070708" stroke-width="2" filter="url(#badgeGlow)"/>
+  
+  <!-- Inner text -->
+  <text x="500" y="180" font-size="48" font-weight="bold" fill="#070708" text-anchor="middle">DMF</text>
+  <text x="500" y="230" font-size="16" fill="#070708" text-anchor="middle" opacity="0.8">OFFICIAL</text>
+</svg>

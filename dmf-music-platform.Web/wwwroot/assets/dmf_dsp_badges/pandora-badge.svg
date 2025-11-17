@@ -1,0 +1,13 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pandoraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3668FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5A7FFF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="240" fill="url(#pandoraGrad)"/>
+  <!-- "P" letter -->
+  <g fill="#ffffff" opacity="0.95">
+    <path d="M 220 160 L 220 352 L 240 352 L 240 260 L 280 260 Q 310 260 310 230 Q 310 200 280 200 L 240 200 Z M 240 200 L 240 240 L 280 240 Q 295 240 295 230 Q 295 220 280 220 L 240 220 Z"/>
+  </g>
+</svg>

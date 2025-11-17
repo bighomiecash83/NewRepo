@@ -1,0 +1,94 @@
+/* DMF Button Styles - Neon & Glass Effect */
+
+.dmf-btn-primary {
+  padding: 12px 28px;
+  font-weight: 600;
+  border: 2px solid #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+  color: #FFD700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+.dmf-btn-primary:hover {
+  background: rgba(255, 215, 0, 0.2);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), inset 0 0 20px rgba(255, 215, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.dmf-btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.dmf-btn-secondary {
+  padding: 12px 28px;
+  font-weight: 600;
+  border: 2px solid #00A8FF;
+  background: rgba(0, 168, 255, 0.1);
+  color: #00A8FF;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+.dmf-btn-secondary:hover {
+  background: rgba(0, 168, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 168, 255, 0.6), inset 0 0 20px rgba(0, 168, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.dmf-btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.4), inset 0 0 10px rgba(0, 168, 255, 0.2);
+}
+
+.dmf-btn-ghost {
+  padding: 12px 28px;
+  font-weight: 600;
+  border: 2px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+.dmf-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.dmf-btn-minimal {
+  padding: 10px 20px;
+  font-weight: 600;
+  border: none;
+  background: #FFD700;
+  color: #070708;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.dmf-btn-minimal:hover {
+  background: #FFC700;
+  transform: scale(1.05);
+}
+
+.dmf-btn-minimal:active {
+  transform: scale(0.98);
+}

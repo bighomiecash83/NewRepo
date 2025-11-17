@@ -1,0 +1,15 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="addGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00A8FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <g fill="url(#addGrad)">
+    <!-- Circle background -->
+    <circle cx="32" cy="32" r="28" fill="none" stroke="url(#addGrad)" stroke-width="2"/>
+    <!-- Plus sign -->
+    <line x1="32" y1="16" x2="32" y2="48" stroke="url(#addGrad)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="16" y1="32" x2="48" y2="32" stroke="url(#addGrad)" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

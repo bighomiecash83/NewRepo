@@ -1,0 +1,23 @@
+@inherits LayoutComponentBase
+
+<link href="css/dmf-theme.css" rel="stylesheet" />
+
+<div class="flex h-screen bg-black text-white">
+
+    <!-- Sidebar -->
+    <NavMenu />
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+        
+        <!-- Header -->
+        <header class="h-14 bg-[#0b0b0d] border-b border-gray-800 flex items-center px-6">
+            <h2 class="text-xl font-bold">DMF-MUSIC-PLATFORM</h2>
+        </header>
+
+        <!-- Page Body -->
+        <main class="flex-1 overflow-auto p-6 bg-[#0f0f12]">
+            @Body
+        </main>
+    </div>
+</div>

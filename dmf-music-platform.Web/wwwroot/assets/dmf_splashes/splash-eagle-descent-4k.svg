@@ -1,0 +1,48 @@
+<svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @keyframes eagleDescend {
+        0% { transform: translateY(-400px) rotateZ(0deg); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(0) rotateZ(0deg); opacity: 1; }
+      }
+      .eagle-animation { animation: eagleDescend 2s ease-out forwards; }
+      .background { fill: #070708; }
+    </style>
+    <linearGradient id="splashEagleGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFC700;stop-opacity:1" />
+    </linearGradient>
+    <filter id="eagleGlow">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1080" height="1920" class="background"/>
+  
+  <!-- Eagle descending -->
+  <g transform="translate(540, 600)" class="eagle-animation">
+    <!-- Eagle outline -->
+    <circle cx="0" cy="-80" r="60" fill="url(#splashEagleGold)" filter="url(#eagleGlow)"/>
+    <path d="M -100 -40 Q -150 -60 -140 20 Q -100 40 -60 20" fill="url(#splashEagleGold)" filter="url(#eagleGlow)"/>
+    <path d="M 100 -40 Q 150 -60 140 20 Q 100 40 60 20" fill="url(#splashEagleGold)" filter="url(#eagleGlow)"/>
+    <polygon points="0,40 -80,100 0,150 80,100" fill="url(#splashEagleGold)" filter="url(#eagleGlow)"/>
+  </g>
+  
+  <!-- DMF text below eagle -->
+  <text x="540" y="1100" font-family="Arial, sans-serif" font-size="96" font-weight="bold" 
+        fill="#FFD700" text-anchor="middle" filter="url(#eagleGlow)">DMF</text>
+  
+  <!-- Subtitle -->
+  <text x="540" y="1250" fill="#FFD700" text-anchor="middle" font-size="36" opacity="0.7">Music Platform</text>
+  
+  <!-- Loading indicator -->
+  <circle cx="540" cy="1600" r="40" fill="none" stroke="#FFD700" stroke-width="3" opacity="0.5"/>
+  <circle cx="540" cy="1600" r="40" fill="none" stroke="#00A8FF" stroke-width="3" 
+          stroke-dasharray="60,180" opacity="0.8" style="animation: spin 2s linear infinite;"/>
+</svg>

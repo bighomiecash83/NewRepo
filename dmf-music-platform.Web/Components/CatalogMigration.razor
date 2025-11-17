@@ -1,0 +1,22 @@
+@namespace dmf_music_platform.Web.Components
+@inject NavigationManager NavManager
+
+<div class="dmf-card">
+    <h2 class="text-xl font-bold mb-4">Import from Old Distributor</h2>
+
+    <select class="dmf-input mb-4" @bind="source">
+        <option value="">Select Source</option>
+        <option>Symphonix</option>
+        <option>DistroKid</option>
+        <option>UnitedMasters</option>
+        <option>CD Baby</option>
+    </select>
+
+    <button class="dmf-btn-blue" @onclick="Next">Next</button>
+</div>
+
+@code {
+    string? source;
+
+    void Next() => NavManager.NavigateTo("/catalog/mapping");
+}

@@ -1,0 +1,40 @@
+@namespace dmf_music_platform.Web.Components
+@inject NavigationManager NavManager
+
+<div class="dmf-card">
+    <h2 class="text-xl font-bold mb-4">Tracklist</h2>
+
+    <button class="dmf-btn-blue mb-4" @onclick="AddTrack">+ Add Track</button>
+
+    @foreach (var t in tracks)
+    {
+        <div class="dmf-card mb-3">
+            <input class="dmf-input" placeholder="Track Title" @bind="t.Title" />
+            <input type="file" class="dmf-input" @bind="t.AudioFile" />
+        </div>
+    }
+
+    <button class="dmf-btn-gold mt-4" @onclick="Proceed">Next: QC Check</button>
+</div>
+
+@code {
+    [Parameter] public string? ReleaseType { get; set; }
+
+    List<TrackItem> tracks = new();
+
+    void AddTrack()
+    {
+        tracks.Add(new TrackItem());
+    }
+
+    void Proceed()
+    {
+        NavManager.NavigateTo("/distributor/qc");
+    }
+
+    public class TrackItem
+    {
+        public string? Title { get; set; }
+        public object? AudioFile { get; set; }
+    }
+}

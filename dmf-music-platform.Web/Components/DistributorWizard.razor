@@ -1,0 +1,27 @@
+@namespace dmf_music_platform.Web.Components
+@inject NavigationManager NavManager
+
+<div class="dmf-card mb-8">
+    <h2 class="text-2xl font-bold mb-4">Create a New Release</h2>
+
+    <div class="flex gap-4 mb-6">
+        <button class="dmf-btn-blue" @onclick='() => SelectType("single")'>Single</button>
+        <button class="dmf-btn-blue" @onclick='() => SelectType("ep")'>EP</button>
+        <button class="dmf-btn-blue" @onclick='() => SelectType("album")'>Album</button>
+        <button class="dmf-btn-blue" @onclick='() => SelectType("mixtape")'>Mixtape/Deluxe</button>
+    </div>
+
+    @if (releaseType != null)
+    {
+        <ReleaseMetadataForm ReleaseType="@releaseType" />
+    }
+</div>
+
+@code {
+    string? releaseType;
+
+    void SelectType(string type)
+    {
+        releaseType = type;
+    }
+}

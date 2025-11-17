@@ -1,0 +1,14 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tidalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0D0D0D;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="240" fill="url(#tidalGrad)"/>
+  <!-- Triangle pattern (TIDAL logo concept) -->
+  <g fill="#1DB954" opacity="0.95">
+    <polygon points="220,200 220,312 280,256"/>
+    <polygon points="280,200 280,312 340,256"/>
+  </g>
+</svg>

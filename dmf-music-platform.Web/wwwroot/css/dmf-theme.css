@@ -1,0 +1,101 @@
+/* DMF Theme CSS - Master stylesheet */
+@import url('/assets/dmf_buttons/button-styles.css');
+@import url('/assets/dmf_ux_kit/card-styles.css');
+
+:root {
+    --dmf-blue: #00A8FF;
+    --dmf-gold: #FFD700;
+    --dmf-black: #070708;
+    --dmf-white: #ffffff;
+    --dmf-dark-bg: #0f0f12;
+    --dmf-card-bg: rgba(20, 20, 25, 0.8);
+    --dmf-border: rgba(100, 100, 120, 0.3);
+    --dmf-radius: 12px;
+}
+
+.splash-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--dmf-black);
+    margin: 0;
+    padding: 0;
+}
+
+.logo-wrapper {
+    margin-bottom: 40px;
+}
+
+.logo-placeholder {
+    width: 240px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--dmf-blue);
+    border: 3px solid var(--dmf-blue);
+    border-radius: 16px;
+    animation: glow 2s infinite ease-in-out;
+    box-shadow: 0 0 20px rgba(0, 168, 255, 0.5);
+}
+
+@keyframes glow {
+    0%   { 
+        box-shadow: 0 0 10px var(--dmf-blue), inset 0 0 10px rgba(0, 168, 255, 0.2);
+        border-color: var(--dmf-blue);
+    }
+    50%  { 
+        box-shadow: 0 0 30px var(--dmf-gold), inset 0 0 20px rgba(255, 215, 0, 0.3);
+        border-color: var(--dmf-gold);
+    }
+    100% { 
+        box-shadow: 0 0 10px var(--dmf-blue), inset 0 0 10px rgba(0, 168, 255, 0.2);
+        border-color: var(--dmf-blue);
+    }
+}
+
+.loading-box {
+    background: var(--dmf-card-bg);
+    border: 1px solid var(--dmf-border);
+    border-radius: var(--dmf-radius);
+    padding: 20px 30px;
+    backdrop-filter: blur(10px);
+    width: 320px;
+    text-align: center;
+}
+
+.loading-text {
+    color: var(--dmf-white);
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.loading-bar {
+    height: 8px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.loading-bar-inner {
+    background: linear-gradient(90deg, var(--dmf-blue), var(--dmf-gold));
+    height: 100%;
+    transition: width 0.4s ease;
+}
+
+/* Distributor Wizard */
+.card-container {
+    background: var(--dmf-card-bg);
+    border: 1px solid var(--dmf-border);
+    border-radius: var(--dmf-radius);
+    padding: 32px;
+    max-width: 1000px;
+}

@@ -1,0 +1,11 @@
+@page "/distributor/tracklist/{Type}"
+@inject HttpClient Http
+
+<h1 class="text-3xl font-bold mb-8">Tracklist — @Type</h1>
+
+<TracklistManager ReleaseType="@Type" />
+
+@code {
+    [Parameter]
+    public string? Type { get; set; }
+}

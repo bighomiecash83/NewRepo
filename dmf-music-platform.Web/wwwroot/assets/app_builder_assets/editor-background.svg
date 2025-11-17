@@ -1,0 +1,44 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Editor background (dark code editor theme) -->
+  <defs>
+    <linearGradient id="editorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#010409;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="1200" height="800" fill="url(#editorGrad)"/>
+  
+  <!-- Code editor header -->
+  <rect width="1200" height="40" fill="#161B22" stroke="#333333" stroke-width="1"/>
+  <circle cx="20" cy="20" r="6" fill="#FF5F56"/>
+  <circle cx="40" cy="20" r="6" fill="#FFBD2E"/>
+  <circle cx="60" cy="20" r="6" fill="#27C93F"/>
+  <text x="600" y="28" font-size="14" fill="#8B949E" text-anchor="middle" font-family="monospace">editor.dmf</text>
+  
+  <!-- Line numbers area -->
+  <rect x="0" y="40" width="50" height="760" fill="#0D1117" stroke="#333333" stroke-width="1"/>
+  <g font-family="monospace" font-size="12" fill="#495057" text-anchor="end">
+    <text x="40" y="70">1</text>
+    <text x="40" y="100">2</text>
+    <text x="40" y="130">3</text>
+    <text x="40" y="160">4</text>
+    <text x="40" y="190">5</text>
+  </g>
+  
+  <!-- Code area -->
+  <rect x="50" y="40" width="1150" height="760" fill="#0D1117"/>
+  
+  <!-- Sample code highlight -->
+  <g font-family="monospace" font-size="14" fill="#85E89D">
+    <text x="70" y="70">function dmf_magic() {</text>
+    <text x="70" y="100" fill="#FFB86C">  // Initialize streams</text>
+    <text x="70" y="130" fill="#8BE9FD">  const data = </text><text x="270" y="130" fill="#F1FA8C">"payload"</text>
+    <text x="70" y="160" fill="#FF79C6">  return </text><text x="150" y="160" fill="#F8F8F2">execute(data)</text>
+    <text x="70" y="190">}</text>
+  </g>
+  
+  <!-- Accent line -->
+  <rect x="50" y="40" width="5" height="760" fill="#FFD700" opacity="0.3"/>
+</svg>

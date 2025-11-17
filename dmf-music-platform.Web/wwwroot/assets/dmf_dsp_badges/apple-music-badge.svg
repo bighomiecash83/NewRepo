@@ -1,0 +1,15 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="appleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FA243C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B6B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="240" fill="url(#appleGrad)"/>
+  <!-- Apple Music note -->
+  <g fill="#ffffff" opacity="0.95">
+    <path d="M 256 120 Q 280 140 280 180 L 280 300 Q 280 340 256 360 Q 232 340 232 300 L 232 180 Q 232 140 256 120"/>
+    <ellipse cx="280" cy="320" rx="25" ry="20"/>
+    <ellipse cx="232" cy="340" rx="25" ry="20"/>
+  </g>
+</svg>

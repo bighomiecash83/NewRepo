@@ -1,0 +1,21 @@
+<svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ryia neon signature -->
+  <defs>
+    <filter id="ryiaNeonGlow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- "RYIA" text in neon style -->
+  <text x="400" y="100" font-family="Arial, sans-serif" font-size="72" font-weight="bold" 
+        fill="none" stroke="#00A8FF" stroke-width="2" text-anchor="middle" 
+        filter="url(#ryiaNeonGlow)" letter-spacing="8">RYIA</text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="150" font-size="24" fill="#FFD700" text-anchor="middle" 
+        filter="url(#ryiaNeonGlow)" opacity="0.8">AI Agent Ecosystem</text>
+</svg>

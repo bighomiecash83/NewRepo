@@ -1,0 +1,30 @@
+<svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Code block metal texture -->
+  <defs>
+    <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2A2A2A;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1A1A1A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0A0A0A;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="metalStripes" patternUnits="userSpaceOnUse" width="2" height="2">
+      <line x1="0" y1="0" x2="0" y2="2" stroke="#333333" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  
+  <!-- Main block -->
+  <rect width="600" height="400" fill="url(#metalGrad)"/>
+  <rect width="600" height="400" fill="url(#metalStripes)"/>
+  
+  <!-- Border highlight -->
+  <rect x="0" y="0" width="600" height="400" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.2"/>
+  
+  <!-- Code text -->
+  <g font-family="monospace" font-size="16" fill="#00A8FF" opacity="0.7">
+    <text x="30" y="50">~/dmf-os</text>
+    <text x="30" y="90" fill="#FFD700">$ </text><text x="60" y="90">cargo build --release</text>
+    <text x="30" y="150" fill="#1DB954">✓ Building DMF Engine...</text>
+    <text x="30" y="190" fill="#FFD700">$ </text><text x="60" y="190">npm run deploy</text>
+    <text x="30" y="250" fill="#FFB86C">Compiling assets...</text>
+    <text x="30" y="290" fill="#1DB954">✓ Deployment complete</text>
+  </g>
+</svg>

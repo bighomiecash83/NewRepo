@@ -1,0 +1,15 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="catalogGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00A8FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Books/stack -->
+  <g fill="url(#catalogGrad)" stroke="#070708" stroke-width="1">
+    <rect x="12" y="24" width="40" height="28" rx="2"/>
+    <line x1="12" y1="32" x2="52" y2="32"/>
+    <line x1="12" y1="40" x2="52" y2="40"/>
+    <line x1="12" y1="48" x2="52" y2="48"/>
+  </g>
+</svg>

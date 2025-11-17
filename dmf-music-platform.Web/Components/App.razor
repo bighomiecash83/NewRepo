@@ -1,0 +1,12 @@
+﻿@namespace dmf_music_platform.Web.Components
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <LayoutView Layout="@typeof(MainLayout)" RouteData="@routeData" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <h3 class="text-red-500 p-6">Page not found</h3>
+        </LayoutView>
+    </NotFound>
+</Router>

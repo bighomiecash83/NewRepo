@@ -1,0 +1,43 @@
+<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Owner Console diagnostics panel -->
+  <defs>
+    <linearGradient id="consoleBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A0A0A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0D0D0D;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main panel -->
+  <rect width="1000" height="700" fill="url(#consoleBg)" stroke="#FFD700" stroke-width="3" rx="8"/>
+  
+  <!-- Header -->
+  <rect width="1000" height="60" fill="#1a1a1a" stroke="#FFD700" stroke-width="1" rx="8"/>
+  <text x="500" y="40" font-size="24" font-weight="bold" fill="#FFD700" text-anchor="middle">DMF DIAGNOSTICS</text>
+  
+  <!-- Status indicators -->
+  <g>
+    <!-- Backend status -->
+    <circle cx="50" cy="120" r="8" fill="#1DB954"/>
+    <text x="80" y="125" font-size="14" fill="#FFD700">Backend: ONLINE</text>
+    
+    <!-- Ryia status -->
+    <circle cx="50" cy="160" r="8" fill="#1DB954"/>
+    <text x="80" y="165" font-size="14" fill="#00A8FF">Ryia: ACTIVE</text>
+    
+    <!-- Database status -->
+    <circle cx="50" cy="200" r="8" fill="#1DB954"/>
+    <text x="80" y="205" font-size="14" fill="#FFD700">Database: SYNCED</text>
+  </g>
+  
+  <!-- System stats -->
+  <g font-family="monospace" font-size="12" fill="#00A8FF" opacity="0.8">
+    <text x="50" y="280">CPU Usage: 24%</text>
+    <text x="50" y="310">Memory: 512MB / 2GB</text>
+    <text x="50" y="340">Uptime: 15h 34m 22s</text>
+    <text x="50" y="370">Requests: 42,891</text>
+    <text x="50" y="400">Last Sync: 2 seconds ago</text>
+  </g>
+  
+  <!-- Accent border -->
+  <line x1="0" y1="60" x2="1000" y2="60" stroke="#FFD700" stroke-width="2"/>
+</svg>

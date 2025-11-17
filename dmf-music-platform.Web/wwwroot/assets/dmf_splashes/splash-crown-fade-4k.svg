@@ -1,0 +1,50 @@
+<svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @keyframes crownFadeIn {
+        0% { opacity: 0; filter: blur(20px); }
+        100% { opacity: 1; filter: blur(0); }
+      }
+      .crown-fade { animation: crownFadeIn 2.5s ease-out forwards; }
+      .background { fill: #070708; }
+    </style>
+    <linearGradient id="splashCrownGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFC700;stop-opacity:1" />
+    </linearGradient>
+    <filter id="crownGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1080" height="1920" class="background"/>
+  
+  <!-- Crown with fade-in -->
+  <g transform="translate(540, 600)" class="crown-fade">
+    <!-- Crown base band -->
+    <rect x="-200" y="0" width="400" height="40" rx="5" fill="url(#splashCrownGold)" filter="url(#crownGlow)"/>
+    <!-- Left jewel -->
+    <polygon points="-150,0 -200,-200 -100,0" fill="url(#splashCrownGold)" filter="url(#crownGlow)"/>
+    <!-- Center peak -->
+    <polygon points="0,0 -60,-300 60,0" fill="url(#splashCrownGold)" filter="url(#crownGlow)"/>
+    <!-- Right jewel -->
+    <polygon points="150,0 100,-200 200,0" fill="url(#splashCrownGold)" filter="url(#crownGlow)"/>
+    <!-- Jewel highlights -->
+    <circle cx="-150" cy="-80" r="15" fill="#070708" opacity="0.6"/>
+    <circle cx="0" cy="-150" r="18" fill="#070708" opacity="0.6"/>
+    <circle cx="150" cy="-80" r="15" fill="#070708" opacity="0.6"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="540" y="1200" font-family="Arial, sans-serif" font-size="84" font-weight="bold" 
+        fill="#FFD700" text-anchor="middle">DMF</text>
+  <text x="540" y="1300" fill="#FFD700" text-anchor="middle" font-size="32" opacity="0.75">Digital Music Factory</text>
+  
+  <!-- Bottom status -->
+  <text x="540" y="1750" fill="#00A8FF" text-anchor="middle" font-size="28" opacity="0.8">Loading system...</text>
+</svg>

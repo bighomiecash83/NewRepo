@@ -1,0 +1,73 @@
+@namespace dmf_music_platform.Web.Components
+
+<div class="card-container">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold">Release Metadata</h2>
+        <button class="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600" @onclick="OnBack">← Back</button>
+    </div>
+
+    <form class="space-y-6 max-w-2xl">
+        <div>
+            <label class="block text-sm font-semibold mb-2">Release Title</label>
+            <input type="text" class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded" placeholder="e.g., Summer Vibes EP" @bind="releaseTitle" />
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold mb-2">Artist Name</label>
+            <input type="text" class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded" placeholder="Your artist name" @bind="artistName" />
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold mb-2">Genre</label>
+            <select class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded" @bind="genre">
+                <option value="">Select genre…</option>
+                <option value="hip-hop">Hip-Hop</option>
+                <option value="trap">Trap</option>
+                <option value="rnb">R&B</option>
+                <option value="pop">Pop</option>
+                <option value="electronic">Electronic</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold mb-2">Release Date</label>
+            <input type="date" class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded" @bind="releaseDate" @bind:format="yyyy-MM-dd" />
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold mb-2">Cover Art (JPG / PNG)</label>
+            <div class="border-2 border-dashed border-gray-700 rounded p-6 text-center cursor-pointer hover:border-blue-500">
+                <p class="text-gray-300">Click to upload cover art (3000x3000 min)</p>
+                <input type="file" accept="image/*" hidden />
+            </div>
+        </div>
+
+        <div class="flex gap-4 pt-6">
+            <button type="button" class="flex-1 px-4 py-3 bg-blue-600 text-white rounded font-bold hover:bg-blue-700" @onclick="Next">
+                Next: Tracklist →
+            </button>
+        </div>
+    </form>
+</div>
+
+@code {
+    [Parameter]
+    public string ReleaseType { get; set; } = "single";
+
+    [Parameter]
+    public EventCallback OnNext { get; set; }
+
+    [Parameter]
+    public EventCallback OnBack { get; set; }
+
+    private string releaseTitle = "";
+    private string artistName = "";
+    private string genre = "";
+    private DateTime releaseDate = DateTime.Today;
+
+    private async Task Next()
+    {
+        await OnNext.InvokeAsync();
+    }
+}

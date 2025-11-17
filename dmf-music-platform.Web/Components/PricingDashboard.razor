@@ -1,0 +1,106 @@
+@page "/pricing"
+@inject HttpClient Http
+
+<h1 class="text-3xl font-bold mb-4">DMF Artist Pricing</h1>
+
+@if (loading)
+{
+    <p>Loading pricing…</p>
+}
+else if (error is not null)
+{
+    <p class="text-red-500">@error</p>
+}
+else if (pricing is null)
+{
+    <p>Unable to load pricing.</p>
+}
+else
+{
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-2">Release Your Music</h2>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            @Card("Single", pricing.distribution.single.price, "1 track · UPC + ISRC · Global DSPs")
+            @Card("EP", pricing.distribution.ep.price, "2–6 tracks · UPC + ISRCs · Global DSPs")
+            @Card("Album", pricing.distribution.album.price, "7–20 tracks · UPC + ISRCs · Global DSPs")
+            @Card("Mixtape / Deluxe", pricing.distribution.mixtape_deluxe.price, "21+ tracks · Priority ingest")
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-2">Move Your Catalog to DMF</h2>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            @Card("Single Migration", pricing.catalog_migration.single.price, "Move 1 track from old distributor")
+            @Card("EP Migration", pricing.catalog_migration.ep.price, "Move 2–6 tracks")
+            @Card("Album Migration", pricing.catalog_migration.album.price, "Move 7–20 tracks")
+            @Card("Full Catalog", pricing.catalog_migration.full_catalog.price, "Move entire catalog")
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-2">Growth Partnership</h2>
+        <div class="p-4 rounded-lg border border-gray-700 bg-black/40">
+            <p class="mb-2">
+                You keep <strong>@pricing.growth_partnership.artist_share_percent%</strong> of new revenue.
+                DMF takes <strong>@pricing.growth_partnership.dmf_share_percent%</strong> only on growth we drive.
+            </p>
+            <p class="text-sm text-gray-300">
+                No catalog capture. Artist-first alignment.
+            </p>
+        </div>
+    </section>
+}
+
+@code {
+    private PricingResponse? pricing;
+    private bool loading = true;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            pricing = await Http.GetFromJsonAsync<PricingResponse>("api/config/pricing");
+        }
+        catch (Exception ex)
+        {
+            error = "Failed to load pricing: " + ex.Message;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private RenderFragment Card(string title, decimal price, string description) => builder =>
+    {
+        var seq = 0;
+        builder.OpenElement(seq++, "div");
+        builder.AddAttribute(seq++, "class", "p-4 rounded-xl border border-gray-700 bg-black/60");
+        builder.OpenElement(seq++, "h3");
+        builder.AddAttribute(seq++, "class", "text-xl font-semibold mb-1");
+        builder.AddContent(seq++, title);
+        builder.CloseElement();
+        builder.OpenElement(seq++, "div");
+        builder.AddAttribute(seq++, "class", "text-2xl font-bold mb-1");
+        builder.AddContent(seq++, $"${price:F2}");
+        builder.CloseElement();
+        builder.OpenElement(seq++, "p");
+        builder.AddAttribute(seq++, "class", "text-sm text-gray-300");
+        builder.AddContent(seq++, description);
+        builder.CloseElement();
+        builder.CloseElement();
+    };
+
+    private class PricingResponse
+    {
+        public string currency { get; set; } = "USD";
+        public DistributionConfig distribution { get; set; } = new();
+        public MigrationConfig catalog_migration { get; set; } = new();
+        public GrowthConfig growth_partnership { get; set; } = new();
+    }
+    private class DistributionConfig { public Tier single { get; set; } = new(); public Tier ep { get; set; } = new(); public Tier album { get; set; } = new(); public Tier mixtape_deluxe { get; set; } = new(); }
+    private class MigrationConfig { public Tier single { get; set; } = new(); public Tier ep { get; set; } = new(); public Tier album { get; set; } = new(); public Tier full_catalog { get; set; } = new(); }
+    private class GrowthConfig { public bool enabled { get; set; } public int dmf_share_percent { get; set; } public int artist_share_percent { get; set; } }
+    private class Tier { public string type { get; set; } = string.Empty; public decimal price { get; set; } }
+}

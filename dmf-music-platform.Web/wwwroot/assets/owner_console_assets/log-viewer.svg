@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Log viewer terminal style -->
+  <defs>
+    <linearGradient id="logBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D0D0D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#050505;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Terminal header -->
+  <rect width="1000" height="50" fill="#1a1a1a" stroke="#00A8FF" stroke-width="2"/>
+  <circle cx="20" cy="25" r="5" fill="#FF5F56"/>
+  <circle cx="40" cy="25" r="5" fill="#FFBD2E"/>
+  <circle cx="60" cy="25" r="5" fill="#27C93F"/>
+  <text x="500" y="32" font-size="14" fill="#00A8FF" text-anchor="middle" font-family="monospace">system.log</text>
+  
+  <!-- Log content -->
+  <rect y="50" width="1000" height="550" fill="url(#logBg)"/>
+  
+  <!-- Log entries -->
+  <g font-family="monospace" font-size="13" fill="#00FF00">
+    <text x="20" y="80">[2025-11-16 14:32:01] INFO: DMF System Initialized</text>
+    <text x="20" y="110">[2025-11-16 14:32:02] INFO: Loading user config...</text>
+    <text x="20" y="140">[2025-11-16 14:32:03] INFO: Backend API started on :5183</text>
+    <text x="20" y="170">[2025-11-16 14:32:05] INFO: Ryia engine online</text>
+    <text x="20" y="200">[2025-11-16 14:32:06] WARN: High memory usage detected (1.8GB/2GB)</text>
+    <text x="20" y="230" fill="#FFD700">[2025-11-16 14:32:07] ALERT: Distributor sync queued</text>
+    <text x="20" y="260">[2025-11-16 14:32:08] INFO: All systems nominal</text>
+  </g>
+  
+  <!-- Cursor blink -->
+  <line x1="20" y1="290" x2="20" y2="310" stroke="#00FF00" stroke-width="2" opacity="0.7"/>
+</svg>

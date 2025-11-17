@@ -1,0 +1,132 @@
+@page "/ryia"
+@inject HttpClient Http
+
+<h1 class="text-3xl font-bold mb-2">Ryia Boss Builder</h1>
+
+@if (loadingProfile)
+{
+    <p>Loading Ryia profile…</p>
+}
+else if (profileError is not null)
+{
+    <p class="text-red-500">@profileError</p>
+}
+else if (profile is not null)
+{
+    <p class="text-sm text-gray-300 mb-4">@profile.role · @profile.owner</p>
+}
+
+<div class="flex flex-col md:flex-row gap-4">
+    <section class="flex-1">
+        <div class="mb-2">
+            <label class="mr-2"><input type="radio" value="plan" @onchange="@(() => SetMode("plan"))" checked="@isPlan" /> Plan Feature</label>
+            <label class="mr-2"><input type="radio" value="code" @onchange="@(() => SetMode("code"))" checked="@isCode" /> Code / Fix</label>
+            <label><input type="radio" value="impact" @onchange="@(() => SetMode("impact"))" checked="@isImpact" /> Impact / Risk</label>
+        </div>
+
+        <div class="mb-2">
+            <textarea class="w-full h-32 p-2 rounded bg-black/70 border border-gray-700" placeholder="@PromptPlaceholder" @bind="prompt" />
+        </div>
+
+        <button class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 disabled:opacity-50" @onclick="SendMessage" disabled="@sending">
+            @(sending ? "Talking to Ryia…" : "Ask Ryia")
+        </button>
+
+        <div class="mt-4 space-y-3 max-h-[400px] overflow-y-auto border border-gray-700 rounded p-2 bg-black/60">
+            @if (messages.Count == 0)
+            {
+                <p class="text-sm text-gray-400">No conversation yet. Ask Ryia to plan a feature.</p>
+            }
+            else
+            {
+                @foreach (var msg in messages)
+                {
+                    <div class="p-2 rounded-lg @(msg.Role == "user" ? "bg-blue-900/60" : "bg-gray-800/80")">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span>@(msg.Role == "user" ? "You" : profile?.short_name ?? "Ryia")</span>
+                            <span class="uppercase text-[10px] text-gray-300">@msg.Mode</span>
+                        </div>
+                        <pre class="whitespace-pre-wrap text-sm">@msg.Text</pre>
+                    </div>
+                }
+            }
+        </div>
+    </section>
+
+    @if (mode == "code")
+    {
+        <section class="flex-1">
+            <h2 class="text-lg font-semibold mb-2">Current Code (optional)</h2>
+            <textarea class="w-full h-[400px] p-2 rounded bg-black/70 border border-gray-700 font-mono text-xs" placeholder="// Paste code here for Ryia to improve or fix…" @bind="currentCode" />
+        </section>
+    }
+</div>
+
+@code {
+    private RyiaProfile? profile;
+    private bool loadingProfile = true;
+    private string? profileError;
+    private string mode = "plan";
+    private string prompt = string.Empty;
+    private string currentCode = string.Empty;
+    private bool sending = false;
+    private List<ChatMessage> messages = new();
+    private bool isPlan => mode == "plan";
+    private bool isCode => mode == "code";
+    private bool isImpact => mode == "impact";
+
+    private string PromptPlaceholder => mode switch
+    {
+        "plan" => "Example: Design the full Symphonix → DMF catalog migration flow…",
+        "code" => "Example: Fix the null reference in DistributorController when trackCount is 0…",
+        "impact" => "Example: What will this change break in pricing and payouts?",
+        _ => "Tell Ryia what you want."
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            profile = await Http.GetFromJsonAsync<RyiaProfile>("api/ryia/profile");
+        }
+        catch (Exception ex)
+        {
+            profileError = "Failed to load Ryia profile: " + ex.Message;
+        }
+        finally
+        {
+            loadingProfile = false;
+        }
+    }
+
+    private void SetMode(string newMode) => mode = newMode;
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(prompt)) return;
+        sending = true;
+        messages.Add(new ChatMessage { Role = "user", Mode = mode, Text = prompt });
+        try
+        {
+            var payload = new RyiaMessageRequest { Mode = mode, Request = prompt, CurrentCode = mode == "code" ? currentCode : null };
+            var res = await Http.PostAsJsonAsync("api/ryia/message", payload);
+            res.EnsureSuccessStatusCode();
+            var body = await res.Content.ReadFromJsonAsync<RyiaMessageResponse>();
+            messages.Add(new ChatMessage { Role = "ryia", Mode = mode, Text = body?.response ?? "(no response)" });
+        }
+        catch (Exception ex)
+        {
+            messages.Add(new ChatMessage { Role = "ryia", Mode = mode, Text = "Error: " + ex.Message });
+        }
+        finally
+        {
+            sending = false;
+            prompt = string.Empty;
+        }
+    }
+
+    private class RyiaProfile { public string name { get; set; } = string.Empty; public string short_name { get; set; } = string.Empty; public string role { get; set; } = string.Empty; public string owner { get; set; } = string.Empty; }
+    private class RyiaMessageRequest { public string Mode { get; set; } = "plan"; public string Request { get; set; } = string.Empty; public string? CurrentCode { get; set; } }
+    private class RyiaMessageResponse { public string mode { get; set; } = string.Empty; public string response { get; set; } = string.Empty; }
+    private class ChatMessage { public string Role { get; set; } = "user"; public string Mode { get; set; } = "plan"; public string Text { get; set; } = string.Empty; }
+}

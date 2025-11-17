@@ -1,0 +1,40 @@
+{
+  "dmf_pricing_config_version": "2025.11.16",
+  "currency": "USD",
+  "label": {
+    "name": "DMF Music",
+    "short_name": "DMF",
+    "ownership_model": "independent_artist_first",
+    "growth_philosophy": "artist_affordable_growth + label_accountability"
+  },
+  "distribution": {
+    "single": { "type": "single", "price": 9.99, "min_tracks": 1, "max_tracks": 1, "includes": ["basic_metadata", "baseline_qc"] },
+    "ep": { "type": "ep", "price": 19.99, "min_tracks": 2, "max_tracks": 6, "includes": ["metadata_enrichment", "qc_plus"] },
+    "album": { "type": "album", "price": 39.99, "min_tracks": 7, "max_tracks": 20, "includes": ["full_metadata_enrichment", "cover_art_validation", "qc_plus"] },
+    "mixtape_deluxe": { "type": "mixtape_deluxe", "price": 79.99, "min_tracks": 21, "max_tracks": 60, "includes": ["priority_ingest", "royalty_audit_hook", "qc_elite"] }
+  },
+  "catalog_migration": {
+    "single": { "price": 4.99, "min_tracks": 1, "max_tracks": 1 },
+    "ep": { "price": 12.99, "min_tracks": 2, "max_tracks": 6 },
+    "album": { "price": 24.99, "min_tracks": 7, "max_tracks": 20 },
+    "full_catalog": { "price": 99.00, "min_tracks": 21, "max_tracks": 1000 }
+  },
+  "growth_partnership": {
+    "enabled": true,
+    "dmf_share_percent": 15,
+    "artist_share_percent": 85,
+    "applies_to": ["boost_packages", "performance_growth", "strategic_rollouts"]
+  },
+  "boost_packages": {
+    "ads": [
+      { "id": "ads_micro", "name": "Micro Campaign", "price": 29.00, "estimated_views_min": 500, "estimated_views_max": 1500, "channels": ["ig_reels", "yt_shorts"] },
+      { "id": "ads_growth", "name": "Growth Surge", "price": 99.00, "estimated_views_min": 3000, "estimated_views_max": 8000, "channels": ["ig_reels", "yt_shorts", "tiktok", "spotify_spots"] }
+    ],
+    "playlist": [
+      { "id": "pl_seed", "name": "Seed Placement", "price": 25.00, "min_playlists": 1, "max_playlists": 3 },
+      { "id": "pl_wave", "name": "Wave Placement", "price": 75.00, "min_playlists": 4, "max_playlists": 10 }
+    ]
+  },
+  "industry_products": {
+  }
+}

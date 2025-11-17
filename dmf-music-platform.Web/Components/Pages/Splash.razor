@@ -1,0 +1,66 @@
+@page "/splash"
+@inject NavigationManager NavManager
+@inject HttpClient Http
+
+<div class="splash-container">
+
+    <!-- Logo Animation -->
+    <div class="logo-wrapper">
+        <img src="DMF_Resources_v1/dmf_branding/dmf-logo-gold-shield.png" 
+             alt="DMF Logo" 
+             class="logo-image" 
+             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23070708%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2232%22 fill=%22%23FFD700%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EDMF%3C/text%3E%3C/svg%3E'" />
+    </div>
+
+    <!-- Loading Text -->
+    <div class="loading-box">
+        <p class="loading-text">@statusMessage</p>
+        <div class="loading-bar">
+            <div class="loading-bar-inner" style="width:@progress%"></div>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private string statusMessage = "Initializing DMF System…";
+    private int progress = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+        await UpdateStatus("Checking backend status…", 15);
+
+        // Ping API
+        try
+        {
+            await Http.GetAsync("http://localhost:5183/api/config/pricing");
+            await UpdateStatus("Backend Online", 40);
+        }
+        catch
+        {
+            await UpdateStatus("Waiting for backend…", 25);
+            await Task.Delay(1500);
+        }
+
+        await UpdateStatus("Loading Ryia Engine…", 60);
+        await Task.Delay(800);
+
+        await UpdateStatus("Applying DMF Theme…", 80);
+        await Task.Delay(800);
+
+        await UpdateStatus("Completing Startup…", 100);
+        await Task.Delay(500);
+
+        // Redirect to dashboard
+        NavManager.NavigateTo("/");
+    }
+
+    private async Task UpdateStatus(string message, int newProgress)
+    {
+        statusMessage = message;
+        progress = newProgress;
+        await InvokeAsync(StateHasChanged);
+    }
+}
+

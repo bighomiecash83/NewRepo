@@ -1,0 +1,22 @@
+@namespace dmf_music_platform.Web.Components
+
+<div class="card-container">
+    <h2 class="text-2xl font-bold mb-8">Select Release Type</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <ReleaseTypeCard Title="Single" Description="1 track · UPC + ISRC · Global DSPs" Icon="🎵" OnSelect="@(() => SelectType("single"))" />
+        <ReleaseTypeCard Title="EP" Description="2–6 tracks · Complete metadata · All platforms" Icon="💿" OnSelect="@(() => SelectType("ep"))" />
+        <ReleaseTypeCard Title="Album" Description="7–20 tracks · Full artwork · Priority ingest" Icon="📀" OnSelect="@(() => SelectType("album"))" />
+        <ReleaseTypeCard Title="Mixtape / Deluxe" Description="21+ tracks · Custom metadata · VIP support" Icon="🎙️" OnSelect="@(() => SelectType("mixtape"))" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnNext { get; set; }
+
+    private async Task SelectType(string type)
+    {
+        await OnNext.InvokeAsync(type);
+    }
+}

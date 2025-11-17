@@ -1,0 +1,33 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Earnings chart placeholder -->
+  <defs>
+    <linearGradient id="earningsGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="600" fill="#0a0a0a" stroke="#333333" stroke-width="1" rx="8"/>
+  
+  <!-- Grid background -->
+  <g stroke="#333333" stroke-width="0.5" opacity="0.2">
+    <line x1="60" y1="480" x2="750" y2="480"/>
+    <line x1="60" y1="380" x2="750" y2="380"/>
+    <line x1="60" y1="280" x2="750" y2="280"/>
+    <line x1="60" y1="180" x2="750" y2="180"/>
+    <line x1="60" y1="80" x2="750" y2="80"/>
+  </g>
+  
+  <!-- Sample earnings line -->
+  <polyline points="60,400 150,350 240,280 330,320 420,220 510,180 600,240 690,140 750,160" 
+            fill="none" stroke="#FFD700" stroke-width="3"/>
+  <polygon points="60,400 150,350 240,280 330,320 420,220 510,180 600,240 690,140 750,160 750,520 60,520" 
+           fill="url(#earningsGrad)"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" font-size="18" font-weight="bold" fill="#FFD700" text-anchor="middle">Monthly Earnings</text>
+  
+  <!-- Axis labels -->
+  <text x="45" y="540" font-size="12" fill="#FFD700" opacity="0.7">$0</text>
+  <text x="745" y="540" font-size="12" fill="#FFD700" opacity="0.7">30 days</text>
+</svg>

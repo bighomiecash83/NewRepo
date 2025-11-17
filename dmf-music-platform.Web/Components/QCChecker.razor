@@ -1,0 +1,21 @@
+@namespace dmf_music_platform.Web.Components
+@inject NavigationManager NavManager
+
+<div class="dmf-card">
+    <h2 class="text-xl font-bold mb-4">Running QC...</h2>
+
+    <p class="text-gray-400 mb-4">Checking artwork resolution, audio format, metadata…</p>
+
+    <div class="loading-bar">
+        <div class="loading-bar-inner" style="width:60%"></div>
+    </div>
+
+    <button class="dmf-btn-gold mt-6" @onclick="Finish">Submit to DSPs</button>
+</div>
+
+@code {
+    void Finish()
+    {
+        NavManager.NavigateTo("/distributor/status");
+    }
+}

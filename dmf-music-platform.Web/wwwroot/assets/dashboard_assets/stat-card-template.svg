@@ -1,0 +1,24 @@
+<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stat card template -->
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#00A8FF;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="300" fill="#0a0a0a" stroke="#FFD700" stroke-width="2" rx="10"/>
+  <rect width="600" height="300" fill="url(#cardGrad)" rx="10"/>
+  
+  <!-- Icon area -->
+  <circle cx="80" cy="80" r="40" fill="#FFD700" opacity="0.2"/>
+  <text x="80" y="90" font-size="48" text-anchor="middle" fill="#FFD700">📊</text>
+  
+  <!-- Stat value -->
+  <text x="300" y="100" font-size="56" font-weight="bold" fill="#FFD700" text-anchor="middle">0</text>
+  
+  <!-- Stat label -->
+  <text x="300" y="180" font-size="24" fill="#00A8FF" text-anchor="middle">Stat Label</text>
+  
+  <!-- Trend indicator -->
+  <text x="300" y="260" font-size="16" fill="#1DB954" text-anchor="middle">↑ 0% this month</text>
+</svg>

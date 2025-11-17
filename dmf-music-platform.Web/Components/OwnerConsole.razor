@@ -1,0 +1,95 @@
+@namespace dmf_music_platform.Web.Components
+@inject HttpClient Http
+
+<div class="flex items-center gap-4 mb-6">
+    <img src="DMF_Resources_v1/owner_console_assets/dmf-badge-watermark.svg" 
+         alt="DMF Owner Mode" 
+         class="h-16" />
+    <h1 class="text-3xl font-bold">DMF Owner Control Panel</h1>
+</div>
+
+<div class="dmf-card mb-6">
+    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span>⚙️ System Health</span>
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-3 bg-green-900 rounded border border-green-500">
+            <p class="text-sm text-gray-400">Backend</p>
+            <p class="text-green-400 font-bold">Online</p>
+        </div>
+        <div class="p-3 bg-green-900 rounded border border-green-500">
+            <p class="text-sm text-gray-400">MongoDB Atlas</p>
+            <p class="text-green-400 font-bold">Connected</p>
+        </div>
+        <div class="p-3 bg-green-900 rounded border border-green-500">
+            <p class="text-sm text-gray-400">Ryia Engine</p>
+            <p class="text-green-400 font-bold">Ready</p>
+        </div>
+    </div>
+</div>
+
+<div class="dmf-card mb-6">
+    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span>📋 Diagnostics</span>
+    </h2>
+    <img src="DMF_Resources_v1/owner_console_assets/diagnostics-panel.svg" 
+         alt="Diagnostics" 
+         class="w-full rounded mb-4" />
+    <p class="text-sm text-gray-300">Last check: Just now | All systems nominal</p>
+</div>
+
+<div class="dmf-card">
+    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span>🤖 Ryia Command Interface</span>
+    </h2>
+
+    <textarea class="dmf-input mb-4 w-full" 
+              @bind="command" 
+              placeholder="Send a command to Ryia (e.g., 'check system health', 'list active releases')" 
+              rows="4"></textarea>
+    <button class="dmf-btn-primary" @onclick="RunCommand">
+        @(isLoading ? "Processing..." : "Execute Command")
+    </button>
+
+    @if (!string.IsNullOrEmpty(response))
+    {
+        <div class="mt-4 p-4 bg-gray-900 rounded border border-yellow-500 font-mono text-sm">
+            <p class="text-gray-400 mb-2">Response:</p>
+            <pre class="text-gray-200 whitespace-pre-wrap">@response</pre>
+        </div>
+    }
+</div>
+
+@code {
+    string? command;
+    string? response;
+    bool isLoading = false;
+
+    async Task RunCommand()
+    {
+        if (string.IsNullOrWhiteSpace(command))
+            return;
+
+        isLoading = true;
+        try
+        {
+            var payload = new { mode = "plan", request = command };
+            var result = await Http.PostAsJsonAsync("api/ryia/message", payload);
+            var body = await result.Content.ReadFromJsonAsync<RyiaResponse>();
+            response = body?.response ?? "No response from Ryia";
+        }
+        catch (Exception ex)
+        {
+            response = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    public class RyiaResponse
+    {
+        public string? response { get; set; }
+    }
+}

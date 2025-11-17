@@ -1,0 +1,51 @@
+<svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @keyframes circuitFlow {
+        0% { stroke-dashoffset: 100; opacity: 0; }
+        50% { opacity: 1; }
+        100% { stroke-dashoffset: 0; opacity: 1; }
+      }
+      .circuit-line { animation: circuitFlow 3s ease-in-out infinite; stroke-dasharray: 100; }
+      .background { fill: #070708; }
+    </style>
+    <filter id="neonBlue">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1080" height="1920" class="background"/>
+  
+  <!-- Circuit pattern -->
+  <g stroke="#00A8FF" stroke-width="2" fill="none" filter="url(#neonBlue)">
+    <path d="M 100 400 L 300 400 L 300 600 L 780 600" class="circuit-line"/>
+    <path d="M 1000 500 L 800 500 L 800 700 L 300 700" class="circuit-line" style="animation-delay: 0.5s;"/>
+    <path d="M 200 800 L 400 800 L 400 1000 L 880 1000" class="circuit-line" style="animation-delay: 1s;"/>
+    <path d="M 900 900 L 700 900 L 700 1100 L 200 1100" class="circuit-line" style="animation-delay: 1.5s;"/>
+  </g>
+  
+  <!-- Circuit nodes -->
+  <g fill="#FFD700" filter="url(#neonBlue)">
+    <circle cx="300" cy="400" r="8"/>
+    <circle cx="300" cy="600" r="8"/>
+    <circle cx="780" cy="600" r="8"/>
+    <circle cx="800" cy="500" r="8"/>
+    <circle cx="800" cy="700" r="8"/>
+    <circle cx="400" cy="800" r="8"/>
+    <circle cx="400" cy="1000" r="8"/>
+    <circle cx="880" cy="1000" r="8"/>
+  </g>
+  
+  <!-- Center DMF Logo -->
+  <text x="540" y="700" font-family="Arial, sans-serif" font-size="120" font-weight="bold" 
+        fill="#00A8FF" text-anchor="middle" filter="url(#neonBlue)">DMF</text>
+  
+  <!-- "Powering Up" text -->
+  <text x="540" y="1500" fill="#FFD700" text-anchor="middle" font-size="48" font-weight="bold">POWERING UP</text>
+  <text x="540" y="1600" fill="#00A8FF" text-anchor="middle" font-size="32" opacity="0.8">Ryia Engine Initializing...</text>
+</svg>

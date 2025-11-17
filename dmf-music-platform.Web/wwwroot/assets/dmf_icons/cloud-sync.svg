@@ -1,0 +1,15 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00A8FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#cloudGrad)" stroke-width="2">
+    <!-- Cloud shape -->
+    <path d="M 16 38 Q 16 26 26 26 Q 32 16 42 20 Q 52 20 52 30 Q 52 38 44 40"/>
+    <!-- Sync arrows -->
+    <path d="M 24 48 Q 24 48 28 44" stroke-linecap="round"/>
+    <path d="M 40 48 Q 40 48 44 44" stroke-linecap="round"/>
+  </g>
+</svg>
