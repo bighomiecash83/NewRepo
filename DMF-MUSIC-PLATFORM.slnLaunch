@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "DMF-MUSIC-PLATFORM\\DMF-MUSIC-PLATFORM.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "DMF-MUSIC-PLATFORM.Client\\DMF-MUSIC-PLATFORM.Client.csproj",
+        "Action": "Start",
+        "DebugTarget": "DMF-MUSIC-PLATFORM.Client"
+      }
+    ]
+  }
+]

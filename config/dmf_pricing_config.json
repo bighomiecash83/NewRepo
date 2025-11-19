@@ -1,0 +1,487 @@
+{
+  "dmf_pricing_config_version": "1.0.0",
+  "currency": "USD",
+  "generated_at": "2025-01-15T14:30:00Z",
+  "description": "DMF Music Platform complete pricing configuration. Single source of truth for all customer-facing tiers, packages, and pricing.",
+
+  "label": {
+    "name": "DMF Records",
+    "short_name": "DMF",
+    "website": "https://dmf-records.com",
+    "support_email": "support@dmf-records.com"
+  },
+
+  "distribution": {
+    "description": "Release pricing for new music to global DSPs",
+    "single": {
+      "type": "single",
+      "name": "Single Release",
+      "price": 9.99,
+      "tracks": 1,
+      "description": "1 track, UPC + ISRC included, global DSP delivery",
+      "features": [
+        "1 track",
+        "UPC + ISRC codes",
+        "Global DSP delivery (Spotify, Apple, YouTube, etc.)",
+        "Unlimited redeliveries",
+        "Basic analytics",
+        "Pre-order capability"
+      ],
+      "dsp_coverage": [
+        "spotify",
+        "apple_music",
+        "youtube_music",
+        "amazon_music",
+        "tiktok",
+        "instagram",
+        "soundcloud",
+        "bandcamp"
+      ]
+    },
+    "ep": {
+      "type": "ep",
+      "name": "EP Release",
+      "price": 19.99,
+      "tracks": "3-6",
+      "description": "3-6 tracks, UPC + ISRC per track, global delivery",
+      "features": [
+        "3-6 tracks",
+        "UPC + ISRC per track",
+        "Global DSP delivery",
+        "Unlimited redeliveries",
+        "Advanced analytics",
+        "Pre-order + countdown timer",
+        "Playlist pitching eligible"
+      ],
+      "dsp_coverage": [
+        "spotify",
+        "apple_music",
+        "youtube_music",
+        "amazon_music",
+        "tiktok",
+        "instagram",
+        "soundcloud",
+        "bandcamp"
+      ]
+    },
+    "album": {
+      "type": "album",
+      "name": "Album Release",
+      "price": 29.99,
+      "tracks": "7-12",
+      "description": "7-12 tracks, full UPC treatment, global DSP distribution",
+      "features": [
+        "7-12 tracks",
+        "Album UPC + track ISRCs",
+        "Global DSP delivery",
+        "Unlimited redeliveries",
+        "Premium analytics dashboard",
+        "Pre-order + countdown",
+        "Playlist pitching priority",
+        "Email campaign templates"
+      ],
+      "dsp_coverage": [
+        "spotify",
+        "apple_music",
+        "youtube_music",
+        "amazon_music",
+        "tiktok",
+        "instagram",
+        "soundcloud",
+        "bandcamp",
+        "deezer",
+        "tidal"
+      ]
+    },
+    "mixtape": {
+      "type": "mixtape",
+      "name": "Mixtape / Deluxe Release",
+      "price": 39.99,
+      "tracks": "13+",
+      "description": "13+ tracks, multi-disc support, deluxe edition options",
+      "features": [
+        "13+ tracks",
+        "Multi-disc album support",
+        "Album + track ISRCs",
+        "Global DSP delivery",
+        "Unlimited redeliveries",
+        "Premium analytics with mood detection",
+        "Pre-order + countdown",
+        "VIP playlist pitching",
+        "Bonus content linking",
+        "Vinyl + physical media support"
+      ],
+      "dsp_coverage": [
+        "spotify",
+        "apple_music",
+        "youtube_music",
+        "amazon_music",
+        "tiktok",
+        "instagram",
+        "soundcloud",
+        "bandcamp",
+        "deezer",
+        "tidal",
+        "discogs"
+      ]
+    }
+  },
+
+  "catalog_migration": {
+    "description": "Migrate your existing catalog from another distributor to DMF",
+    "single": {
+      "type": "single",
+      "name": "Single Catalog Transfer",
+      "price": 9.99,
+      "max_tracks": 1,
+      "description": "Transfer 1 existing track to DMF",
+      "features": [
+        "Transfer 1 track",
+        "Preserve all stats + play history",
+        "New DSP delivery through DMF",
+        "Support for old + new ISRCs",
+        "Turnaround: 3-5 business days"
+      ],
+      "includes_redelivery": true
+    },
+    "ep": {
+      "type": "ep",
+      "name": "EP Catalog Transfer",
+      "price": 14.99,
+      "max_tracks": 6,
+      "description": "Transfer 2-6 tracks from existing distributor",
+      "features": [
+        "Transfer 2-6 tracks",
+        "Preserve all streaming stats",
+        "New DSP delivery (Spotify, Apple, etc.)",
+        "Dual ISRC support",
+        "Priority processing",
+        "Turnaround: 2-3 business days"
+      ],
+      "includes_redelivery": true
+    },
+    "album": {
+      "type": "album",
+      "name": "Album Catalog Transfer",
+      "price": 19.99,
+      "max_tracks": 12,
+      "description": "Transfer a full album (up to 12 tracks)",
+      "features": [
+        "Transfer up to 12 tracks",
+        "Preserve album + track stats",
+        "Album UPC migration",
+        "Dual ISRC support",
+        "VIP priority processing",
+        "Turnaround: 24-48 hours"
+      ],
+      "includes_redelivery": true
+    },
+    "full_catalog": {
+      "type": "full_catalog",
+      "name": "Full Catalog Transfer",
+      "price": 39.99,
+      "max_tracks": 50,
+      "description": "Transfer your entire catalog (up to 50 tracks in one go)",
+      "features": [
+        "Transfer up to 50 tracks",
+        "Complete catalog stat preservation",
+        "All UPC + ISRC handling",
+        "Zero downtime (parallel delivery)",
+        "White-glove transfer service",
+        "Turnaround: 48-72 hours",
+        "Post-transfer analytics audit"
+      ],
+      "includes_redelivery": true,
+      "best_for": "artists_switching_distributors"
+    }
+  },
+
+  "boost_packages": {
+    "description": "Optional add-on services to amplify your release",
+    "ads": [
+      {
+        "id": "ads_starter",
+        "name": "Starter Ads Boost",
+        "tier": "starter",
+        "price": 25,
+        "platforms": ["youtube", "spotify"],
+        "description": "YouTube + Spotify audio ads for 1-2 weeks",
+        "estimated_views": "1,000 - 3,000",
+        "estimated_clicks": "50 - 150",
+        "estimated_streams": "200 - 600",
+        "features": [
+          "YouTube In-Stream ads (15-30 sec)",
+          "Spotify audio ads",
+          "Auto-generated audience targeting",
+          "2-week campaign duration",
+          "Basic analytics"
+        ],
+        "duration_days": 14,
+        "best_for": "new_independent_artists"
+      },
+      {
+        "id": "ads_growth",
+        "name": "Growth Ads Boost",
+        "tier": "growth",
+        "price": 50,
+        "platforms": ["youtube", "instagram", "tiktok", "spotify"],
+        "description": "Multi-platform campaign: YouTube, Instagram, TikTok, Spotify",
+        "estimated_views": "5,000 - 15,000",
+        "estimated_clicks": "300 - 900",
+        "estimated_streams": "1,500 - 4,500",
+        "features": [
+          "YouTube In-Stream + Shorts ads",
+          "Instagram Reels ads",
+          "TikTok ads (with trending audio)",
+          "Spotify audio + display ads",
+          "Audience segment targeting",
+          "4-week campaign duration",
+          "Weekly performance reports",
+          "1 optimization adjustment"
+        ],
+        "duration_days": 28,
+        "best_for": "artists_with_existing_following"
+      },
+      {
+        "id": "ads_scale",
+        "name": "Scale Ads Boost",
+        "tier": "scale",
+        "price": 100,
+        "platforms": ["youtube", "instagram", "tiktok", "google_display", "spotify"],
+        "description": "Premium campaign across all major platforms",
+        "estimated_views": "20,000 - 50,000",
+        "estimated_clicks": "1,200 - 3,000",
+        "estimated_streams": "5,000 - 12,000",
+        "features": [
+          "YouTube In-Stream + Shorts + Display ads",
+          "Instagram Reels + Feed ads",
+          "TikTok ads with trending audio",
+          "Google Display Network (1M+ sites)",
+          "Spotify audio + display ads",
+          "Advanced audience targeting + lookalikes",
+          "8-week campaign duration",
+          "Bi-weekly optimization reports",
+          "3 optimization adjustments",
+          "A/B testing support"
+        ],
+        "duration_days": 56,
+        "best_for": "established_artists_scaling_reach"
+      }
+    ],
+    "playlist": [
+      {
+        "id": "playlist_starter",
+        "name": "Playlist Pitching - Starter",
+        "tier": "starter",
+        "price": 19.99,
+        "playlists": "3-5",
+        "description": "Pitch to 3-5 niche playlists matching your genre",
+        "features": [
+          "Hand-picked playlists (3-5)",
+          "Personalized pitch notes",
+          "Curator feedback",
+          "Turnaround: 1-2 weeks",
+          "Perfect for debut releases"
+        ],
+        "best_for": "new_releases"
+      },
+      {
+        "id": "playlist_growth",
+        "name": "Playlist Pitching - Growth",
+        "tier": "growth",
+        "price": 34.99,
+        "playlists": "5-10",
+        "description": "Pitch to 5-10 playlists (genre + mood)",
+        "features": [
+          "Mixed playlist curation (5-10)",
+          "Genre + mood matching",
+          "Personalized pitch strategy",
+          "Curator network access",
+          "Weekly follow-up emails",
+          "Turnaround: 3-5 business days",
+          "Success tracking"
+        ],
+        "best_for": "established_artists"
+      },
+      {
+        "id": "playlist_scale",
+        "name": "Playlist Pitching - Scale",
+        "tier": "scale",
+        "price": 49.99,
+        "playlists": "10-15",
+        "description": "Premium pitch to 10-15 major + niche playlists",
+        "features": [
+          "Premium playlist curation (10-15)",
+          "Major + independent playlists",
+          "White-glove pitch service",
+          "Dedicated curator relationship manager",
+          "Custom pitch video (if needed)",
+          "Multi-week follow-up campaign",
+          "Turnaround: 24-48 hours",
+          "Detailed analytics + placement tracking",
+          "30-day success guarantee"
+        ],
+        "best_for": "albums_major_campaigns"
+      }
+    ]
+  },
+
+  "growth_partnership": {
+    "enabled": true,
+    "name": "DMF Growth Partnership",
+    "description": "We help you grow, we share the reward. No ownership, no 360 deal, no BS.",
+    "artist_share_percent": 90,
+    "dmf_share_percent": 10,
+    "explanation": "For new streams DMF actively helps generate (via campaigns, pitching, promotion), we take a 10% cut. Everything else = 100% yours.",
+    "applies_to": [
+      "streams_from_dmf_ads",
+      "streams_from_dmf_playlist_pitching",
+      "streams_from_dmf_marketing_campaigns"
+    ],
+    "does_not_apply_to": [
+      "organic_streams",
+      "existing_catalog_streams",
+      "pre_partnership_streams"
+    ],
+    "terms": {
+      "no_ownership": true,
+      "no_360_deal": true,
+      "no_forced_services": true,
+      "transparent_reporting": true,
+      "cancel_anytime": true
+    }
+  },
+
+  "industry_products": {
+    "description": "Premium products for labels, managers, and enterprises. Not shown to individual artists.",
+    "anti_bot_suite": {
+      "name": "Anti-Bot Defense Suite",
+      "tier": "enterprise",
+      "price": 299,
+      "billing_cycle": "monthly",
+      "description": "Real-time fraud detection + stream authenticity verification",
+      "features": [
+        "Real-time bot detection",
+        "Stream pattern analysis",
+        "Suspicious account flagging",
+        "Automatic fraud reporting to DSPs",
+        "Monthly compliance reports",
+        "Dedicated support"
+      ]
+    },
+    "analytics_dashboard": {
+      "name": "AI Analytics Dashboard",
+      "tier": "enterprise",
+      "price": 199,
+      "billing_cycle": "monthly",
+      "description": "Advanced catalog analytics + predictive insights",
+      "features": [
+        "Real-time streaming analytics",
+        "Mood + genre breakdown",
+        "Listener demographics",
+        "Prediction models (next hit)",
+        "Competitive analysis",
+        "Export reports (PDF, CSV)"
+      ]
+    },
+    "gavel_enterprise": {
+      "name": "Gavel Enterprise (Legal)",
+      "tier": "enterprise",
+      "price": 499,
+      "billing_cycle": "monthly",
+      "description": "Automated contract management + IP protection",
+      "features": [
+        "Contract templates (DMF, DSP, etc.)",
+        "AI legal document review",
+        "IP registration assistance",
+        "Copyright claim handling",
+        "Takedown automation",
+        "Legal consultation (quarterly)"
+      ]
+    },
+    "streamgod_api": {
+      "name": "StreamGod Enterprise API",
+      "tier": "enterprise",
+      "price": 999,
+      "billing_cycle": "monthly",
+      "description": "Full API access to StreamGod + Ryia Boss + Analytics",
+      "features": [
+        "REST API access",
+        "Webhook integrations",
+        "Batch operations",
+        "Custom reporting",
+        "Priority support",
+        "SLA guarantee (99.99% uptime)"
+      ]
+    },
+    "catalog_transfer_labels": {
+      "name": "Catalog Transfer for Labels",
+      "tier": "enterprise",
+      "price": 1499,
+      "billing_cycle": "one_time",
+      "description": "Bulk transfer of 100-5000 tracks from legacy systems",
+      "features": [
+        "Up to 5000 tracks",
+        "Full metadata preservation",
+        "ISRCs + UPCs handled",
+        "Streaming stats migration",
+        "Ownership transfer support",
+        "White-glove service",
+        "Dedicated project manager"
+      ],
+      "best_for": "independent_labels"
+    }
+  },
+
+  "payment_methods": {
+    "enabled": [
+      "stripe",
+      "paypal",
+      "apple_pay",
+      "google_pay",
+      "bank_transfer"
+    ],
+    "stripe_account": "dmf-records-live",
+    "currencies": ["USD", "EUR", "GBP"],
+    "tax_handling": "automatic_via_stripe"
+  },
+
+  "promotional_offers": {
+    "new_artist_discount": {
+      "enabled": true,
+      "discount_percent": 20,
+      "description": "20% off first 3 releases for new artists",
+      "applies_to": ["distribution"],
+      "valid_through": "2025-12-31"
+    },
+    "bulk_discount": {
+      "enabled": true,
+      "description": "Volume discounts for labels (5+ releases)",
+      "applies_to": ["distribution", "catalog_migration"],
+      "tiers": [
+        { "releases": 5, "discount_percent": 10 },
+        { "releases": 10, "discount_percent": 15 },
+        { "releases": 20, "discount_percent": 20 }
+      ]
+    }
+  },
+
+  "billing": {
+    "invoice_prefix": "DMF-INV",
+    "payment_terms_days": 0,
+    "description": "Payment due immediately at time of purchase",
+    "refund_policy": {
+      "distribution": "Non-refundable once delivered to DSPs",
+      "services": "Pro-rated refund if cancelled within 7 days",
+      "campaigns": "Full refund if cancelled before start date"
+    }
+  },
+
+  "compliance": {
+    "currency": "USD",
+    "tax_id": "XX-XXXXXXXXX",
+    "business_address": "Los Angeles, CA, USA",
+    "terms_of_service_url": "https://dmf-records.com/terms",
+    "privacy_policy_url": "https://dmf-records.com/privacy"
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "DMF: Seed Roster (Dev)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["dmf_bootstrap_advanced.sh"],
+      "options": {
+        "env": {
+          "NODE_ENV": "dev"
+        },
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1,
+        "reevaluateOnRerun": true
+      }
+    },
+    {
+      "label": "DMF: Seed Roster (Stage)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["dmf_bootstrap_advanced.sh"],
+      "options": {
+        "env": {
+          "NODE_ENV": "stage"
+        },
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1,
+        "reevaluateOnRerun": true
+      }
+    },
+    {
+      "label": "DMF: Seed Roster (Prod)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["dmf_bootstrap_advanced.sh"],
+      "options": {
+        "env": {
+          "NODE_ENV": "prod"
+        },
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1,
+        "reevaluateOnRerun": true
+      }
+    },
+    {
+      "label": "DMF: Dry Run Seed (Dev)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["dmf_bootstrap_advanced.sh"],
+      "options": {
+        "env": {
+          "NODE_ENV": "dev",
+          "DRY_RUN": "1"
+        },
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "DMF: Build & Seed (Debug)",
+      "dependsOn": ["DMF: Seed Roster (Dev)"],
+      "type": "shell",
+      "command": "dotnet",
+      "args": ["build", "-c", "Debug"],
+      "options": {
+        "cwd": "${workspaceFolder}/DMF-MUSIC-PLATFORM"
+      },
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "DMF: Build & Seed (Release)",
+      "dependsOn": ["DMF: Seed Roster (Prod)"],
+      "type": "shell",
+      "command": "dotnet",
+      "args": ["build", "-c", "Release"],
+      "options": {
+        "cwd": "${workspaceFolder}/DMF-MUSIC-PLATFORM"
+      },
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    }
+  ]
+}

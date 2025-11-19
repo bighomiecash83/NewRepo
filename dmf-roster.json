@@ -1,0 +1,418 @@
+{
+  "roster": {
+    "label": {
+      "name": "DMF Records",
+      "legal_name": "DMF Records Fly Hoolie ENT Co.",
+      "ohio_business_number": "3894950",
+      "founded": "2024",
+      "headquarters": "Ohio",
+      "website": "dmf-music-platform.lovable.app",
+      "status": "Active",
+      "color_primary": "#FFD700",
+      "color_secondary": "#05060a",
+      "logo_text": "DMF RECORDS · FLY HOOLIE ENT"
+    },
+    "primary_artists": [
+      {
+        "id": "artist_001",
+        "name": "Big Homie Cash",
+        "legal_name": "DeAngelo Jackson",
+        "role": "Founder & CEO",
+        "status": "Active",
+        "division": "DMF Records",
+        "genres": ["Hip-Hop", "Trap"],
+        "catalog_status": "Active",
+        "artist_type": "Primary",
+        "created_at": "2024-01-01T00:00:00Z",
+        "verified": true,
+        "profile": {
+          "bio": "Founder and CEO of DMF Records. Music industry innovator.",
+          "photo_url": "auto-generated",
+          "social_links": {
+            "twitter": "",
+            "instagram": "",
+            "tiktok": ""
+          }
+        },
+        "analytics": {
+          "total_releases": 0,
+          "total_tracks": 0,
+          "followers": 0,
+          "monthly_listeners": 0
+        }
+      },
+      {
+        "id": "artist_002",
+        "name": "Freezzo",
+        "legal_name": "Freezzo",
+        "role": "Co-Founder & Artist",
+        "status": "Active",
+        "division": "Fly Hoolie ENT",
+        "genres": ["Hip-Hop", "Rap"],
+        "catalog_status": "Active",
+        "artist_type": "Primary",
+        "created_at": "2024-01-01T00:00:00Z",
+        "verified": true,
+        "profile": {
+          "bio": "Co-founder of DMF Records. Core legacy artist.",
+          "photo_url": "auto-generated",
+          "social_links": {}
+        },
+        "analytics": {
+          "total_releases": 0,
+          "total_tracks": 0
+        }
+      },
+      {
+        "id": "artist_003",
+        "name": "OBMB Delo",
+        "legal_name": "OBMB Delo",
+        "role": "Artist",
+        "status": "Active",
+        "division": "Obmb",
+        "genres": ["Hip-Hop"],
+        "catalog_status": "Active",
+        "artist_type": "Primary",
+        "created_at": "2024-01-01T00:00:00Z",
+        "verified": true
+      },
+      {
+        "id": "artist_004",
+        "name": "Ellumf",
+        "legal_name": "Ellumf",
+        "role": "Artist",
+        "status": "Active",
+        "division": "DMF Records",
+        "genres": ["Hip-Hop", "Rap"],
+        "catalog_status": "Active",
+        "artist_type": "Primary",
+        "created_at": "2024-01-01T00:00:00Z",
+        "verified": true
+      },
+      {
+        "id": "artist_005",
+        "name": "Dub 32 ENT",
+        "legal_name": "Dub 32 ENT",
+        "role": "Artist Collective",
+        "status": "Active",
+        "division": "DMF Records",
+        "genres": ["Hip-Hop", "Electronic"],
+        "catalog_status": "Active",
+        "artist_type": "Collective",
+        "created_at": "2024-01-01T00:00:00Z",
+        "verified": true
+      },
+      {
+        "id": "artist_006",
+        "name": "Go Savage",
+        "legal_name": "Go Savage",
+        "role": "Artist",
+        "status": "Active",
+        "division": "DMF Records",
+        "genres": ["Rap", "Trap"],
+        "catalog_status": "Active",
+        "artist_type": "Primary",
+        "created_at": "2024-01-01T00:00:00Z",
+        "verified": true
+      }
+    ],
+    "imprints": [
+      {
+        "id": "imprint_001",
+        "name": "Fly Hoolie ENT",
+        "status": "Active",
+        "parent_label": "DMF Records",
+        "description": "Primary artist imprint and creative division",
+        "created_at": "2024-01-01T00:00:00Z"
+      },
+      {
+        "id": "imprint_002",
+        "name": "Obmb",
+        "status": "Active",
+        "parent_label": "DMF Records",
+        "description": "Sub-brand and artist collective",
+        "created_at": "2024-01-01T00:00:00Z"
+      }
+    ],
+    "divisions": [
+      {
+        "id": "div_001",
+        "name": "StreamGod AI",
+        "type": "Technology",
+        "status": "Active",
+        "description": "AI-powered music analysis and catalog intelligence. 10,000 concurrent bot network.",
+        "services": [
+          "Catalog Analysis",
+          "Distribution Readiness Scoring",
+          "Metadata Quality Analysis",
+          "Recommendation Engine",
+          "Bot Training & Management",
+          "AI Learning Models"
+        ],
+        "owner": "Big Homie Cash",
+        "team_size": 1,
+        "technology_stack": ["Python", ".NET", "MongoDB", "Google AI"],
+        "visible_in_app": true,
+        "icon": "??",
+        "integration_status": "Live"
+      },
+      {
+        "id": "div_002",
+        "name": "The Gavel Syndicate",
+        "type": "Legal & IP",
+        "status": "Active",
+        "description": "Legal protection, IP management, contract enforcement, trademark defense.",
+        "services": [
+          "Contract Management",
+          "Copyright Protection",
+          "Trademark Registration",
+          "IP Enforcement",
+          "Legal Documentation",
+          "Rights Management",
+          "Evidence & Audit Logs"
+        ],
+        "owner": "Big Homie Cash",
+        "team_size": 1,
+        "visible_in_app": true,
+        "icon": "??",
+        "integration_status": "Planned"
+      },
+      {
+        "id": "div_003",
+        "name": "DMF Distributor Worldwide",
+        "type": "Distribution",
+        "status": "Active",
+        "description": "Global music distribution network. Routes to Spotify, Apple Music, YouTube, TikTok, and 150+ DSPs.",
+        "services": [
+          "Global Distribution",
+          "DSP Integration",
+          "Metadata Management",
+          "Release Scheduling",
+          "Analytics & Reporting",
+          "Royalty Collection",
+          "Quality Control"
+        ],
+        "owner": "Big Homie Cash",
+        "team_size": 1,
+        "dsp_partners": [
+          "Spotify",
+          "Apple Music",
+          "YouTube Music",
+          "Amazon Music",
+          "TikTok",
+          "SoundCloud"
+        ],
+        "visible_in_app": true,
+        "icon": "??",
+        "integration_status": "Planned"
+      },
+      {
+        "id": "div_004",
+        "name": "Du'ryia Engine",
+        "type": "Generative AI",
+        "status": "Active",
+        "description": "Exclusive generative AI engine (replaces SORA²). Creates music, visuals, marketing assets, and metadata.",
+        "services": [
+          "Music Generation",
+          "Video Generation",
+          "Art & Visual Generation",
+          "Marketing Copy Generation",
+          "Metadata Generation",
+          "Audio Engineering",
+          "Style Transfer"
+        ],
+        "owner": "Big Homie Cash",
+        "team_size": 1,
+        "tech_partner": "Google AI Studio",
+        "visible_in_app": true,
+        "icon": "?",
+        "integration_status": "Planned"
+      },
+      {
+        "id": "div_005",
+        "name": "DMF AI Playground",
+        "type": "AI Research & Testing",
+        "status": "Active",
+        "description": "Testing ground for 10,000 AI bots. Training, simulations, algorithm testing, and creative experiments.",
+        "services": [
+          "Bot Training",
+          "Algorithm Testing",
+          "Simulation Environment",
+          "Performance Benchmarking",
+          "Creative Experimentation",
+          "Model Development"
+        ],
+        "owner": "Big Homie Cash",
+        "team_size": 1,
+        "bot_network_size": 10000,
+        "visible_in_app": true,
+        "icon": "??",
+        "integration_status": "Live"
+      },
+      {
+        "id": "div_006",
+        "name": "DMF Media",
+        "type": "Content & Production",
+        "status": "Active",
+        "description": "Visual production, content creation, media management, and brand assets.",
+        "services": [
+          "Video Production",
+          "Photo Editing",
+          "Graphic Design",
+          "Content Management",
+          "Brand Assets",
+          "Social Media Content"
+        ],
+        "owner": "Big Homie Cash",
+        "visible_in_app": true,
+        "icon": "??",
+        "integration_status": "Planned"
+      },
+      {
+        "id": "div_007",
+        "name": "DMF Financial Division",
+        "type": "Finance & Admin",
+        "status": "Active",
+        "description": "Payroll, royalty payments, tax management, artist settlements, financial reporting.",
+        "services": [
+          "Payroll Management",
+          "Royalty Calculations",
+          "Artist Payments",
+          "Tax Administration",
+          "Financial Reporting",
+          "Revenue Tracking",
+          "Audit Trails"
+        ],
+        "owner": "Big Homie Cash",
+        "visible_in_app": true,
+        "icon": "??",
+        "integration_status": "Planned"
+      },
+      {
+        "id": "div_008",
+        "name": "DMF Academy",
+        "type": "Education & Training",
+        "status": "Active",
+        "description": "Training hub for artists, producers, and team members. Courses, tutorials, and resources.",
+        "services": [
+          "Artist Training",
+          "Music Production Courses",
+          "Distribution Training",
+          "AI Tool Training",
+          "Platform Tutorials",
+          "Certification Programs"
+        ],
+        "owner": "Big Homie Cash",
+        "visible_in_app": true,
+        "icon": "??",
+        "integration_status": "Planned"
+      },
+      {
+        "id": "div_009",
+        "name": "DMF Anti-Bot Authenticity Defense",
+        "type": "Security & Fraud Prevention",
+        "status": "Active",
+        "description": "Detects and prevents bot fraud, stream manipulation, fake engagement, and authenticity verification.",
+        "services": [
+          "Fraud Detection",
+          "Bot Detection",
+          "Stream Verification",
+          "Authenticity Scoring",
+          "Report Generation",
+          "Enforcement Actions"
+        ],
+        "owner": "Big Homie Cash",
+        "visible_in_app": true,
+        "icon": "???",
+        "integration_status": "Planned"
+      },
+      {
+        "id": "div_010",
+        "name": "Sims.gov",
+        "type": "Government Services",
+        "status": "Active",
+        "description": "Government services hub. Licensing, compliance, regulatory reporting, and official documentation.",
+        "services": [
+          "Business Licensing",
+          "Regulatory Compliance",
+          "Tax Filing",
+          "Government Reporting",
+          "Official Documentation"
+        ],
+        "owner": "Big Homie Cash",
+        "visible_in_app": true,
+        "icon": "???",
+        "integration_status": "Planned"
+      }
+    ],
+    "organizations": [
+      {
+        "id": "org_001",
+        "name": "DMF Records Fly Hoolie ENT Co.",
+        "type": "Primary Label",
+        "legal_status": "Active",
+        "business_license": "OH-3894950",
+        "founded": "2024",
+        "headquarters": "Ohio, USA",
+        "status": "Active"
+      },
+      {
+        "id": "org_002",
+        "name": "StreamGod OS",
+        "type": "Technology Company",
+        "legal_status": "Division of DMF",
+        "status": "Active"
+      },
+      {
+        "id": "org_003",
+        "name": "The Gavel Syndicate",
+        "type": "Legal Services",
+        "legal_status": "Division of DMF",
+        "status": "Active"
+      }
+    ],
+    "team": [
+      {
+        "id": "team_001",
+        "name": "Big Homie Cash",
+        "legal_name": "DeAngelo Jackson",
+        "role": "Founder & CEO",
+        "email": "contact@dmf-music-platform.com",
+        "phone": "",
+        "status": "Active",
+        "departments": [
+          "Executive",
+          "StreamGod AI",
+          "The Gavel Syndicate",
+          "DMF Distributor Worldwide",
+          "Du'ryia Engine",
+          "DMF AI Playground",
+          "DMF Media",
+          "DMF Financial Division",
+          "DMF Academy",
+          "DMF Anti-Bot Authenticity Defense",
+          "Sims.gov"
+        ],
+        "permissions": [
+          "Admin",
+          "Full Access",
+          "Artist Management",
+          "Financial Access",
+          "Legal Access",
+          "AI Management"
+        ]
+      }
+    ],
+    "metadata": {
+      "total_artists": 6,
+      "total_divisions": 10,
+      "total_imprints": 2,
+      "total_team_members": 1,
+      "platform_version": "1.0",
+      "last_updated": "2025-01-15T00:00:00Z",
+      "roster_status": "Complete",
+      "integration_ready": true,
+      "notes": "Official DMF Records roster. Ready for app integration. All divisions linked to backend systems."
+    }
+  }
+}
