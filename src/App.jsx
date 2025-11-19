@@ -25,6 +25,11 @@ import PortalHomePage from "./pages/PortalHomePage";
 import PortalAnalyticsPage from "./pages/PortalAnalyticsPage";
 import PortalDistributionPage from "./pages/PortalDistributionPage";
 
+// Royalty Pages (v1.2 - Artist Earnings & Payouts)
+import ArtistEarningsDashboard from "./pages/ArtistEarningsDashboard";
+import StatementDetail from "./pages/StatementDetail";
+import AdminRoyaltyBoard from "./pages/AdminRoyaltyBoard";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -44,6 +49,19 @@ export default function App() {
 
         {/* Division Detail */}
         <Route path="/divisions/:slug" element={<DivisionDetailPage />} />
+
+        {/* ================================================================ */}
+        {/* ROYALTY SYSTEM v1.2 (Artist Earnings & Payouts)                */}
+        {/* ================================================================ */}
+        
+        {/* Artist Earnings Dashboard */}
+        <Route path="/earnings" element={<ArtistEarningsDashboard />} />
+        
+        {/* Statement Detail */}
+        <Route path="/earnings/:statementId" element={<StatementDetail />} />
+        
+        {/* Admin Royalty Board */}
+        <Route path="/admin/royalties" element={<AdminRoyaltyBoard />} />
 
         {/* ================================================================ */}
         {/* CUSTOMER PORTAL (Public-Facing for Artists/Clients)             */}
