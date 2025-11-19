@@ -1,0 +1,21 @@
+{
+  "port": 5000,
+  "services": {
+    "auth": {
+      "backend": "firebase",
+      "pathPrefix": "/auth"
+    },
+    "catalog": {
+      "backend": "lovable",
+      "pathPrefix": "/catalog"
+    },
+    "brain": {
+      "backend": "dotnet",
+      "pathPrefix": "/brain"
+    },
+    "payments": {
+      "backend": "payments",
+      "pathPrefix": "/payments"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+rules_version = '3';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function: check if user is DMF staff
+    function isDmfStaff() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isDmfStaff == true;
+    }
+    
+    // Helper function: check if user owns this artist/royalty profile
+    function isArtistOwner(artistId) {
+      return request.auth.uid == get(/databases/$(database)/documents/artists/$(artistId)).data.userId;
+    }
+
+    // --- ROYALTY PROFILES ---
+    // Only the artist owner or DMF staff can read/write
+    match /royaltyProfiles/{artistId} {
+      allow read: if request.auth.uid != null && (isDmfStaff() || isArtistOwner(artistId));
+      allow write: if request.auth.uid != null && (isDmfStaff() || isArtistOwner(artistId));
+      allow create: if request.auth.uid != null && isDmfStaff();
+      allow delete: if request.auth.uid != null && isDmfStaff();
+    }
+
+    // --- RELEASES ---
+    // Any authenticated user can read releases
+    // Only owner + DMF staff can modify
+    match /releases/{releaseId} {
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null && isDmfStaff();
+      allow create: if request.auth.uid != null && isDmfStaff();
+      allow delete: if request.auth.uid != null && isDmfStaff();
+    }
+
+    // --- ARTISTS ---
+    // Public read, DMF staff can write
+    match /artists/{artistId} {
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null && isDmfStaff();
+      allow create: if request.auth.uid != null && isDmfStaff();
+      allow delete: if request.auth.uid != null && isDmfStaff();
+    }
+
+    // --- USERS ---
+    // Users can only read/write their own doc
+    match /users/{userId} {
+      allow read: if request.auth.uid == userId;
+      allow write: if request.auth.uid == userId;
+      allow create: if request.auth.uid != null;
+      allow delete: if request.auth.uid == userId && isDmfStaff();
+    }
+
+    // Catch-all: deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

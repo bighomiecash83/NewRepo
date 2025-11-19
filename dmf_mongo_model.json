@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DMF MongoDB Data Model",
+  "description": "Core collections and document structure for DMF Music Platform",
+  "version": "1.0.0",
+  "collections": {
+    "artists": {
+      "description": "Artist profiles and metadata",
+      "indexes": ["dmfArtistId (unique)", "email", "createdAt"],
+      "schema": {
+        "_id": "ObjectId",
+        "dmfArtistId": "string (unique)",
+        "name": "string",
+        "label": "string",
+        "email": "string",
+        "roles": ["string"],
+        "platformHandles": {
+          "spotify": "string",
+          "appleMusic": "string",
+          "youtubeMusic": "string",
+          "instagram": "string"
+        },
+        "createdAt": "ISODate",
+        "updatedAt": "ISODate"
+      }
+    },
+    "releases": {
+      "description": "Music releases (singles, EPs, albums, mixtapes)",
+      "indexes": ["dmfReleaseId (unique)", "primaryArtistId", "status", "releaseDate", "readinessScore"],
+      "schema": {
+        "_id": "ObjectId",
+        "dmfReleaseId": "string (unique)",
+        "title": "string",
+        "primaryArtistId": "string (dmfArtistId)",
+        "featuringArtistIds": ["string"],
+        "isrc": "string",
+        "upc": "string",
+        "status": "string (draft|queued|delivered|live)",
+        "releaseDate": "ISODate",
+        "dspStatus": {
+          "spotify": "string",
+          "appleMusic": "string",
+          "youtubeMusic": "string",
+          "amazonMusic": "string"
+        },
+        "readinessScore": "number (0-100)",
+        "issues": ["string"],
+        "metadata": {
+          "genre": "string",
+          "duration": "number (seconds)",
+          "language": "string",
+          "explicit": "boolean"
+        },
+        "createdAt": "ISODate",
+        "updatedAt": "ISODate"
+      }
+    },
+    "services": {
+      "description": "Distribution services and configurations per release",
+      "indexes": ["serviceType", "releaseId"],
+      "schema": {
+        "_id": "ObjectId",
+        "releaseId": "string (dmfReleaseId)",
+        "serviceType": "string (distribution|campaign|legal|analytics)",
+        "status": "string (active|inactive|paused)",
+        "configuration": "object",
+        "createdAt": "ISODate",
+        "updatedAt": "ISODate"
+      }
+    },
+    "plans": {
+      "description": "Pricing tiers and plan configurations",
+      "schema": {
+        "_id": "ObjectId",
+        "planId": "string (unique)",
+        "name": "string (Free|Standard|Premium|Enterprise)",
+        "description": "string",
+        "price": "number (USD)",
+        "features": ["string"],
+        "limits": {
+          "releasesPerMonth": "number",
+          "artistsPerAccount": "number"
+        },
+        "isActive": "boolean",
+        "createdAt": "ISODate"
+      }
+    },
+    "orders": {
+      "description": "Distribution orders and purchases",
+      "indexes": ["artistId", "status", "createdAt"],
+      "schema": {
+        "_id": "ObjectId",
+        "orderId": "string (unique)",
+        "artistId": "string (dmfArtistId)",
+        "releaseId": "string (dmfReleaseId)",
+        "platforms": ["string (spotify|appleMusic|youtube|amazon)"],
+        "status": "string (pending|processing|completed|failed)",
+        "totalCost": "number (USD)",
+        "currency": "string",
+        "paymentMethod": "string",
+        "notes": "string",
+        "completedAt": "ISODate",
+        "createdAt": "ISODate"
+      }
+    },
+    "payouts": {
+      "description": "Artist royalty payouts and tracking",
+      "indexes": ["artistId", "period", "status"],
+      "schema": {
+        "_id": "ObjectId",
+        "artistId": "string (dmfArtistId)",
+        "releaseId": "string (dmfReleaseId)",
+        "period": "string (YYYY-MM)",
+        "amount": "number (USD)",
+        "currency": "string",
+        "status": "string (pending|processing|paid|failed)",
+        "breakdown": {
+          "streamingRoyalties": "number",
+          "saleRoyalties": "number",
+          "bonuses": "number"
+        },
+        "paidDate": "ISODate",
+        "createdAt": "ISODate"
+      }
+    },
+    "bots": {
+      "description": "AI bot configurations (Ryia Bosses, etc.)",
+      "indexes": ["botId (unique)", "owner", "status"],
+      "schema": {
+        "_id": "ObjectId",
+        "botId": "string (unique)",
+        "name": "string",
+        "owner": "string (dmfArtistId)",
+        "type": "string (analyzer|distributor|promoter|manager)",
+        "status": "string (active|inactive|paused)",
+        "configuration": {
+          "rules": ["string"],
+          "triggers": ["string"],
+          "actions": ["string"]
+        },
+        "metadata": {
+          "version": "string",
+          "lastRun": "ISODate",
+          "executionCount": "number"
+        },
+        "createdAt": "ISODate",
+        "updatedAt": "ISODate"
+      }
+    },
+    "campaigns": {
+      "description": "Marketing and promotional campaigns",
+      "indexes": ["campaignId (unique)", "releaseId", "status"],
+      "schema": {
+        "_id": "ObjectId",
+        "campaignId": "string (unique)",
+        "name": "string",
+        "releaseId": "string (dmfReleaseId)",
+        "type": "string (social|email|ad|influencer)",
+        "status": "string (draft|active|completed|paused)",
+        "budget": "number (USD)",
+        "startDate": "ISODate",
+        "endDate": "ISODate",
+        "metrics": {
+          "impressions": "number",
+          "clicks": "number",
+          "conversions": "number",
+          "roi": "number"
+        },
+        "createdAt": "ISODate",
+        "updatedAt": "ISODate"
+      }
+    },
+    "events": {
+      "description": "System events and analytics logs",
+      "indexes": ["timestamp", "eventType", "entityId"],
+      "schema": {
+        "_id": "ObjectId",
+        "eventType": "string (release_created|release_updated|order_placed|payout_sent)",
+        "entityId": "string",
+        "entityType": "string (release|artist|order|campaign)",
+        "actor": "string (userId or system)",
+        "details": "object",
+        "timestamp": "ISODate"
+      }
+    }
+  },
+  "relationships": {
+    "artists_to_releases": "artists._id -> releases.primaryArtistId",
+    "releases_to_orders": "releases._id -> orders.releaseId",
+    "artists_to_payouts": "artists._id -> payouts.artistId",
+    "artists_to_bots": "artists._id -> bots.owner"
+  }
+}

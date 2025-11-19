@@ -1,0 +1,217 @@
+### DMF API Client for VS Code REST Client Extension
+### Install: REST Client extension by Huachao Mao
+### Usage: Open this file and click "Send Request" on any request block
+
+@dmfApiBase = http://localhost:5000
+@dmfApiProd = https://api.dmf-music-platform.com
+@authToken = your-firebase-id-token-here
+
+###############################################################################
+# HEALTH & STATUS
+###############################################################################
+
+### Health check (local)
+GET {{dmfApiBase}}/health
+
+### Health check (production)
+# GET {{dmfApiProd}}/health
+
+###############################################################################
+# CATALOG ENDPOINTS
+###############################################################################
+
+### List all releases
+GET {{dmfApiBase}}/catalog/releases
+Authorization: Bearer {{authToken}}
+
+### Get specific release
+# GET {{dmfApiBase}}/catalog/releases/release-id-here
+# Authorization: Bearer {{authToken}}
+
+### List all tracks
+GET {{dmfApiBase}}/catalog/tracks
+Authorization: Bearer {{authToken}}
+
+### Get specific track
+# GET {{dmfApiBase}}/catalog/tracks/track-id-here
+# Authorization: Bearer {{authToken}}
+
+###############################################################################
+# BRAIN ENDPOINTS (StreamGod AI)
+###############################################################################
+
+### Score a single track
+POST {{dmfApiBase}}/brain/catalog/score
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "trackId": "example-track-123",
+  "title": "My Track",
+  "artist": "Artist Name",
+  "duration": 180,
+  "genre": "Electronic",
+  "metadata": {
+    "tempo": 120,
+    "key": "C",
+    "version": "Mix 1"
+  }
+}
+
+### Get catalog recommendations
+POST {{dmfApiBase}}/brain/catalog/recommendations
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "catalogSize": 50,
+  "minReadiness": 0.7,
+  "goal": "maximize_streams"
+}
+
+### Analyze entire catalog
+POST {{dmfApiBase}}/brain/catalog/analyze
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "catalogId": "my-catalog",
+  "analysisType": "readiness",
+  "includeMetadata": true
+}
+
+### Generate insights
+POST {{dmfApiBase}}/brain/catalog/insights
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "analysisData": {},
+  "focusArea": "release_strategy"
+}
+
+###############################################################################
+# DISTRIBUTOR ENDPOINTS
+###############################################################################
+
+### Get release distribution quote
+POST {{dmfApiBase}}/distributor/release/quote
+Content-Type: application/json
+
+{
+  "releaseType": "single",
+  "trackCount": 1,
+  "distributorType": "dmf"
+}
+
+### Get payout quote (artist & DMF shares)
+POST {{dmfApiBase}}/distributor/payout/quote
+Content-Type: application/json
+
+{
+  "releaseType": "single",
+  "trackCount": 1,
+  "estimatedStreams": 10000,
+  "payoutTier": "indie_basic"
+}
+
+### Create release draft
+POST {{dmfApiBase}}/distributor/release
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "releaseTitle": "My First Release",
+  "releaseType": "single",
+  "tracks": [
+    {
+      "title": "Track 1",
+      "artist": "My Artist",
+      "duration": 180
+    }
+  ],
+  "payoutTier": "indie_basic",
+  "releaseDate": "2025-12-01"
+}
+
+### Get migration quote
+POST {{dmfApiBase}}/distributor/migration/quote
+Content-Type: application/json
+
+{
+  "currentPlatforms": ["spotify", "apple_music"],
+  "estimatedCatalogSize": 500
+}
+
+###############################################################################
+# AUTH ENDPOINTS
+###############################################################################
+
+### Login with credentials
+POST {{dmfApiBase}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "artist@example.com",
+  "password": "password123"
+}
+
+### Verify authentication token
+GET {{dmfApiBase}}/auth/verify
+Authorization: Bearer {{authToken}}
+
+### Get user profile
+GET {{dmfApiBase}}/auth/profile
+Authorization: Bearer {{authToken}}
+
+### Logout
+POST {{dmfApiBase}}/auth/logout
+Authorization: Bearer {{authToken}}
+
+###############################################################################
+# PAYMENTS ENDPOINTS
+###############################################################################
+
+### Get available payment plans
+GET {{dmfApiBase}}/payments/plans
+
+### Checkout (start subscription)
+POST {{dmfApiBase}}/payments/checkout
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "planId": "indie_plus",
+  "paymentMethod": "stripe",
+  "billingPeriod": "monthly"
+}
+
+### Update subscription
+POST {{dmfApiBase}}/payments/subscription
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "subscriptionId": "sub-123",
+  "action": "upgrade",
+  "newPlan": "growth_partner"
+}
+
+###############################################################################
+# NOTES
+###############################################################################
+
+# To use this file:
+# 1. Install the "REST Client" extension in VS Code
+# 2. Replace {{authToken}} with your actual Firebase ID token
+# 3. Click "Send Request" on any request block
+# 4. Results appear in the output panel
+
+# For production:
+# - Change @dmfApiBase to @dmfApiProd
+# - Or uncomment prod requests directly
+
+# For debugging:
+# - Ensure gateway is running on port 5000
+# - Check Console panel for response details
+# - Verify backend URLs in gateway/.env

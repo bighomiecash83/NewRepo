@@ -1,0 +1,52 @@
+{
+  "provider": "mongodb-atlas",
+  "cluster": "dmf-music-platform.pfqrhc.mongodb.net",
+  "database": "dmf_music_platform",
+  "description": "DMF Music Platform - Primary Data Store",
+  "envBindings": {
+    "user": "DMF_DB_USER",
+    "password": "DMF_DB_PASSWORD",
+    "connectionString": "MONGO_URL",
+    "databaseName": "DMF_DB_NAME"
+  },
+  "collections": {
+    "artists": {
+      "description": "Artist profiles and metadata",
+      "indexes": ["email", "username"]
+    },
+    "releases": {
+      "description": "Music releases (single, EP, album, mixtape)",
+      "indexes": ["artistId", "releaseDate", "status"]
+    },
+    "tracks": {
+      "description": "Individual tracks within releases",
+      "indexes": ["releaseId", "artistId", "status"]
+    },
+    "payouts": {
+      "description": "Payout tiers and calculations",
+      "indexes": ["tier", "releaseType"]
+    },
+    "orders": {
+      "description": "Distribution orders and purchases",
+      "indexes": ["artistId", "status", "createdDate"]
+    },
+    "royalties": {
+      "description": "Royalty tracking and payments",
+      "indexes": ["artistId", "releaseId", "period"]
+    },
+    "subscriptions": {
+      "description": "Artist subscriptions and plans",
+      "indexes": ["artistId", "tier", "status"]
+    },
+    "analytics": {
+      "description": "Streaming analytics and metrics",
+      "indexes": ["releaseId", "date", "platform"]
+    }
+  },
+  "credentials": {
+    "atlasUserName": "bighomiecash8346",
+    "atlasClusterName": "dmf-music-platform",
+    "atlasRegion": "US-EAST-1"
+  },
+  "backupStrategy": "Atlas automated backups (default: 7 days retention)"
+}

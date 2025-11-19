@@ -1,37 +1,86 @@
-# VS Code
-.vscode/
-*.code-workspace
+# ===== ENVIRONMENT FILES (NEVER COMMIT) =====
+.env
+.env.local
+.env.dmf
+.env.*.local
+.env.production
+.env.staging
+.env.development
+firebase-config.json
 
-# Visual Studio
+# ===== VS CODE & IDE =====
+.vscode/
+.vscode/settings.json
+*.code-workspace
+.idea/
+
+# ===== VISUAL STUDIO =====
 .vs/
 bin/
 obj/
 *.user
 *.suo
 *.sln.docstates
-.vs
+*.sln.user
 
-# Build outputs
+# ===== BUILD OUTPUTS =====
 publish/
+dist/
+build/
+out/
 
-# Node
+# ===== NODE & NPM =====
 node_modules/
 npm-debug.log
 yarn-error.log
+yarn-debug.log
+package-lock.json
+yarn.lock
+lerna-debug.log
+.npm
 
-# Environment
-.env
-.env.local
+# ===== SENSITIVE KEYS =====
 *.key
 *.pem
+*.pfx
+secrets/
+credentials/
 
-# OS
+# ===== OS SPECIFIC =====
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Logs
+# ===== LOGS & TEMP =====
 logs/
 *.log
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
 
-# Dependencies
+# ===== DEPENDENCIES =====
 packages/
+gateway/node_modules/
+gateway/package-lock.json
+
+# ===== MONGODB =====
+mongo_data/
+mongodb/
+.mongorc.js
+
+# ===== TESTING =====
+coverage/
+.nyc_output/
+*.test.log
+
+# ===== MISC =====
+*.swp
+*.swo
+*~
+.DS_Store

@@ -1,0 +1,248 @@
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                   🤖 STREAMGOD DEVELOPMENT CHEAT SHEET                     ║
+║                        DMF-MUSIC-PLATFORM Launch                          ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌─ GETTING STARTED ──────────────────────────────────────────────────────────┐
+│                                                                             │
+│  1. Open: console.cloud.google.com → >_ terminal                          │
+│  2. Navigate: cd ~/dmf/dmf-firebase-backend-main                           │
+│  3. Setup: bash streamgod-setup.sh                                         │
+│  4. Chat: gcloud beta bard chat                                            │
+│  5. Paste: STREAMGOD_GEMINI_MASTER_PROMPT.md (full content)               │
+│  6. Ask: "Create Firebase init file at web/dmf-dashboard/src/firebase.js" │
+│  7. Create: nano web/dmf-dashboard/src/firebase.js → paste → Ctrl+X Y    │
+│  8. Build: dmf-build && dmf-deploy                                        │
+│                                                                             │
+│  ✅ Done! Check your live URL                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ YOUR DAILY COMMANDS ──────────────────────────────────────────────────────┐
+│                                                                             │
+│  Navigation:                  Build & Deploy:                              │
+│  ├─ dmf-dev       Project root    ├─ dmf-build     npm run build         │
+│  ├─ dmf-frontend  React folder    ├─ dmf-deploy    firebase deploy       │
+│  └─ dmf-backend   Functions       └─ dmf-dev-server npm run dev          │
+│                                                                             │
+│  Helper Functions:                                                          │
+│  ├─ streamgod-help              Show all commands                          │
+│  ├─ streamgod-status            Check setup status                        │
+│  ├─ streamgod-new-page NAME     Create page template                      │
+│  └─ streamgod-show-url          Show live URL                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ THE BUILD LOOP (Every Component) ────────────────────────────────────────┐
+│                                                                             │
+│   Ask Gemini                    Get Code                                   │
+│   ┌──────────────────┐          ┌──────────────────┐                      │
+│   │ "Create X page"  │   ───→   │ React component  │                      │
+│   │ "at path Y"      │          │ (copy-paste OK)  │                      │
+│   └──────────────────┘          └──────────────────┘                      │
+│                                         │                                   │
+│                                         ↓                                   │
+│                                 Create/Edit File                           │
+│                                 ┌──────────────────┐                      │
+│                                 │ nano [file]      │                      │
+│                                 │ Ctrl+Shift+V     │                      │
+│                                 │ Paste code       │                      │
+│                                 │ Ctrl+X, Y, Enter │                      │
+│                                 └──────────────────┘                      │
+│                                         │                                   │
+│                                         ↓                                   │
+│                                  Build & Deploy                            │
+│                                 ┌──────────────────┐                      │
+│                                 │ dmf-build        │                      │
+│                                 │ dmf-deploy       │                      │
+│                                 │ (30 seconds)     │                      │
+│                                 └──────────────────┘                      │
+│                                         │                                   │
+│                                         ↓                                   │
+│                                   Check Live URL                           │
+│                                 ┌──────────────────┐                      │
+│                                 │ See your new     │                      │
+│                                 │ component live!  │                      │
+│                                 └──────────────────┘                      │
+│                                                                             │
+│  Time per component: ~10 minutes (after first one)                        │
+│  Total for 12 pages: ~2 hours setup + 120 minutes building = 3-4 hours   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ GEMINI QUICK REQUESTS ───────────────────────────────────────────────────┐
+│                                                                             │
+│  1. Firebase Init:                                                          │
+│     "Create Firebase init at web/dmf-dashboard/src/firebase.js"           │
+│                                                                             │
+│  2. React Router:                                                           │
+│     "Create App.jsx with 11 routes to all pages"                          │
+│                                                                             │
+│  3. Dashboard Page:                                                         │
+│     "Create OwnerDashboard.jsx showing KPIs from Firestore"               │
+│                                                                             │
+│  4. Catalog Page:                                                           │
+│     "Create Catalog.jsx showing release table from Firestore"             │
+│                                                                             │
+│  5. StreamGod Console:                                                      │
+│     "Create StreamGodConsole.jsx with prompt input and response"          │
+│                                                                             │
+│  Full templates: See STREAMGOD_QUICK_REFERENCE.md                         │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ YOUR LIVE URL ───────────────────────────────────────────────────────────┐
+│                                                                             │
+│  https://dmf-firebase-backend-main--studio-5828448336-5a604.us-east4...   │
+│  ...hosted.app                                                              │
+│                                                                             │
+│  Shortened: Just search "dmf-firebase-backend-main" in browser             │
+│                                                                             │
+│  Check after every dmf-deploy to verify your changes are live              │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ FIRESTORE COLLECTIONS (What Gemini queries) ──────────────────────────────┐
+│                                                                             │
+│  releases/       → Album/release data (title, status, cover art, UPC)     │
+│  artists/        → Artist profiles (name, genres, stats)                   │
+│  clients/        → B2B customers (name, service tier)                      │
+│  services/       → Service offerings (name, price, deliverables)          │
+│  orders/         → Service orders (status, client, service)               │
+│  streamgod_tasks/ → AI analysis recommendations                            │
+│                                                                             │
+│  Example Firestore query (Gemini will do this):                            │
+│  const releasesRef = collection(db, 'releases');                          │
+│  const snapshot = await getDocs(releasesRef);                             │
+│  const releases = snapshot.docs.map(doc => doc.data());                   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ FILE PATHS (So Gemini knows where to put code) ────────────────────────────┐
+│                                                                             │
+│  React Pages:                                                               │
+│  web/dmf-dashboard/src/pages/OwnerDashboard.jsx                           │
+│  web/dmf-dashboard/src/pages/Catalog.jsx                                  │
+│  web/dmf-dashboard/src/pages/ReleaseDetail.jsx                            │
+│  web/dmf-dashboard/src/pages/Roster.jsx                                   │
+│  web/dmf-dashboard/src/pages/ArtistDetail.jsx                             │
+│  web/dmf-dashboard/src/pages/Clients.jsx                                  │
+│  web/dmf-dashboard/src/pages/ClientDetail.jsx                             │
+│  web/dmf-dashboard/src/pages/Services.jsx                                 │
+│  web/dmf-dashboard/src/pages/Orders.jsx                                   │
+│  web/dmf-dashboard/src/pages/StreamGodConsole.jsx                         │
+│  web/dmf-dashboard/src/pages/Settings.jsx                                 │
+│                                                                             │
+│  Core Files:                                                                │
+│  web/dmf-dashboard/src/App.jsx                                            │
+│  web/dmf-dashboard/src/firebase.js                                        │
+│  web/dmf-dashboard/src/main.jsx                                           │
+│                                                                             │
+│  Cloud Functions:                                                           │
+│  functions/index.js                                                        │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TROUBLESHOOTING ─────────────────────────────────────────────────────────┐
+│                                                                             │
+│  Build fails?                                                               │
+│  → dmf-frontend && npm run build                                           │
+│  → Look for error message                                                  │
+│  → Ask Gemini: "Fix this error: [error]"                                  │
+│                                                                             │
+│  Deploy fails?                                                              │
+│  → firebase deploy --only hosting                                          │
+│  → Check error (usually missing dependency)                                │
+│  → Run: dmf-build first, then dmf-deploy                                  │
+│                                                                             │
+│  Gemini doesn't understand?                                                │
+│  → Be specific about file path                                             │
+│  → Mention Firestore collections you need                                  │
+│  → Ask for one component at a time                                         │
+│                                                                             │
+│  Can't find files?                                                          │
+│  → pwd (check current directory)                                           │
+│  → ls -la (list what's here)                                               │
+│  → Should be in: ~/dmf/dmf-firebase-backend-main                           │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ DOCUMENTATION FILES ──────────────────────────────────────────────────────┐
+│                                                                             │
+│  Start Here:                                                                │
+│  ├─ STREAMGOD_FINAL_SUMMARY.md          ← Read this first                  │
+│  ├─ STREAMGOD_GETTING_STARTED.md        ← Step-by-step                     │
+│  └─ STREAMGOD_README.md                 ← Overview                         │
+│                                                                             │
+│  When You Need It:                                                          │
+│  ├─ STREAMGOD_QUICK_REFERENCE.md        ← Gemini request templates         │
+│  ├─ STREAMGOD_GEMINI_MASTER_PROMPT.md   ← Paste in Gemini                 │
+│  └─ DMF_COMPLETE_STACK_INTEGRATION.md   ← Architecture understanding      │
+│                                                                             │
+│  If You Need Details:                                                       │
+│  ├─ FIREBASE_HOSTING_DEPLOYMENT_GUIDE.md   ← Deployment details            │
+│  ├─ FIREBASE_DEPLOYMENT_CHECKLIST.md       ← 2-week timeline               │
+│  └─ GOOGLE_CLOUD_DEPLOYMENT_GUIDE.md       ← GCP infrastructure            │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SUCCESS CHECKLIST ───────────────────────────────────────────────────────┐
+│                                                                             │
+│  After setup.sh:                                                            │
+│  ☐ Authenticated with Google Cloud                                         │
+│  ☐ Firebase project verified                                               │
+│  ☐ npm dependencies installed                                              │
+│  ☐ Aliases working (try: dmf-dev)                                         │
+│  ☐ Helper functions loaded (try: streamgod-help)                          │
+│                                                                             │
+│  After pasting master prompt in Gemini:                                    │
+│  ☐ Gemini confirmed understanding                                          │
+│  ☐ Ready to build components                                               │
+│                                                                             │
+│  After first component:                                                     │
+│  ☐ File created in correct location                                        │
+│  ☐ Build completed without errors                                          │
+│  ☐ Deploy completed successfully                                           │
+│  ☐ See your component on live URL                                          │
+│  ☐ Ready to repeat for next component                                      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TIMELINE ────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│  Week 1: Build All Pages (UI Only)                                        │
+│  ├─ Monday:   firebase.js + App.jsx (2 hours)                             │
+│  ├─ Tue-Thu:  Build 11 remaining pages (8 hours, 3 per day)              │
+│  └─ Friday:   Deploy & verify (1 hour)                                    │
+│  Result: All pages built, no data connected                               │
+│                                                                             │
+│  Week 2: Add Data Integration                                             │
+│  ├─ Mon-Tue:  Connect first 5 pages to Firestore (3 hours)               │
+│  ├─ Wed-Thu:  Connect remaining pages (3 hours)                          │
+│  └─ Friday:   Final testing & production launch (2 hours)                │
+│  Result: All pages showing real data. MVP LIVE.                           │
+│                                                                             │
+│  Total effort: ~20 hours over 2 weeks                                     │
+│  Per developer: 10 hours (1-2 devs can parallelize)                      │
+│  Per component: ~10 minutes (after first one)                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                          🚀 YOU'RE READY TO GO                             ║
+║                                                                             ║
+║  Next Step: Open Google Cloud Shell and run:                              ║
+║                                                                             ║
+║     cd ~/dmf/dmf-firebase-backend-main                                    ║
+║     bash streamgod-setup.sh                                               ║
+║                                                                             ║
+║  Then: Read STREAMGOD_GETTING_STARTED.md                                  ║
+║                                                                             ║
+║  Then: Follow those steps exactly                                         ║
+║                                                                             ║
+║  Result: First component live in 15 minutes ✅                            ║
+║                                                                             ║
+║  Let's ship DMF. 🎵                                                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+

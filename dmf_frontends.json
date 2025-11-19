@@ -1,0 +1,160 @@
+{
+  "version": "1.0.0",
+  "description": "DMF Frontend Configuration – Shared across all 5 faces",
+  "gatewayBaseUrl": "https://api.dmf-music-platform.com",
+  "environments": {
+    "local": {
+      "gatewayBaseUrl": "http://localhost:5000",
+      "description": "Local development (all services running locally)"
+    },
+    "staging": {
+      "gatewayBaseUrl": "https://dmf-api-staging.onrender.com",
+      "description": "Staging deployment"
+    },
+    "prod": {
+      "gatewayBaseUrl": "https://api.dmf-music-platform.com",
+      "description": "Production deployment"
+    }
+  },
+  "routes": {
+    "auth": "/auth",
+    "catalog": "/catalog",
+    "brain": "/brain",
+    "payments": "/payments",
+    "distributor": "/distributor",
+    "health": "/health"
+  },
+  "endpoints": {
+    "auth": {
+      "login": "POST /auth/login",
+      "logout": "POST /auth/logout",
+      "verify": "GET /auth/verify",
+      "profile": "GET /auth/profile"
+    },
+    "catalog": {
+      "listReleases": "GET /catalog/releases",
+      "getRelease": "GET /catalog/releases/{id}",
+      "listTracks": "GET /catalog/tracks",
+      "getTrack": "GET /catalog/tracks/{id}"
+    },
+    "brain": {
+      "scoreTrack": "POST /brain/catalog/score",
+      "getRecommendations": "POST /brain/catalog/recommendations",
+      "analyzeCatalog": "POST /brain/catalog/analyze",
+      "generateInsights": "POST /brain/catalog/insights"
+    },
+    "distributor": {
+      "getQuote": "POST /distributor/release/quote",
+      "getPayoutQuote": "POST /distributor/payout/quote",
+      "createRelease": "POST /distributor/release",
+      "getMigrationQuote": "POST /distributor/migration/quote"
+    },
+    "payments": {
+      "checkout": "POST /payments/checkout",
+      "getPlans": "GET /payments/plans",
+      "updateSubscription": "POST /payments/subscription"
+    }
+  },
+  "frontends": {
+    "google_ai_studio": {
+      "name": "Google AI Studio",
+      "role": "Main 4K Label Dashboard",
+      "audience": "Artists, Label Ops, Managers",
+      "features": [
+        "Release management",
+        "Catalog scoring",
+        "Payout tracking",
+        "Analytics & insights"
+      ],
+      "envVar": "VITE_API_BASE_URL",
+      "frameworkDetected": "React/Vite"
+    },
+    "bolt": {
+      "name": "Bolt",
+      "role": "Auto-App Builder for DMF Tools",
+      "audience": "Power users, Developers",
+      "features": [
+        "Rapid prototyping",
+        "Tool generation",
+        "API exploration",
+        "Custom dashboards"
+      ],
+      "envVar": "VITE_API_BASE_URL",
+      "frameworkDetected": "React/Vite"
+    },
+    "vs_code": {
+      "name": "VS Code",
+      "role": "Dev & Owner Cockpit",
+      "audience": "Developers, Owners, Technical",
+      "features": [
+        "REST client debugging",
+        "Extension-based control",
+        "Real-time monitoring",
+        "System orchestration"
+      ],
+      "extensionType": "VS Code Extension",
+      "envVar": "DMF_API_BASE_URL"
+    },
+    "gemini": {
+      "name": "Gemini",
+      "role": "Google-side AI Operator",
+      "audience": "AI-assisted operations",
+      "features": [
+        "Natural language catalog queries",
+        "Recommendation engine integration",
+        "Analytics interpretation",
+        "Strategy recommendations"
+      ],
+      "aiProvider": "Google Gemini",
+      "integrationMethod": "Function calling / REST"
+    },
+    "openai": {
+      "name": "OpenAI (ChatGPT / Assistants)",
+      "role": "StreamGod / Ryia Boss AI Operator",
+      "audience": "Strategic decisions, automation",
+      "features": [
+        "Intelligent release planning",
+        "Campaign generation",
+        "Metadata optimization",
+        "Autonomous decision support"
+      ],
+      "aiProvider": "OpenAI GPT-4 / Assistants",
+      "integrationMethod": "Tools / Function calling"
+    }
+  },
+  "authMechanism": {
+    "type": "Bearer Token (Firebase)",
+    "headerFormat": "Authorization: Bearer <firebase_id_token>",
+    "refreshMechanism": "Firebase token refresh",
+    "fallback": "API key for service-to-service"
+  },
+  "deploymentTargets": {
+    "local": {
+      "gateway": "http://localhost:5000",
+      "services": [
+        "http://localhost:5100 (.NET Brain)",
+        "https://lovable-dev.com (Lovable)",
+        "http://localhost:9999 (Firebase Emulator, optional)",
+        "http://localhost:5200 (Payments mock)"
+      ]
+    },
+    "staging": {
+      "gateway": "https://dmf-api-staging.onrender.com",
+      "services": [
+        "https://dmf-api-staging.onrender.com (.NET Brain)",
+        "https://lovable-staging.com (Lovable)",
+        "https://firebase-staging.com (Firebase)",
+        "https://payments-staging.com (Payments)"
+      ]
+    },
+    "production": {
+      "gateway": "https://api.dmf-music-platform.com",
+      "services": [
+        "https://api.dmf-music-platform.com (.NET Brain)",
+        "https://core.dmf-music-platform.com (Lovable)",
+        "https://auth.dmf-music-platform.com (Firebase)",
+        "https://payments.dmf-music-platform.com (Payments)"
+      ]
+    }
+  }
+}

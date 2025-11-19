@@ -15,11 +15,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <RazorComponent Include="Components\**\*.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Config\dmf_pricing_config.json" CopyToOutputDirectory="Always" />
+    <Content Include="Config\dmf_company_profile.json" CopyToOutputDirectory="Always" />
     <Content Include="Config\ryia_config.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 

@@ -1,0 +1,231 @@
+{
+  "companyProfile": {
+    "legal": {
+      "entityName": "DMF Records Fly Hoolie ENT Co.",
+      "entityNumber": "3894950",
+      "entityType": "Domestic Corporation for Profit",
+      "state": "Ohio",
+      "status": "Active",
+      "filingDate": "2016-04-22",
+      "certifiedDate": "2023-10-16",
+      "county": "Franklin County",
+      "city": "Columbus",
+      "statutoryAgent": "DeAngelo A. Jackson",
+      "registeredAddresses": [
+        {
+          "label": "Initial",
+          "street": "684 Cherry Hill Ct W Apt 6",
+          "city": "Columbus",
+          "state": "OH",
+          "postalCode": "43228",
+          "country": "USA"
+        },
+        {
+          "label": "Current",
+          "street": "556 W Town St",
+          "city": "Columbus",
+          "state": "OH",
+          "postalCode": "43215",
+          "country": "USA"
+        }
+      ],
+      "sharesAuthorized": "1 Preferred Share, No Par Value",
+      "capital": 0,
+      "secretariesOfState": [
+        "Jon Husted",
+        "Frank LaRose"
+      ],
+      "validationNumber": "202328905696"
+    },
+    "branding": {
+      "officialName": "DMF Records Fly Hoolie ENT Co.",
+      "shortName": "DMF Records",
+      "tagline": "An Integrated Music and Technology Venture",
+      "brandColors": ["#0052CC", "#D4AF37", "#FFFFFF", "#000000"],
+      "certificateImagePath": "/assets/dmf-business-certificate.png"
+    }
+  },
+  "serviceDivisions": [
+    {
+      "id": "label_services",
+      "name": "DMF Records & Fly Hoolie ENT",
+      "category": "Label & Catalog",
+      "description": "Core label operation for DMF artists and imprints, powered by StreamGod analytics.",
+      "services": [
+        {
+          "code": "LS_SIGNING_SUPPORT",
+          "name": "Artist Signing & Deal Structuring",
+          "summary": "Custom deal structures with master ownership focus and transparent splits."
+        },
+        {
+          "code": "LS_RELEASE_MANAGEMENT",
+          "name": "Release Management",
+          "summary": "Full rollout planning from audio delivery to marketing calendar and reporting."
+        },
+        {
+          "code": "LS_CATALOG_GROWTH",
+          "name": "Catalog Growth Strategy",
+          "summary": "Long-term planning for releases, bundles, deluxe drops, and catalog optimization."
+        }
+      ]
+    },
+    {
+      "id": "global_distribution",
+      "name": "DMF Worldwide Distributor",
+      "category": "Distribution & Royalties",
+      "description": "Global digital distribution for DMF and external clients, keeping artists' rights intact.",
+      "services": [
+        {
+          "code": "DIST_CORE",
+          "name": "Global DSP Delivery",
+          "summary": "Ingestion to all major DSPs (Spotify, Apple Music, YouTube, TikTok, Tidal, Deezer, Amazon, and more)."
+        },
+        {
+          "code": "DIST_ROYALTY_ACCOUNTING",
+          "name": "Royalty Collection & Accounting",
+          "summary": "Royalty ingestion, matching, split calculations, and statements for artists and partners."
+        },
+        {
+          "code": "DIST_CONTENT_PROTECTION",
+          "name": "Content ID & Rights Protection",
+          "summary": "YouTube Content ID, fingerprinting, and duplicate-claim takedowns to protect revenue."
+        },
+        {
+          "code": "DIST_DMF_TIERS",
+          "name": "Distribution Tiers",
+          "summary": "Tiered service levels for indie artists, serious teams, and label/enterprise clients."
+        }
+      ]
+    },
+    {
+      "id": "streamgod_ai",
+      "name": "StreamGod AI & Data",
+      "category": "Analytics & Automation",
+      "description": "The intelligence layer that scores catalogs, finds opportunity, and automates moves.",
+      "services": [
+        {
+          "code": "SG_READINESS_ENGINE",
+          "name": "Track Readiness Scoring",
+          "summary": "Scores every track on metadata, mix, artwork, and rollout readiness before distribution."
+        },
+        {
+          "code": "SG_RECOMMENDATIONS",
+          "name": "Release & Campaign Recommendations",
+          "summary": "AI-powered suggestions on what to drop next, which tracks to push, and where to focus spend."
+        },
+        {
+          "code": "SG_DASHBOARDS",
+          "name": "Real-Time Performance Dashboards",
+          "summary": "Central dashboards for streams, revenue, campaign ROI, and catalog health."
+        },
+        {
+          "code": "SG_BOT_NETWORK",
+          "name": "10,000-Bot AI Playground",
+          "summary": "Specialized bots for A&R scouting, marketing, legal prep, analytics, and internal automations."
+        }
+      ]
+    },
+    {
+      "id": "gavel_syndicate",
+      "name": "The Gavel Syndicate",
+      "category": "Legal & IP",
+      "description": "DMF's integrated legal arm for IP enforcement, contracts, and regulatory work.",
+      "services": [
+        {
+          "code": "GS_CONTRACTS",
+          "name": "Contract Drafting & Review",
+          "summary": "Artist, producer, label, and partnership contracts with rights-first structures."
+        },
+        {
+          "code": "GS_IP_ENFORCEMENT",
+          "name": "IP Monitoring & Enforcement",
+          "summary": "Monitoring DSPs, socials, and platforms; filing takedowns and claims for infringements."
+        },
+        {
+          "code": "GS_CLEARANCES",
+          "name": "Sample & Sync Clearance",
+          "summary": "Clearance support for samples, beats, and sync placements."
+        },
+        {
+          "code": "GS_POLICY_COMPLIANCE",
+          "name": "Policy & Compliance",
+          "summary": "Guidance on platform policies, privacy, and copyright regulations."
+        }
+      ]
+    },
+    {
+      "id": "marketing_growth",
+      "name": "DMF Marketing & Growth",
+      "category": "Marketing & Campaigns",
+      "description": "Paid media, organic plays, and campaign systems centered around real, verifiable growth.",
+      "services": [
+        {
+          "code": "MG_CAMPAIGN_BUILD",
+          "name": "Full Campaign Buildouts",
+          "summary": "End-to-end marketing campaigns across YouTube, Meta, TikTok, and more."
+        },
+        {
+          "code": "MG_PLAYLIST_STRATEGY",
+          "name": "Playlist & Editorial Strategy",
+          "summary": "Strategy and support for editorial pitches, third-party playlists, and algorithm triggers."
+        },
+        {
+          "code": "MG_CREATIVE_SERVICES",
+          "name": "Creative Assets",
+          "summary": "Cover art, thumbnails, trailers, and short-form content aligned with DMF visual standards."
+        },
+        {
+          "code": "MG_ANTI_BOT",
+          "name": "Authentic Growth & Anti-Bot Audits",
+          "summary": "Audits and ongoing monitoring to keep artist traffic clean and industry-safe."
+        }
+      ]
+    },
+    {
+      "id": "artist_services",
+      "name": "Artist & Business Services",
+      "category": "Artist Support",
+      "description": "Support systems around the music: brand, business, and long-term structure.",
+      "services": [
+        {
+          "code": "AS_BRAND_DEV",
+          "name": "Brand & Image Development",
+          "summary": "Positioning, story, and identity systems for artists and imprints."
+        },
+        {
+          "code": "AS_BUSINESS_SETUP",
+          "name": "Business & Entity Setup",
+          "summary": "Helping artists formalize LLCs, publishing, PRO registrations, and royalty structures."
+        },
+        {
+          "code": "AS_EDUCATION",
+          "name": "Education & Playbooks",
+          "summary": "Guides, workshops, and internal playbooks powered by StreamGod insights."
+        }
+      ]
+    },
+    {
+      "id": "enterprise_white_label",
+      "name": "Enterprise & White-Label Platforms",
+      "category": "Tech & Platforms",
+      "description": "DMF-built custom platforms and apps for labels, brands, and organizations.",
+      "services": [
+        {
+          "code": "ENT_CUSTOM_APPS",
+          "name": "Custom Streaming & App Builds",
+          "summary": "White-label apps, portals, or streaming hubs for labels, brands, and festivals."
+        },
+        {
+          "code": "ENT_INFRASTRUCTURE",
+          "name": "Enterprise Infrastructure",
+          "summary": "Scalable backend, hosting, and data solutions for large catalogs and teams."
+        },
+        {
+          "code": "ENT_INTEGRATIONS",
+          "name": "Integrations & Automation",
+          "summary": "Custom integrations to CRMs, accounting tools, cloud storage, and more."
+        }
+      ]
+    }
+  ]
+}

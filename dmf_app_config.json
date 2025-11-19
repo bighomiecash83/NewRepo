@@ -1,0 +1,294 @@
+{
+  "app": {
+    "name": "DMF-MUSIC-PLATFORM",
+    "version": "1.0.0",
+    "environment": "development",
+    "description": "DMF Records - Integrated Music & Technology Venture",
+    "tagline": "One Brain, Multiple Faces"
+  },
+  "frontends": {
+    "googleAiStudio": {
+      "name": "DMF Control Center",
+      "type": "Google AI Studio",
+      "description": "4K label dashboard, catalog intelligence, StreamGod control",
+      "baseUrl": "https://aistudio.google.com",
+      "enabled": true
+    },
+    "lovable": {
+      "name": "DMF Admin Portal",
+      "type": "Lovable",
+      "description": "Primary backend & admin UI, artist management, release wizard",
+      "buildWithUrl": "https://lovable.dev/@dmfmusicplatform",
+      "appSlugEnv": "LOVABLE_APP_SLUG",
+      "enabled": true
+    }
+  },
+  "backend": {
+    "primary": "lovable",
+    "lovable": {
+      "apiBaseUrl": "https://api.lovable.dev",
+      "apiBaseUrlEnv": "LOVABLE_API_BASE_URL",
+      "appSlug": "dmf-music-platform",
+      "appSlugEnv": "LOVABLE_APP_SLUG",
+      "endpoints": {
+        "catalog": "/api/catalog",
+        "releases": "/api/releases",
+        "artists": "/api/artists",
+        "services": "/api/services",
+        "orders": "/api/orders",
+        "payouts": "/api/payouts"
+      }
+    },
+    "dotnet": {
+      "projectName": "dmf-music-platform.Web",
+      "baseUrl": "https://localhost:5183",
+      "baseUrlEnv": "DOTNET_BASE_URL",
+      "endpoints": {
+        "health": "/api/company/health",
+        "profile": "/api/company/profile",
+        "services": "/api/company/services",
+        "catalogHealth": "/api/catalog/health",
+        "recommendations": "/api/catalog/recommendations",
+        "distributor": "/api/distributor"
+      }
+    }
+  },
+  "database": {
+    "type": "MongoDB Atlas",
+    "uri": "mongodb+srv://bighomiecash8346:PASSWORD_HERE@dmf-music-platform.pfqrhc.mongodb.net/dmf_music_platform?retryWrites=true&w=majority",
+    "uriEnv": "MONGODB_URI",
+    "host": "dmf-music-platform.pfqrhc.mongodb.net",
+    "username": "bighomiecash8346",
+    "passwordEnv": "MONGODB_PASSWORD",
+    "dbName": "dmf_music_platform",
+    "collections": {
+      "artists": {
+        "indexes": ["dmfArtistId", "email", "createdAt"],
+        "description": "Artist profiles and metadata"
+      },
+      "releases": {
+        "indexes": ["dmfReleaseId", "primaryArtistId", "status", "releaseDate", "readinessScore"],
+        "description": "Music releases with metadata and DSP status"
+      },
+      "services": {
+        "indexes": ["releaseId", "serviceType", "status"],
+        "description": "Service transactions (distribution, legal, marketing)"
+      },
+      "orders": {
+        "indexes": ["artistId", "status", "createdAt"],
+        "description": "Artist orders for services"
+      },
+      "royalties": {
+        "indexes": ["artistId", "period", "status"],
+        "description": "Royalty calculations and payouts"
+      },
+      "bots": {
+        "indexes": ["botId", "owner", "status"],
+        "description": "StreamGod & Ryia bots configuration"
+      },
+      "users": {
+        "indexes": ["uid", "email", "role"],
+        "description": "User accounts and authentication"
+      },
+      "sessions": {
+        "indexes": ["userId", "createdAt", "expiresAt"],
+        "description": "User sessions and auth tokens"
+      },
+      "company_profile": {
+        "indexes": ["type"],
+        "description": "DMF company credentials and service divisions"
+      },
+      "events": {
+        "indexes": ["timestamp", "eventType", "entityId"],
+        "description": "Audit logs and event tracking"
+      }
+    }
+  },
+  "auth": {
+    "provider": "Firebase",
+    "firebase": {
+      "apiKey": "FIREBASE_API_KEY_HERE",
+      "apiKeyEnv": "FIREBASE_API_KEY",
+      "authDomain": "dmf-music-platform.firebaseapp.com",
+      "projectId": "dmf-music-platform",
+      "storageBucket": "dmf-music-platform.appspot.com",
+      "messagingSenderId": "FIREBASE_MESSAGING_SENDER_ID_HERE",
+      "appId": "FIREBASE_APP_ID_HERE",
+      "measurementId": "FIREBASE_MEASUREMENT_ID_HERE",
+      "databaseURL": "https://dmf-music-platform.firebaseio.com",
+      "enabled": true
+    }
+  },
+  "ai": {
+    "google": {
+      "provider": "Google Gemini / AI Studio",
+      "apiKey": "AIzaSyB5ncZ0q3PIT1hIsby3-n0l97QLVfN74J8",
+      "apiKeyEnv": "GOOGLE_GENAI_API_KEY",
+      "models": {
+        "pro": "gemini-1.5-pro",
+        "flash": "gemini-1.5-flash"
+      },
+      "enabled": true,
+      "usedFor": ["catalog analysis", "metadata generation", "recommendations"]
+    },
+    "openai": {
+      "provider": "OpenAI GPT",
+      "apiKey": "",
+      "apiKeyEnv": "OPENAI_API_KEY",
+      "models": {
+        "gpt5": "gpt-5.1",
+        "gpt4": "gpt-4.1",
+        "gpt4Mini": "gpt-4-1-mini"
+      },
+      "enabled": false,
+      "usedFor": ["Ryia Boss agent", "advanced campaigns"]
+    },
+    "streamGod": {
+      "name": "StreamGod Brain",
+      "description": "Core DMF intelligence layer for catalog scoring and automation",
+      "type": "Custom AI Engine",
+      "basedOn": ["Gemini", "OpenAI", "Custom ML"],
+      "features": {
+        "catalogScoring": true,
+        "releaseReadiness": true,
+        "recommendations": true,
+        "botNetwork": true,
+        "playground": true,
+        "selfLearning": true
+      },
+      "bots": {
+        "count": 10000,
+        "types": ["analyzer", "distributor", "promoter", "manager", "legal"]
+      },
+      "endpoints": {
+        "score": "/api/streamgod/score",
+        "recommend": "/api/streamgod/recommend",
+        "botStatus": "/api/streamgod/bots/status"
+      }
+    },
+    "ryiaBoss": {
+      "name": "Ryia Boss",
+      "description": "Full-stack builder agent for campaigns, contracts, legal prep",
+      "type": "Agent",
+      "capabilities": [
+        "campaign building",
+        "contract drafting",
+        "legal assistance",
+        "metadata optimization",
+        "playlist strategy"
+      ],
+      "basedOn": "OpenAI GPT-4+"
+    }
+  },
+  "services": {
+    "distribution": {
+      "name": "DMF Worldwide Distributor",
+      "type": "Digital Distribution",
+      "dspList": [
+        "Spotify",
+        "Apple Music",
+        "YouTube Music",
+        "TikTok",
+        "Instagram",
+        "Facebook",
+        "Deezer",
+        "Tidal",
+        "Amazon Music",
+        "Pandora"
+      ],
+      "webhooks": {
+        "baseUrl": "WEBHOOK_BASE_URL_HERE",
+        "baseUrlEnv": "DISTRIBUTION_WEBHOOK_BASE_URL",
+        "events": ["release_delivered", "royalty_update", "content_id_claim"]
+      },
+      "enabled": true
+    },
+    "payments": {
+      "provider": "Stripe",
+      "publishableKey": "STRIPE_PUBLISHABLE_KEY_HERE",
+      "publishableKeyEnv": "STRIPE_PUBLISHABLE_KEY",
+      "secretKeyEnv": "STRIPE_SECRET_KEY",
+      "webhookSecretEnv": "STRIPE_WEBHOOK_SECRET",
+      "enabled": true,
+      "features": ["payouts", "artist payments", "service billing"]
+    },
+    "logging": {
+      "type": "MongoDB Collection",
+      "collection": "events",
+      "level": "info",
+      "categories": ["audit", "error", "access", "transaction"]
+    }
+  },
+  "security": {
+    "zeroTrust": true,
+    "encryption": {
+      "database": true,
+      "transport": "TLS 1.3"
+    },
+    "rbac": {
+      "enabled": true,
+      "roles": ["owner", "admin", "artist", "distributor", "viewer"]
+    },
+    "owners": [
+      "BigHomieCash",
+      "Freezzo"
+    ],
+    "auditLog": {
+      "enabled": true,
+      "collection": "events",
+      "retention": "1 year"
+    }
+  },
+  "ui": {
+    "theme": {
+      "name": "DMF Dark Pro",
+      "colors": {
+        "primary": "#0052CC",
+        "accent": "#D4AF37",
+        "background": "#000000",
+        "surface": "#050509",
+        "text": "#FFFFFF",
+        "success": "#00C853",
+        "warning": "#FF9800",
+        "error": "#F44336"
+      }
+    },
+    "components": {
+      "credentialsCard": {
+        "enabled": true,
+        "path": "/api/company/profile"
+      },
+      "servicesGrid": {
+        "enabled": true,
+        "path": "/api/company/services"
+      }
+    }
+  },
+  "deployment": {
+    "environments": {
+      "development": {
+        "baseUrl": "http://localhost:5183",
+        "mongoUri": "mongodb://localhost:27017/dmf_music_platform_dev"
+      },
+      "staging": {
+        "baseUrl": "https://staging.dmf.local",
+        "mongoUri": "MONGODB_URI"
+      },
+      "production": {
+        "baseUrl": "https://dmf.music",
+        "mongoUri": "MONGODB_URI"
+      }
+    }
+  },
+  "integrations": {
+    "youtube": {
+      "contentIdEnabled": true,
+      "apiKeyEnv": "YOUTUBE_API_KEY"
+    },
+    "spotify": {
+      "apiEnabled": true,
+      "clientIdEnv": "SPOTIFY_CLIENT_ID",
+      "clientSecretEnv": "SPOTIFY_CLIENT_SECRET"
+    }
+  }
+}
