@@ -30,6 +30,10 @@ import ArtistEarningsDashboard from "./pages/ArtistEarningsDashboard";
 import StatementDetail from "./pages/StatementDetail";
 import AdminRoyaltyBoard from "./pages/AdminRoyaltyBoard";
 
+// StreamGod Dashboard Pages (v2.0 - Real-time Analytics)
+import OwnerDashboard from "./pages/OwnerDashboard";
+import ArtistDashboard from "./pages/ArtistDashboard";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -62,6 +66,16 @@ export default function App() {
         
         {/* Admin Royalty Board */}
         <Route path="/admin/royalties" element={<AdminRoyaltyBoard />} />
+
+        {/* ================================================================ */}
+        {/* STREAMGOD DASHBOARDS v2.0 (Real-time Analytics)                */}
+        {/* ================================================================ */}
+        
+        {/* Owner Command Center */}
+        <Route path="/dashboard/owner" element={<OwnerDashboard />} />
+        
+        {/* Artist Performance Dashboard */}
+        <Route path="/dashboard/artist/:artistId" element={<ArtistDashboard />} />
 
         {/* ================================================================ */}
         {/* CUSTOMER PORTAL (Public-Facing for Artists/Clients)             */}
