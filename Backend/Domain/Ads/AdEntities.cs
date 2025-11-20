@@ -428,4 +428,52 @@ namespace DmfMusicPlatform.StreamGod.Ads
 
         public string? ResolutionNote { get; set; }
     }
+
+    // ---------- AD CAMPAIGN CHANGE LOG ----------
+
+    [BsonIgnoreExtraElements]
+    public class AdCampaignChangeLog
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.String)]
+        public string Id { get; set; } = string.Empty; // e.g. "chg_camp_freezzo_2025-11-20T12:00:00Z"
+
+        public string CampaignId { get; set; } = string.Empty;
+
+        public string ArtistId { get; set; } = string.Empty;
+
+        public string? LabelId { get; set; }
+
+        public AdPlatform Platform { get; set; } = AdPlatform.Unknown;
+
+        public decimal OldDailyBudgetUsd { get; set; }
+
+        public decimal NewDailyBudgetUsd { get; set; }
+
+        public AdCampaignStatus OldStatus { get; set; }
+
+        public AdCampaignStatus NewStatus { get; set; }
+
+        /// <summary>
+        /// "Bot", "Manual", "System"
+        /// </summary>
+        public string ChangeSource { get; set; } = "Bot";
+
+        /// <summary>
+        /// Optional – can be filled later if you wire run → bot mapping.
+        /// </summary>
+        public string? BotId { get; set; }
+
+        /// <summary>
+        /// Optional – id of the AdBotRun that produced this change.
+        /// </summary>
+        public string? BotRunId { get; set; }
+
+        /// <summary>
+        /// Reasons / rule explanations from actions.
+        /// </summary>
+        public List<string> Reasons { get; set; } = new();
+
+        public DateTime ChangedAt { get; set; } = DateTime.UtcNow;
+    }
 }

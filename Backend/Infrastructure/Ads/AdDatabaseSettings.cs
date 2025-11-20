@@ -18,6 +18,7 @@ namespace DmfMusicPlatform.StreamGod.Ads
         public string AdMetricsDailyCollectionName { get; set; } = "ad_metrics_daily";
         public string AdBotRunsCollectionName { get; set; } = "ad_bot_runs";
         public string AdPolicyFlagsCollectionName { get; set; } = "ad_policy_flags";
+        public string AdCampaignChangeLogsCollectionName { get; set; } = "ad_campaign_change_logs";
     }
 
     public interface IAdDataContext
@@ -29,6 +30,7 @@ namespace DmfMusicPlatform.StreamGod.Ads
         IMongoCollection<AdMetricDaily> AdMetricsDaily { get; }
         IMongoCollection<AdBotRun> AdBotRuns { get; }
         IMongoCollection<AdPolicyFlag> AdPolicyFlags { get; }
+        IMongoCollection<AdCampaignChangeLog> AdCampaignChangeLogs { get; }
 
         Task EnsureIndexesAsync(CancellationToken cancellationToken = default);
     }
@@ -52,6 +54,7 @@ namespace DmfMusicPlatform.StreamGod.Ads
             AdMetricsDaily = _database.GetCollection<AdMetricDaily>(settings.AdMetricsDailyCollectionName);
             AdBotRuns = _database.GetCollection<AdBotRun>(settings.AdBotRunsCollectionName);
             AdPolicyFlags = _database.GetCollection<AdPolicyFlag>(settings.AdPolicyFlagsCollectionName);
+            AdCampaignChangeLogs = _database.GetCollection<AdCampaignChangeLog>(settings.AdCampaignChangeLogsCollectionName);
         }
 
         public IMongoCollection<AdBot> AdBots { get; }
@@ -61,6 +64,7 @@ namespace DmfMusicPlatform.StreamGod.Ads
         public IMongoCollection<AdMetricDaily> AdMetricsDaily { get; }
         public IMongoCollection<AdBotRun> AdBotRuns { get; }
         public IMongoCollection<AdPolicyFlag> AdPolicyFlags { get; }
+        public IMongoCollection<AdCampaignChangeLog> AdCampaignChangeLogs { get; }
 
         public async Task EnsureIndexesAsync(CancellationToken cancellationToken = default)
         {
@@ -135,6 +139,22 @@ namespace DmfMusicPlatform.StreamGod.Ads
                     Builders<AdPolicyFlag>.IndexKeys.Ascending(f => f.CreativeId).Descending(f => f.DetectedAt)),
                 new CreateIndexModel<AdPolicyFlag>(
                     Builders<AdPolicyFlag>.IndexKeys.Ascending(f => f.ArtistId).Descending(f => f.DetectedAt).Ascending(f => f.Severity))
+            }, cancellationToken: cancellationToken);
+
+            // ad_campaign_change_logs
+            await AdCampaignChangeLogs.Indexes.CreateManyAsync(new[]
+            {
+                new CreateIndexModel<AdCampaignChangeLog>(
+                    Builders<AdCampaignChangeLog>.IndexKeys
+                        .Ascending(l => l.CampaignId)
+                        .Descending(l => l.ChangedAt)),
+                new CreateIndexModel<AdCampaignChangeLog>(
+                    Builders<AdCampaignChangeLog>.IndexKeys
+                        .Ascending(l => l.ArtistId)
+                        .Descending(l => l.ChangedAt)),
+                new CreateIndexModel<AdCampaignChangeLog>(
+                    Builders<AdCampaignChangeLog>.IndexKeys
+                        .Descending(l => l.ChangedAt))
             }, cancellationToken: cancellationToken);
         }
     }

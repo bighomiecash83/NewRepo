@@ -111,6 +111,7 @@ namespace DmfMusicPlatform.StreamGod.Services
                         continue;
 
                     var updated = false;
+                    var previousStatus = campaign.Status;
 
                     // Determine working daily budget
                     var currentBudget = campaign.CurrentDailyBudgetUsd > 0
@@ -169,11 +170,21 @@ namespace DmfMusicPlatform.StreamGod.Services
 
                         result.CampaignsUpdated++;
 
+                        // Build change log entry (even on dry-run we can preview via logs, but only insert when not dryRun)
+                        var reasons = group
+                            .Where(a =>
+                                a.Type == AdBotActionType.RecommendScale ||
+                                a.Type == AdBotActionType.RecommendBudgetCut ||
+                                a.Type == AdBotActionType.RecommendPause)
+                            .Select(a => a.Reason)
+                            .Distinct()
+                            .ToList();
+
                         if (dryRun)
                         {
                             _logger.LogInformation(
-                                "AdActionExecutor (dry-run): campaign {CampaignId} from {Original} -> {New}, status={Status}",
-                                campaign.Id, originalBudget, currentBudget, campaign.Status);
+                                "AdActionExecutor (dry-run): campaign {CampaignId} from {Original} -> {New}, status={OldStatus}->{NewStatus}. Reasons: {Reasons}",
+                                campaign.Id, originalBudget, currentBudget, previousStatus, campaign.Status, string.Join(" | ", reasons));
                         }
                         else
                         {
@@ -188,8 +199,31 @@ namespace DmfMusicPlatform.StreamGod.Services
                                 cancellationToken: cancellationToken);
 
                             _logger.LogInformation(
-                                "AdActionExecutor: campaign {CampaignId} updated. Budget {Original} -> {New}, status={Status}",
-                                campaign.Id, originalBudget, currentBudget, campaign.Status);
+                                "AdActionExecutor: campaign {CampaignId} updated. Budget {Original} -> {New}, status={OldStatus}->{NewStatus}",
+                                campaign.Id, originalBudget, currentBudget, previousStatus, campaign.Status);
+
+                            // Insert change log document
+                            var changeLog = new AdCampaignChangeLog
+                            {
+                                Id = $"chg_{campaign.Id}_{DateTime.UtcNow:O}",
+                                CampaignId = campaign.Id,
+                                ArtistId = campaign.ArtistId,
+                                LabelId = campaign.LabelId,
+                                Platform = campaign.Platform,
+                                OldDailyBudgetUsd = originalBudget,
+                                NewDailyBudgetUsd = currentBudget,
+                                OldStatus = previousStatus,
+                                NewStatus = campaign.Status,
+                                ChangeSource = "Bot",
+                                BotId = null,
+                                BotRunId = null,
+                                Reasons = reasons,
+                                ChangedAt = DateTime.UtcNow
+                            };
+
+                            await _ctx.AdCampaignChangeLogs.InsertOneAsync(
+                                changeLog,
+                                cancellationToken: cancellationToken);
                         }
                     }
                 }

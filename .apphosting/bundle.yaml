@@ -1,0 +1,76 @@
+version: 1.0
+name: dmf-music-platform
+displayName: "DMF Music Platform v1"
+
+services:
+  - name: api
+    displayName: "Backend API"
+    type: "dotnet"
+    language: "csharp"
+    runtimeVersion: "9.0"
+    projectPath: "dmf-music-platform.Web.Api.csproj"
+    buildOutputPath: "bin/Release"
+    startupCommand: "dotnet dmf-music-platform.api.dll"
+    port: 5001
+    protocol: "https"
+    
+    environment:
+      - name: "ASPNETCORE_ENVIRONMENT"
+        value: "Production"
+      - name: "ASPNETCORE_URLS"
+        value: "https://localhost:5001"
+    
+    secrets:
+      - name: "MongoDB__ConnectionString"
+        description: "MongoDB Atlas connection string"
+        
+    healthCheck:
+      path: "/health"
+      interval: 30
+      timeout: 10
+
+  - name: frontend
+    displayName: "React Frontend"
+    type: "nodejs"
+    language: "javascript"
+    runtimeVersion: "20"
+    projectPath: "dmf-music-platform.Web"
+    buildCommand: "npm install && npm run build"
+    buildOutputPath: "dist"
+    startupCommand: "npm run preview"
+    port: 3000
+    protocol: "http"
+    
+    environment:
+      - name: "VITE_API_BASE_URL"
+        value: "https://dmf-music-platform-api.azurewebsites.net/api"
+
+    healthCheck:
+      path: "/"
+      interval: 30
+      timeout: 10
+
+ingress:
+  - service: "api"
+    route: "/api"
+    allowPublic: true
+    
+  - service: "frontend"
+    route: "/"
+    allowPublic: true
+
+networking:
+  cors:
+    allowedOrigins:
+      - "https://dmf-music-platform.azurewebsites.net"
+      - "http://localhost:3000"
+      - "http://localhost:5173"
+    allowedMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    allowedHeaders: ["Content-Type", "Authorization"]
+    allowCredentials: true
+
+monitoring:
+  enabled: true
+  applicationInsights:
+    enabled: true
+    samplingPercentage: 100

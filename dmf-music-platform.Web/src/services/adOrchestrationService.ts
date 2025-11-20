@@ -71,6 +71,23 @@ export interface AdActionExecutionResult {
   windowEndUtc: string;
 }
 
+export interface AdCampaignChangeLog {
+  id: string;
+  campaignId: string;
+  artistId: string;
+  labelId: string;
+  platform: string | number;
+  oldDailyBudgetUsd?: number | null;
+  newDailyBudgetUsd?: number | null;
+  oldStatus?: string | null;
+  newStatus?: string | null;
+  changeSource: "Bot" | "Manual" | "System";
+  botId?: string | null;
+  botRunId?: string | null;
+  reasons: string[];
+  changedAt: string;
+}
+
 /**
  * Get high-level ad system status.
  * Shows active bots, campaigns, creatives, and last run time.
@@ -133,3 +150,26 @@ export async function applyAdActions(params?: {
   );
   return res.data;
 }
+
+/**
+ * Get campaign change log (audit trail).
+ * Shows all budget moves, pauses, and who/what made the change.
+ * @param params Optional filters: campaignId, artistId, limit (default 50, max 200)
+ */
+export async function getCampaignChangeLogs(params?: {
+  campaignId?: string;
+  artistId?: string;
+  limit?: number;
+}): Promise<AdCampaignChangeLog[]> {
+  const search = new URLSearchParams();
+  if (params?.campaignId) search.append("campaignId", params.campaignId);
+  if (params?.artistId) search.append("artistId", params.artistId);
+  if (params?.limit) search.append("limit", String(params.limit));
+
+  const query = search.toString();
+  const res = await api.get<AdCampaignChangeLog[]>(
+    `/ad-campaign-changes${query ? `?${query}` : ""}`
+  );
+  return res.data;
+}
+

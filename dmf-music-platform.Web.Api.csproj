@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>DmfMusicPlatform</RootNamespace>
+    <AssemblyName>dmf-music-platform.api</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <LangVersion>latest</LangVersion>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.24.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <!-- Domain Models -->
+    <Compile Include="Backend\Domain\Ads\AdEntities.cs" />
+    <!-- Infrastructure -->
+    <Compile Include="Backend\Infrastructure\Ads\AdDatabaseSettings.cs" />
+    <!-- Services -->
+    <Compile Include="Backend\Services\Ads\AdActionExecutor.cs" />
+    <!-- Controllers -->
+    <Compile Include="dmf-music-platform\dmf-music-platform\Controllers\AdOrchestrationController.cs" />
+    <Compile Include="dmf-music-platform\dmf-music-platform\Controllers\AdActionExecutionController.cs" />
+    <Compile Include="dmf-music-platform\dmf-music-platform\Controllers\AdCampaignChangesController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json" CopyToOutputDirectory="Always" />
+    <None Include="appsettings.Development.json" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+</Project>
