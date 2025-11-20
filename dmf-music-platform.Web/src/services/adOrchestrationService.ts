@@ -1,18 +1,33 @@
 // src/services/adOrchestrationService.ts
 import axios from "axios";
+import { API_CONFIG } from "../config";
+import { FirebaseAuthService } from "./firebaseAuthService";
 
 const api = axios.create({
-  baseURL: "https://localhost:5001/api",
+  baseURL: API_CONFIG.baseURL,
+  timeout: API_CONFIG.timeout,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Add JWT token interceptor if using authentication
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("authToken");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+// Add Firebase JWT token interceptor for authenticated requests
+api.interceptors.request.use(async (config: any) => {
+  try {
+    // Try Firebase auth first (production)
+    const firebaseToken = await FirebaseAuthService.getIdToken().catch(() => null);
+    if (firebaseToken) {
+      config.headers.Authorization = `Bearer ${firebaseToken}`;
+    } else {
+      // Fallback to localStorage token (development/demo)
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+  } catch (error) {
+    // Token fetch failed, continue without auth
+    console.debug("Auth token unavailable, continuing without authentication");
   }
   return config;
 });
