@@ -31,6 +31,35 @@ export interface AdOrchestrationResult {
   botIds: string[];
 }
 
+export type AdBotActionType =
+  | "RecommendScale"
+  | "RecommendPause"
+  | "RecommendDuplicateToNewAudience"
+  | "RecommendNewCreative"
+  | "RecommendBudgetCut";
+
+export interface AdBotAction {
+  type: AdBotActionType;
+  campaignId?: string | null;
+  creativeId?: string | null;
+  reason: string;
+  suggestedBudgetIncreasePercent?: number | null;
+  suggestedBudgetCutPercent?: number | null;
+}
+
+export interface AdBotRun {
+  id: string;
+  botId: string;
+  playbookId?: string | null;
+  artistIds: string[];
+  platform: string | number;
+  startedAt: string;
+  finishedAt: string;
+  actions: AdBotAction[];
+  status: string;
+  errors: string[];
+}
+
 /**
  * Get high-level ad system status.
  * Shows active bots, campaigns, creatives, and last run time.
@@ -55,10 +84,20 @@ export async function runDueBots(
 }
 
 /**
- * Get detailed bot run history (for future Dashboard view).
- * @param limit Number of recent runs to fetch (default 20)
+ * Get recent bot runs and their actions.
+ * @param params Optional filters: artistId, limit
  */
-export async function getBotRunHistory(limit: number = 20) {
-  const res = await api.get(`/ad-orchestration/runs?limit=${limit}`);
+export async function getRecentBotRuns(params?: {
+  artistId?: string;
+  limit?: number;
+}): Promise<AdBotRun[]> {
+  const search = new URLSearchParams();
+  if (params?.artistId) search.append("artistId", params.artistId);
+  if (params?.limit) search.append("limit", String(params.limit));
+
+  const query = search.toString();
+  const res = await api.get<AdBotRun[]>(
+    `/ad-orchestration/runs${query ? `?${query}` : ""}`
+  );
   return res.data;
 }
