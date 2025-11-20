@@ -9,17 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Load environment-specific config
 var env = builder.Environment;
-if (!env.IsProduction())
-{
-    builder.Configuration.AddJsonFile("appsettings.Development.json", optional: true);
-    builder.Configuration.AddJsonFile(".env.json", optional: true);
-}
+builder.Configuration.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddEnvironmentVariables();
 
 // ======== MongoDB Configuration ========
 var mongoSection = builder.Configuration.GetSection("MongoDB");
 var mongoConnectionString = mongoSection.GetValue<string>("ConnectionString") 
     ?? Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING")
     ?? throw new InvalidOperationException("MongoDB connection string not configured");
+
+// Expand environment variables in connection string (e.g., ${MONGODB_PROD_PASSWORD})
+mongoConnectionString = ExpandEnvironmentVariables(mongoConnectionString);
 
 var adDatabaseSettings = new AdDatabaseSettings
 {
@@ -82,4 +82,21 @@ using (var scope = app.Services.CreateScope())
 
 Console.WriteLine("🚀 DMF Music Platform Backend v1 starting on https://localhost:5001");
 await app.RunAsync("https://localhost:5001");
+
+// Helper: Expand environment variables in format ${VAR_NAME}
+static string ExpandEnvironmentVariables(string input)
+{
+    if (string.IsNullOrEmpty(input)) return input;
+    
+    var result = System.Text.RegularExpressions.Regex.Replace(
+        input,
+        @"\$\{([^}]+)\}",
+        match =>
+        {
+            var varName = match.Groups[1].Value;
+            return Environment.GetEnvironmentVariable(varName) ?? match.Value;
+        }
+    );
+    return result;
+}
 
