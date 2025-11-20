@@ -1,0 +1,137 @@
+{
+  "name": "ryia-boss-dmf-dev-assistant",
+  "displayName": "Ryia Boss � DMF Dev Assistant",
+  "description": "Personal DMF engineer Ryia Boss inside VS Code, wired to StreamGod Brain + Du'ryia Engine. Build, fix, and review code like you're talking to your AI dev partner.",
+  "version": "1.0.0",
+  "publisher": "dmf-records",
+  "icon": "media/ryia-icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Developer Tools",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ryia-boss.openConsole",
+        "title": "Ryia Boss: Open Dev Console",
+        "category": "DMF",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "ryia-boss.transformSelection",
+        "title": "Ryia Boss: Transform Selection",
+        "category": "DMF",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "ryia-boss.createFile",
+        "title": "Ryia Boss: Create New File",
+        "category": "DMF",
+        "icon": "$(file-add)"
+      },
+      {
+        "command": "ryia-boss.reviewFile",
+        "title": "Ryia Boss: Review This File",
+        "category": "DMF"
+      },
+      {
+        "command": "ryia-boss.fixFile",
+        "title": "Ryia Boss: Fix This File",
+        "category": "DMF"
+      },
+      {
+        "command": "ryia-boss.buildFeature",
+        "title": "Ryia Boss: Build Feature",
+        "category": "DMF"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "ryia-boss.openConsole",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r"
+      },
+      {
+        "command": "ryia-boss.transformSelection",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t"
+      },
+      {
+        "command": "ryia-boss.createFile",
+        "key": "ctrl+shift+n",
+        "mac": "cmd+shift+n"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "ryia-boss.transformSelection",
+          "group": "ryia-boss@1"
+        },
+        {
+          "command": "ryia-boss.reviewFile",
+          "group": "ryia-boss@2"
+        },
+        {
+          "command": "ryia-boss.fixFile",
+          "group": "ryia-boss@3"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "ryia-boss.createFile",
+          "group": "ryia-boss@1"
+        }
+      ]
+    },
+    "configuration": [
+      {
+        "title": "Ryia Boss Settings",
+        "properties": {
+          "ryiaBoss.apiBase": {
+            "type": "string",
+            "default": "http://localhost:5001/api/streamgod/ryia/dev",
+            "description": "Backend API endpoint for Ryia Boss dev console"
+          },
+          "ryiaBoss.transformApiBase": {
+            "type": "string",
+            "default": "http://localhost:5001/api/streamgod/ryia/transform",
+            "description": "Backend API endpoint for code transformation"
+          },
+          "ryiaBoss.createApiBase": {
+            "type": "string",
+            "default": "http://localhost:5001/api/streamgod/ryia/create",
+            "description": "Backend API endpoint for file creation"
+          },
+          "ryiaBoss.defaultMode": {
+            "type": "string",
+            "enum": ["deep", "fast", "review"],
+            "default": "deep",
+            "description": "Default Ryia Boss mode"
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bighomiecash83/NewRepo"
+  }
+}

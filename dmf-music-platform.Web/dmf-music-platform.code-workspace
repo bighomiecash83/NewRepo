@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../../OneDrive/Documents/New folder (3)"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"CodeGPT.apiKey": "Google AI Studio"
+	}
+}

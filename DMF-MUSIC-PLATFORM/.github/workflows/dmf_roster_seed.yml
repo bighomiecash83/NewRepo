@@ -1,0 +1,96 @@
+name: DMF Roster Seed Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'dmf_roster.json'
+      - 'seed_roster_advanced.js'
+      - 'dmf_bootstrap_advanced.sh'
+      - '.github/workflows/dmf_roster_seed.yml'
+  workflow_dispatch:
+    inputs:
+      node_env:
+        description: 'Environment (dev, stage, prod)'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - stage
+          - prod
+
+jobs:
+  seed-roster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      NODE_ENV: ${{ github.event.inputs.node_env || 'dev' }}
+      MONGO_URI_DEV: ${{ secrets.MONGO_URI_DEV }}
+      MONGO_URI_STAGE: ${{ secrets.MONGO_URI_STAGE }}
+      MONGO_URI_PROD: ${{ secrets.MONGO_URI_PROD }}
+
+    steps:
+      - name: ?? Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ?? Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: ?? Make Bootstrap Script Executable
+        run: chmod +x dmf_bootstrap_advanced.sh
+
+      - name: ?? Install Dependencies
+        run: npm install
+
+      - name: ? Verify Roster JSON
+        run: |
+          if [ ! -f "dmf_roster.json" ]; then
+            echo "? dmf_roster.json not found!"
+            exit 1
+          fi
+          echo "? dmf_roster.json found"
+          node -e "console.log(JSON.parse(require('fs').readFileSync('dmf_roster.json'))); console.log('? Valid JSON')"
+
+      - name: ?? Dry Run (Verify Connection)
+        run: |
+          echo "?? Running DRY_RUN to verify MongoDB connection..."
+          DRY_RUN=1 NODE_ENV=${{ env.NODE_ENV }} bash dmf_bootstrap_advanced.sh
+        continue-on-error: true
+
+      - name: ?? Execute Roster Seed
+        run: |
+          echo "?? Seeding DMF Roster to ${{ env.NODE_ENV }} environment..."
+          NODE_ENV=${{ env.NODE_ENV }} bash dmf_bootstrap_advanced.sh
+
+      - name: ? Post-Seed Validation
+        run: |
+          echo "? Roster seeding completed successfully!"
+          echo "?? Environment: ${{ env.NODE_ENV }}"
+          echo "?? Timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+
+      - name: ?? Notify on Slack (Optional)
+        if: success()
+        run: |
+          echo "? Roster seeded to ${{ env.NODE_ENV }}"
+          # Uncomment to add Slack webhook integration
+          # curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+          #   -H 'Content-Type: application/json' \
+          #   -d '{"text":"? DMF Roster seeded to ${{ env.NODE_ENV }} environment"}'
+
+      - name: ?? Notify on Failure (Optional)
+        if: failure()
+        run: |
+          echo "? Roster seeding failed for ${{ env.NODE_ENV }}"
+          # Uncomment to add Slack webhook integration
+          # curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+          #   -H 'Content-Type: application/json' \
+          #   -d '{"text":"? DMF Roster seed FAILED in ${{ env.NODE_ENV }} environment"}'

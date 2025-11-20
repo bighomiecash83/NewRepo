@@ -1,0 +1,191 @@
+using System.Text.Json;
+using DmfMusicPlatform.Domain;
+using dmf_music_platform.Shared.Services;
+using dmf_music_platform.Web.Services;
+using dmf_music_platform.Web.Domain.Config;
+using dmf_music_platform.Web.Domain.Services;
+using dmf_music_platform.Web.Domain.Distributor;
+using dmf_music_platform.Web.Domain.Distributor.Services;
+using MongoDB.Driver;
+
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Logging - ensure console output
+    builder.Logging.ClearProviders();
+    builder.Logging.AddConsole();
+
+    // Add services to the container.
+    builder.Services.AddControllers();
+    builder.Services.AddHttpClient();
+
+    // --- Load DMF company config from JSON -------------------------
+    Console.WriteLine("📋 Loading DMF company profile config...");
+    var dmfConfigPath = Path.Combine(
+        builder.Environment.ContentRootPath,
+        "Config",
+        "dmf_company_profile.json"
+    );
+
+    DmfCompanyConfig dmfConfig = new DmfCompanyConfig();
+    if (File.Exists(dmfConfigPath))
+    {
+        try
+        {
+            Console.WriteLine($"✅ Found DMF config at: {dmfConfigPath}");
+            var json = File.ReadAllText(dmfConfigPath);
+            dmfConfig = JsonSerializer.Deserialize<DmfCompanyConfig>(
+                json,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            ) ?? new DmfCompanyConfig();
+            Console.WriteLine($"✅ Loaded DMF company: {dmfConfig.CompanyProfile?.Branding?.ShortName ?? "Unknown"}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"⚠️  Failed to load DMF config: {ex.Message}");
+        }
+    }
+    else
+    {
+        Console.WriteLine($"⚠️  DMF config not found at: {dmfConfigPath}");
+    }
+
+    builder.Services.AddSingleton(dmfConfig);
+
+    // MongoDB setup
+    Console.WriteLine("🔌 Configuring MongoDB...");
+    var mongoDbSettings = builder.Configuration.GetSection("MongoDb");
+    var mongoConnectionString = mongoDbSettings.GetValue<string>("ConnectionString");
+    var mongoDatabaseName = mongoDbSettings.GetValue<string>("DatabaseName");
+
+    if (string.IsNullOrEmpty(mongoConnectionString))
+    {
+        Console.WriteLine("⚠️  MongoDB connection string not configured. Skipping MongoDB setup.");
+    }
+    else if (mongoConnectionString.Contains("REPLACE_WITH_PASSWORD"))
+    {
+        Console.WriteLine("⚠️  MongoDB connection string contains placeholder. Update appsettings.json.");
+    }
+    else
+    {
+        try
+        {
+            var mongoClient = new MongoClient(mongoConnectionString);
+            var mongoDatabase = mongoClient.GetDatabase(mongoDatabaseName);
+
+            builder.Services.AddSingleton<IMongoDatabase>(mongoDatabase);
+            builder.Services.AddScoped<IMongoDbService, MongoDbService>();
+            Console.WriteLine($"✅ MongoDB configured for database: {mongoDatabaseName}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"⚠️  MongoDB setup failed: {ex.Message}");
+        }
+    }
+
+    // Add device-specific services used by the dmf_music_platform.Shared project
+    builder.Services.AddSingleton<IFormFactor, FormFactor>();
+    builder.Services.AddScoped<IStreamGodBrain, StreamGodBrain>();
+
+    // Load pricing and Ryia configs from Config/ folder
+    Console.WriteLine("📋 Loading pricing and Ryia configs...");
+    var configDir = Path.Combine(builder.Environment.ContentRootPath, "Config");
+    Directory.CreateDirectory(configDir);
+
+    T LoadJson<T>(string fileName)
+    {
+        var path = Path.Combine(configDir, fileName);
+        if (!File.Exists(path))
+        {
+            throw new FileNotFoundException($"Required config not found: {path}");
+        }
+        var json = File.ReadAllText(path);
+        var obj = JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        if (obj == null) throw new InvalidOperationException($"Failed to deserialize {fileName}");
+        return obj;
+    }
+
+    try
+    {
+        var pricingConfig = LoadJson<DmfPricingConfig>("dmf_pricing_config.json");
+        var ryiaConfig = LoadJson<RyiaConfig>("ryia_config.json");
+
+        builder.Services.AddSingleton(pricingConfig);
+        builder.Services.AddSingleton(ryiaConfig);
+        builder.Services.AddScoped<DistributorPricingService>();
+        builder.Services.AddScoped<PayoutService>();
+        builder.Services.AddScoped<RyiaService>();
+        Console.WriteLine("✅ Pricing and Ryia configs loaded");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"⚠️  Config loading warning: {ex.Message}");
+    }
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Error", createScopeForErrors: true);
+        app.UseHsts();
+    }
+    else
+    {
+        app.UseDeveloperExceptionPage();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+
+    app.MapControllers();
+
+    // Health check endpoint
+    app.MapGet("/health", () => Results.Ok(new { status = "ok", timestamp = DateTime.UtcNow }));
+
+    Console.WriteLine("🚀 DMF-MUSIC-PLATFORM backend starting...");
+    Console.WriteLine($"   Environment: {app.Environment.EnvironmentName}");
+    Console.WriteLine("   Endpoints:");
+    Console.WriteLine("   ✓ GET /health");
+    Console.WriteLine("   ✓ GET /api/company/profile");
+    Console.WriteLine("   ✓ GET /api/company/services");
+    Console.WriteLine("   ✓ GET /api/company/status");
+    Console.WriteLine("");
+
+    // Add shutdown handler to see when/why it stops
+    var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
+    lifetime.ApplicationStopping.Register(() =>
+    {
+        Console.WriteLine("");
+        Console.WriteLine("⚠️  APPLICATION STOPPING SIGNAL RECEIVED");
+        Console.WriteLine("");
+    });
+
+    lifetime.ApplicationStopped.Register(() =>
+    {
+        Console.WriteLine("");
+        Console.WriteLine("⚠️  APPLICATION FULLY STOPPED");
+        Console.WriteLine("");
+    });
+
+    Console.WriteLine("📍 Calling app.Run() - server now listening...");
+    Console.Out.Flush();
+    app.Run();
+    Console.WriteLine("📍 app.Run() returned (server stopped)");
+}
+catch (Exception ex)
+{
+    Console.WriteLine("");
+    Console.WriteLine("🔥 ================================================");
+    Console.WriteLine("🔥 FATAL STARTUP ERROR");
+    Console.WriteLine("🔥 ================================================");
+    Console.WriteLine($"Message: {ex.Message}");
+    Console.WriteLine($"Type: {ex.GetType().FullName}");
+    Console.WriteLine("");
+    Console.WriteLine("Stack Trace:");
+    Console.WriteLine(ex.StackTrace);
+    Console.WriteLine("🔥 ================================================");
+    Console.WriteLine("");
+    throw;
+}

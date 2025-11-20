@@ -1,0 +1,352 @@
+{
+  "services": [
+    {
+      "serviceId": "dist_basic",
+      "name": "Distribution Basic",
+      "category": "distribution",
+      "description": "Essential distribution: upload, deliver to major DSPs, basic QC",
+      "features": [
+        "Upload unlimited releases",
+        "Delivery to Spotify, Apple Music, YouTube",
+        "Basic QC checks",
+        "Release dashboard",
+        "Standard support"
+      ],
+      "monthlyPrice": 0,
+      "notes": "Free tier; monetize through platform"
+    },
+    {
+      "serviceId": "dist_pro",
+      "name": "Distribution Pro",
+      "category": "distribution",
+      "description": "Pro distribution: all DSPs, pre-order, analytics, priority support",
+      "features": [
+        "All Distribution Basic features",
+        "Pre-orders (30–180 days out)",
+        "Advanced QC with detailed reports",
+        "Delivery to TikTok, Tidal, Deezer, Pandora, etc.",
+        "Release date scheduling",
+        "Priority support (24h response)"
+      ],
+      "monthlyPrice": 9.99,
+      "notes": "Essential for serious artists"
+    },
+    {
+      "serviceId": "dist_label",
+      "name": "Distribution Label",
+      "category": "distribution",
+      "description": "Label-grade: batch uploads, territory control, advanced features",
+      "features": [
+        "All Distribution Pro features",
+        "Batch import (CSV/API)",
+        "Territory-by-territory scheduling",
+        "Split configurations per release",
+        "Custom metadata & artwork per region",
+        "Exclusive content workflows",
+        "Dedicated account manager"
+      ],
+      "monthlyPrice": 99.99,
+      "notes": "For labels, publishers, enterprises"
+    },
+    {
+      "serviceId": "analytics_basic",
+      "name": "Analytics Basic",
+      "category": "analytics",
+      "description": "Basic streaming analytics: plays, listeners, geography",
+      "features": [
+        "Stream counts per release",
+        "Listener geography (country level)",
+        "Top songs by plays",
+        "30-day rolling view",
+        "Mobile & web dashboard"
+      ],
+      "monthlyPrice": 0,
+      "notes": "Included with all distribution tiers"
+    },
+    {
+      "serviceId": "analytics_pro",
+      "name": "Analytics Pro",
+      "category": "analytics",
+      "description": "Advanced analytics: trends, demographics, DSP-level drill-down",
+      "features": [
+        "All Analytics Basic features",
+        "Platform-by-platform breakdown (Spotify, Apple, etc.)",
+        "Listener demographics (age, gender estimated)",
+        "Trend detection & growth alerts",
+        "Year-over-year comparisons",
+        "Custom date ranges",
+        "CSV export",
+        "API access (limited)"
+      ],
+      "monthlyPrice": 19.99,
+      "notes": "For serious tracking & growth"
+    },
+    {
+      "serviceId": "analytics_enterprise",
+      "name": "Analytics Enterprise",
+      "category": "analytics",
+      "description": "Enterprise analytics: real-time, API-first, custom reports",
+      "features": [
+        "All Analytics Pro features",
+        "Real-time streaming updates (5-min lag)",
+        "Full API access with webhooks",
+        "Custom report builder",
+        "Audience cohort analysis",
+        "Playlist placement tracking",
+        "Radio spins (via PRO partners)",
+        "Dedicated analytics support",
+        "Sync with third-party BI tools"
+      ],
+      "monthlyPrice": 199.99,
+      "notes": "For labels, DSPs, major artists"
+    },
+    {
+      "serviceId": "money_light",
+      "name": "Money OS Light",
+      "category": "money",
+      "description": "Basic wallet: view earnings, simple payouts",
+      "features": [
+        "Artist wallet (one currency)",
+        "Earnings aggregation from DSPs + PROs",
+        "Monthly statement download (PDF)",
+        "Manual payout request (monthly)",
+        "Basic transaction history",
+        "Dashboard with balance"
+      ],
+      "monthlyPrice": 0,
+      "notes": "Essential for all artists"
+    },
+    {
+      "serviceId": "money_full",
+      "name": "Money OS Full",
+      "category": "money",
+      "description": "Full Money OS: splits, disputes, advances, multi-currency payouts",
+      "features": [
+        "All Money OS Light features",
+        "Rights graph visualization (who owns what %)",
+        "Split management & dispute system",
+        "Advance offers (based on projected earnings)",
+        "Multi-currency wallets & payouts",
+        "Bank + PayPal + ACH",
+        "Automated recurring payouts",
+        "Real-time transaction tracking",
+        "Recoupment calculator",
+        "Split verification workflow"
+      ],
+      "monthlyPrice": 29.99,
+      "notes": "For serious money management"
+    },
+    {
+      "serviceId": "money_label",
+      "name": "Money OS Label",
+      "category": "money",
+      "description": "Label-grade Money OS: multi-artist accounting, audit trails, reconciliation",
+      "features": [
+        "All Money OS Full features",
+        "Multi-artist portfolio view",
+        "Batch payouts to 100+ artists",
+        "Audit trail & compliance logging",
+        "Royalty reconciliation engine",
+        "Missing-money detection",
+        "Settlement forecasting",
+        "Tax & 1099 reporting",
+        "Dedicated finance support",
+        "Custom payout rules per artist"
+      ],
+      "monthlyPrice": 499.99,
+      "notes": "For labels & aggregators"
+    },
+    {
+      "serviceId": "shield_audit",
+      "name": "Fraud Shield Audit",
+      "category": "security",
+      "description": "Passive fraud audit: anomaly reports, no action",
+      "features": [
+        "Monthly fraud report (flagged issues)",
+        "Bot activity detection",
+        "Suspicious geography patterns",
+        "Device fingerprinting alerts",
+        "Email digest of findings",
+        "Archive of past reports"
+      ],
+      "monthlyPrice": 19.99,
+      "notes": "Read-only fraud monitoring"
+    },
+    {
+      "serviceId": "shield_monitor",
+      "name": "Fraud Shield Monitor",
+      "category": "security",
+      "description": "Active monitoring: real-time alerts, manual intervention",
+      "features": [
+        "All Fraud Shield Audit features",
+        "Real-time alerting (Slack, email, SMS)",
+        "Manual hold & review workflow",
+        "Suspected fake streams quarantine",
+        "Per-DSP fraud scoring",
+        "Monthly strategy call with DMF security",
+        "Playback rule customization"
+      ],
+      "monthlyPrice": 99.99,
+      "notes": "For artists concerned about legitimacy"
+    },
+    {
+      "serviceId": "shield_enterprise",
+      "name": "Fraud Shield Enterprise",
+      "category": "security",
+      "description": "Enterprise-grade: automated blocking, predictive, integration",
+      "features": [
+        "All Fraud Shield Monitor features",
+        "Automated bot-stream blocking (with appeal)",
+        "Predictive ML model training per artist",
+        "Custom fraud rules & thresholds",
+        "API integration with artist's BI",
+        "Dedicated fraud analyst",
+        "Quarterly business review",
+        "Industry benchmarking"
+      ],
+      "monthlyPrice": 499.99,
+      "notes": "For major labels & mega-artists"
+    },
+    {
+      "serviceId": "legal_templates",
+      "name": "Legal Templates",
+      "category": "legal",
+      "description": "DIY legal: contract templates, editing, eSignature",
+      "features": [
+        "50+ contract templates (splits, collab, distro, etc.)",
+        "Customizable per artist/scenario",
+        "eSignature integration (DocuSign, HelloSign)",
+        "Template library updates (quarterly)",
+        "Basic support (email)"
+      ],
+      "monthlyPrice": 9.99,
+      "notes": "Self-serve legal docs"
+    },
+    {
+      "serviceId": "legal_retainer_artist",
+      "name": "Legal Retainer – Artist",
+      "category": "legal",
+      "description": "Retainer legal: on-call lawyer for artist questions",
+      "features": [
+        "All Legal Templates features",
+        "5 hours/month legal consults (async email/Slack)",
+        "Contract review (up to 3/month)",
+        "Custom agreement drafting (1/month)",
+        "Email support (24h response)",
+        "Music law specialist assigned"
+      ],
+      "monthlyPrice": 199.99,
+      "notes": "Personal legal advisor"
+    },
+    {
+      "serviceId": "legal_retainer_label",
+      "name": "Legal Retainer – Label",
+      "category": "legal",
+      "description": "Label legal: full retainer, deal negotiation, compliance",
+      "features": [
+        "All Legal Retainer Artist features (unlimited hours)",
+        "Deal negotiation support (DSPs, co-marketing, etc.)",
+        "Compliance: licensing, royalties, tax, data privacy",
+        "Artist contract templates & reviews (unlimited)",
+        "Quarterly business law update calls",
+        "Dedicated lawyer available (email + 2x/week calls)",
+        "Access to outside counsel network (discounted)"
+      ],
+      "monthlyPrice": 1499.99,
+      "notes": "For labels & serious enterprises"
+    },
+    {
+      "serviceId": "dev_starter",
+      "name": "Developer – Starter",
+      "category": "developer",
+      "description": "API access for indie devs: music, analytics, wallet data",
+      "features": [
+        "REST API v1 access",
+        "1M requests/month",
+        "Rate limit: 100 req/s",
+        "Streaming data + analytics endpoints",
+        "Basic webhooks (5 custom)",
+        "Email support (48h response)",
+        "Sandbox environment"
+      ],
+      "monthlyPrice": 49.99,
+      "notes": "For indie app developers"
+    },
+    {
+      "serviceId": "dev_growth",
+      "name": "Developer – Growth",
+      "category": "developer",
+      "description": "Scaled API: higher limits, webhooks, SDKs",
+      "features": [
+        "All Developer Starter features",
+        "10M requests/month",
+        "Rate limit: 500 req/s",
+        "Unlimited custom webhooks",
+        "SDKs (JS, Python, Node provided)",
+        "Dedicated Slack channel (priority)",
+        "Monthly office hours with dev team"
+      ],
+      "monthlyPrice": 299.99,
+      "notes": "Growing apps & integrations"
+    },
+    {
+      "serviceId": "dev_accelerator",
+      "name": "Developer – Accelerator",
+      "category": "developer",
+      "description": "Full API partner program: unlimited, custom integration, co-marketing",
+      "features": [
+        "All Developer Growth features",
+        "Unlimited requests/month",
+        "Rate limit: custom negotiated",
+        "Custom API endpoints",
+        "Co-marketing & revenue share opportunities",
+        "Quarterly partnership review",
+        "Direct engineering support",
+        "Priority feature requests"
+      ],
+      "monthlyPrice": 1999.99,
+      "notes": "For partners & integrations"
+    },
+    {
+      "serviceId": "support_community",
+      "name": "Community Support",
+      "category": "support",
+      "description": "Community forum, docs, Discord",
+      "features": [
+        "Access to Discord + community forum",
+        "Knowledge base & docs",
+        "Community-answered FAQs",
+        "Async responses (48–72h typical)"
+      ],
+      "monthlyPrice": 0,
+      "notes": "Included with any paid service"
+    },
+    {
+      "serviceId": "support_email",
+      "name": "Email Support",
+      "category": "support",
+      "description": "Email support with guaranteed response",
+      "features": [
+        "Priority email queue",
+        "24–48h response guarantee",
+        "Dedicated support contact"
+      ],
+      "monthlyPrice": 9.99,
+      "notes": "Added to any plan"
+    },
+    {
+      "serviceId": "support_priority",
+      "name": "Priority Support",
+      "category": "support",
+      "description": "Phone + Slack, 2-hour response",
+      "features": [
+        "Email + Slack + phone",
+        "2–4h response guarantee",
+        "Account manager assigned",
+        "Quarterly strategy call"
+      ],
+      "monthlyPrice": 99.99,
+      "notes": "For serious artists & labels"
+    }
+  ]
+}

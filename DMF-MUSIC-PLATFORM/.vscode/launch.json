@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Blazor Web (Server)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "dotnet",
+      "args": ["watch", "run"],
+      "cwd": "${workspaceFolder}/dmf-music-platform.Web",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "serverReadyAction": {
+        "pattern": "Now listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "MAUI (Windows)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "dotnet",
+      "args": ["run", "-f", "net9.0-windows10.0.19041.0"],
+      "cwd": "${workspaceFolder}/dmf-music-platform",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Both (Web + MAUI Windows)",
+      "configurations": ["Blazor Web (Server)", "MAUI (Windows)"]
+    }
+  ]
+}

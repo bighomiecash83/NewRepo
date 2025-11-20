@@ -1,0 +1,384 @@
+{
+  "plans": [
+    {
+      "planId": "artist_basic",
+      "name": "Artist – Basic",
+      "tier": "basic",
+      "targetAudience": "Independent artists, hobbyists",
+      "monthlyPrice": 0,
+      "description": "Essential distribution + basic analytics + Money OS Light",
+      "includedServices": [
+        "dist_basic",
+        "analytics_basic",
+        "money_light",
+        "support_community"
+      ],
+      "features": [
+        "Upload unlimited releases to major DSPs",
+        "Basic QC checks",
+        "View streaming analytics (basic)",
+        "Artist wallet + earnings view",
+        "Manual monthly payouts",
+        "Community support"
+      ],
+      "limitations": [
+        "No pre-orders or scheduling",
+        "No advanced analytics (demographics, trends)",
+        "No Money OS Full (splits, advances)",
+        "No fraud monitoring",
+        "No legal templates"
+      ],
+      "bestFor": "Getting started, testing the platform"
+    },
+    {
+      "planId": "artist_pro",
+      "name": "Artist – Pro",
+      "tier": "professional",
+      "targetAudience": "Serious artists with revenue goals",
+      "monthlyPrice": 59.97,
+      "description": "Pro distribution + advanced analytics + full Money OS + fraud monitor + legal",
+      "includedServices": [
+        "dist_pro",
+        "analytics_pro",
+        "money_full",
+        "shield_monitor",
+        "legal_templates",
+        "support_email"
+      ],
+      "features": [
+        "All Artist Basic features",
+        "Pre-orders (30–180 days)",
+        "Advanced QC with detailed reports",
+        "Delivery to 50+ platforms (TikTok, Tidal, etc.)",
+        "Advanced analytics (platform breakdown, demographics)",
+        "Full rights graph & split management",
+        "Advance offers based on earnings",
+        "Real-time fraud alerts & monitoring",
+        "50+ legal contract templates",
+        "Email support (24h response)",
+        "Automated payouts (bi-weekly)"
+      ],
+      "limitations": [
+        "No batch upload / label features",
+        "No enterprise analytics (real-time, custom reports)",
+        "No legal retainer (consults)"
+      ],
+      "bestFor": "Artists serious about growth and fair payment"
+    },
+    {
+      "planId": "artist_premium",
+      "name": "Artist – Premium",
+      "tier": "premium",
+      "targetAudience": "Mega-artists, influencers, content creators",
+      "monthlyPrice": 259.97,
+      "description": "Everything + enterprise analytics + legal retainer + fraud enterprise",
+      "includedServices": [
+        "dist_pro",
+        "analytics_enterprise",
+        "money_full",
+        "shield_enterprise",
+        "legal_retainer_artist",
+        "support_priority"
+      ],
+      "features": [
+        "All Artist Pro features",
+        "Real-time analytics (5-min lag)",
+        "Full API access",
+        "Custom report builder",
+        "Audience cohort analysis",
+        "Playlist placement tracking",
+        "5 hours/month legal consults",
+        "Contract review (3x/month)",
+        "Automated bot-stream blocking",
+        "Dedicated fraud analyst",
+        "Phone + Slack support (2h response)",
+        "Quarterly strategy calls"
+      ],
+      "limitations": [
+        "No label-grade batch features"
+      ],
+      "bestFor": "High-earners, major artists, content creators"
+    },
+    {
+      "planId": "label_starter",
+      "name": "Label – Starter",
+      "tier": "basic",
+      "targetAudience": "Small labels, DIY label operations",
+      "monthlyPrice": 149.99,
+      "description": "Label distribution + pro analytics + Money OS Light + legal templates + basic support",
+      "includedServices": [
+        "dist_label",
+        "analytics_pro",
+        "money_light",
+        "legal_templates",
+        "support_email"
+      ],
+      "features": [
+        "Batch upload (CSV import, 100 releases/mo)",
+        "Territory-by-territory scheduling",
+        "Custom metadata per region",
+        "Advanced analytics (platform breakdown)",
+        "Multi-artist portfolio view",
+        "Shared artist wallet management",
+        "50+ legal templates",
+        "Email support (24h response)",
+        "QC dashboard for all releases"
+      ],
+      "limitations": [
+        "No Money OS Full (splits, disputes, advances)",
+        "No fraud monitoring",
+        "No legal retainer",
+        "No dedicated account manager"
+      ],
+      "bestFor": "Growing labels, indie label operations"
+    },
+    {
+      "planId": "label_growth",
+      "name": "Label – Growth",
+      "tier": "professional",
+      "targetAudience": "Mid-size labels, aggregators",
+      "monthlyPrice": 999.99,
+      "description": "Label distribution + enterprise analytics + full Money OS + fraud monitor + legal retainer",
+      "includedServices": [
+        "dist_label",
+        "analytics_enterprise",
+        "money_label",
+        "shield_monitor",
+        "legal_retainer_label",
+        "support_priority",
+        "dev_starter"
+      ],
+      "features": [
+        "All Label Starter features",
+        "Real-time analytics (custom dashboards)",
+        "Full Money OS Label: batch payouts (100+ artists)",
+        "Audit trails & compliance logging",
+        "Royalty reconciliation engine",
+        "Missing-money detection alerts",
+        "Settlement forecasting",
+        "Fraud monitoring + alerts",
+        "Monthly fraud strategy call",
+        "Unlimited legal consults",
+        "Deal negotiation support",
+        "Dedicated account manager",
+        "Phone + Slack support (2h response)",
+        "API access (1M requests/mo)"
+      ],
+      "limitations": [
+        "No enterprise fraud (automated blocking, custom ML models)"
+      ],
+      "bestFor": "Mid-market labels, aggregators, growing operations"
+    },
+    {
+      "planId": "label_enterprise",
+      "name": "Label – Enterprise",
+      "tier": "enterprise",
+      "targetAudience": "Major labels, DSPs, enterprises",
+      "monthlyPrice": 4999.99,
+      "description": "Everything: label distro + enterprise analytics + full Money OS + enterprise fraud + full legal + full API",
+      "includedServices": [
+        "dist_label",
+        "analytics_enterprise",
+        "money_label",
+        "shield_enterprise",
+        "legal_retainer_label",
+        "support_priority",
+        "dev_accelerator"
+      ],
+      "features": [
+        "All Label Growth features",
+        "Unlimited batch uploads",
+        "Unlimited revenue-share configurations",
+        "Custom payout rules per artist",
+        "Automated bot-stream blocking (with appeal)",
+        "Predictive ML fraud models",
+        "Custom fraud thresholds per artist",
+        "Dedicated fraud analyst",
+        "Quarterly business review",
+        "Industry benchmarking",
+        "Unlimited API requests",
+        "Custom API endpoints",
+        "Co-marketing opportunities",
+        "Direct engineering support",
+        "C-level quarterly reviews",
+        "Tax & 1099 reporting (automated)"
+      ],
+      "limitations": [],
+      "bestFor": "Major labels, DSPs, large enterprises, partners"
+    },
+    {
+      "planId": "publisher_basic",
+      "name": "Publisher – Starter",
+      "tier": "basic",
+      "targetAudience": "Independent publishers, PRO member-publishers",
+      "monthlyPrice": 99.99,
+      "description": "Rights registration + basic analytics + Money OS Light",
+      "includedServices": [
+        "analytics_pro",
+        "money_light",
+        "legal_templates",
+        "support_email"
+      ],
+      "features": [
+        "Works registration (compositions)",
+        "Writer/co-writer management",
+        "PRO registration tracking (BMI, ASCAP, SESAC, MLC)",
+        "Territory-by-territory admin status",
+        "Basic earnings by territory",
+        "Wallet + payout management",
+        "Legal contract templates",
+        "Email support"
+      ],
+      "limitations": [
+        "No dispute management",
+        "No Money OS Full",
+        "No fraud monitoring"
+      ],
+      "bestFor": "Independent publishers, small catalogs"
+    },
+    {
+      "planId": "publisher_growth",
+      "name": "Publisher – Growth",
+      "tier": "professional",
+      "targetAudience": "Mid-size publishers, serious catalog managers",
+      "monthlyPrice": 499.99,
+      "description": "Full publisher suite: rights management + enterprise analytics + Money OS Full + legal retainer",
+      "includedServices": [
+        "analytics_enterprise",
+        "money_full",
+        "legal_retainer_artist",
+        "support_priority",
+        "dev_starter"
+      ],
+      "features": [
+        "All Publisher Starter features",
+        "Unlimited works registration",
+        "Dispute management & resolution workflow",
+        "Multi-territory admin status",
+        "Real-time earnings tracking",
+        "Split verification & auditing",
+        "Money OS Full: advances, multi-currency",
+        "Real-time analytics",
+        "Custom report builder",
+        "Legal retainer (consults + contract review)",
+        "Phone + Slack support",
+        "API access (1M requests/mo)"
+      ],
+      "limitations": [],
+      "bestFor": "Growing publishers, larger catalogs"
+    },
+    {
+      "planId": "developer_indie",
+      "name": "Developer – Indie",
+      "tier": "basic",
+      "targetAudience": "Solo developers, hobby projects",
+      "monthlyPrice": 49.99,
+      "description": "API starter: 1M requests/mo, sandbox, basic webhooks",
+      "includedServices": [
+        "dev_starter",
+        "support_community"
+      ],
+      "features": [
+        "REST API v1 access",
+        "1M requests/month",
+        "Rate limit: 100 req/s",
+        "Streaming data + analytics endpoints",
+        "5 custom webhooks",
+        "Sandbox environment",
+        "Community support"
+      ],
+      "limitations": [
+        "No production webhooks (custom)",
+        "No SDKs",
+        "No priority support"
+      ],
+      "bestFor": "Learning, prototyping, small apps"
+    },
+    {
+      "planId": "developer_startup",
+      "name": "Developer – Startup",
+      "tier": "professional",
+      "targetAudience": "Startups, app developers",
+      "monthlyPrice": 299.99,
+      "description": "Scaled API: 10M requests/mo, unlimited webhooks, SDKs, Slack",
+      "includedServices": [
+        "dev_growth",
+        "support_email"
+      ],
+      "features": [
+        "All Developer Indie features",
+        "10M requests/month",
+        "Rate limit: 500 req/s",
+        "Unlimited custom webhooks",
+        "SDKs (JS, Python, Node)",
+        "Dedicated Slack channel",
+        "Monthly office hours with dev team",
+        "Email support (24h)"
+      ],
+      "limitations": [
+        "No unlimited requests",
+        "No custom API endpoints"
+      ],
+      "bestFor": "Growing startups, production apps"
+    },
+    {
+      "planId": "developer_partner",
+      "name": "Developer – Partner",
+      "tier": "enterprise",
+      "targetAudience": "Strategic partners, integrators",
+      "monthlyPrice": 1999.99,
+      "description": "Full API partnership: unlimited, custom endpoints, co-marketing, revenue share",
+      "includedServices": [
+        "dev_accelerator",
+        "support_priority"
+      ],
+      "features": [
+        "All Developer Startup features",
+        "Unlimited requests/month",
+        "Rate limit: custom negotiated",
+        "Custom API endpoints",
+        "Co-marketing & revenue share opportunities",
+        "Quarterly partnership review",
+        "Direct engineering support",
+        "Priority feature requests",
+        "Phone + Slack support (1–2h)"
+      ],
+      "limitations": [],
+      "bestFor": "Strategic partners, integrations"
+    },
+    {
+      "planId": "free_tier",
+      "name": "DMF Free",
+      "tier": "free",
+      "targetAudience": "Test drive DMF platform",
+      "monthlyPrice": 0,
+      "description": "Free: basic distro + analytics + wallet, no payouts (test only)",
+      "includedServices": [
+        "dist_basic",
+        "analytics_basic",
+        "money_light",
+        "support_community"
+      ],
+      "features": [
+        "Upload 1 release/month (test)",
+        "Basic analytics (delayed 24h)",
+        "View wallet balance (no payouts)",
+        "Community support only",
+        "Sandbox data only"
+      ],
+      "limitations": [
+        "Real payouts disabled",
+        "1 release/month limit",
+        "Delayed analytics",
+        "No advanced features"
+      ],
+      "bestFor": "Trial / evaluation"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "lastUpdated": "2025-11-19",
+    "currency": "USD",
+    "notes": "Plans can be bundled or customized. Contact sales for enterprise contracts. Prices are monthly and renew automatically."
+  }
+}

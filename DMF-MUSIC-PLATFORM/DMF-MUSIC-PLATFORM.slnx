@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DMF-MUSIC-PLATFORM.Client/DMF-MUSIC-PLATFORM.Client.csproj" />
+  <Project Path="DMF-MUSIC-PLATFORM/DMF-MUSIC-PLATFORM.csproj" />
+</Solution>
