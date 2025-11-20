@@ -94,7 +94,14 @@ static string ExpandEnvironmentVariables(string input)
         match =>
         {
             var varName = match.Groups[1].Value;
-            return Environment.GetEnvironmentVariable(varName) ?? match.Value;
+            var value = Environment.GetEnvironmentVariable(varName) ?? match.Value;
+            
+            // URL-encode password if it's in a MongoDB connection string
+            if (varName.Contains("MONGODB") && input.Contains("mongodb+srv"))
+            {
+                value = System.Web.HttpUtility.UrlEncode(value);
+            }
+            return value;
         }
     );
     return result;
