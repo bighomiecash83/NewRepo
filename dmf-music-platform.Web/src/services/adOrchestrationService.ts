@@ -60,6 +60,17 @@ export interface AdBotRun {
   errors: string[];
 }
 
+export interface AdActionExecutionResult {
+  actionsProcessed: number;
+  campaignsUpdated: number;
+  pausesApplied: number;
+  budgetIncreases: number;
+  budgetCuts: number;
+  dryRun: boolean;
+  windowStartUtc: string;
+  windowEndUtc: string;
+}
+
 /**
  * Get high-level ad system status.
  * Shows active bots, campaigns, creatives, and last run time.
@@ -98,6 +109,27 @@ export async function getRecentBotRuns(params?: {
   const query = search.toString();
   const res = await api.get<AdBotRun[]>(
     `/ad-orchestration/runs${query ? `?${query}` : ""}`
+  );
+  return res.data;
+}
+
+/**
+ * Apply recent bot recommendations to campaigns.
+ * Respects campaign-level allow flags (AllowAutoBudgetAdjustments, AllowAutoPause).
+ * @param params Optional filters: hoursBack (default 24), dryRun (default true)
+ */
+export async function applyAdActions(params?: {
+  hoursBack?: number;
+  dryRun?: boolean;
+}): Promise<AdActionExecutionResult> {
+  const search = new URLSearchParams();
+  if (params?.hoursBack) search.append("hoursBack", String(params.hoursBack));
+  if (params?.dryRun !== undefined)
+    search.append("dryRun", params.dryRun ? "true" : "false");
+
+  const query = search.toString();
+  const res = await api.post<AdActionExecutionResult>(
+    `/ad-actions/apply${query ? `?${query}` : ""}`
   );
   return res.data;
 }

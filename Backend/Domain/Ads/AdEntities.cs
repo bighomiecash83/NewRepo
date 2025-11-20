@@ -235,6 +235,22 @@ namespace DmfMusicPlatform.StreamGod.Ads
 
         public string? CreatedByUserId { get; set; }
 
+        /// <summary>
+        /// If true, StreamGod is allowed to automatically scale or cut daily budget based on bot recommendations.
+        /// </summary>
+        public bool AllowAutoBudgetAdjustments { get; set; } = false;
+
+        /// <summary>
+        /// If true, StreamGod is allowed to automatically pause campaigns when bots recommend it.
+        /// </summary>
+        public bool AllowAutoPause { get; set; } = false;
+
+        /// <summary>
+        /// Optional current daily budget field if you want separate from cap.
+        /// If 0, the system uses BudgetDailyCapUsd as the working budget.
+        /// </summary>
+        public decimal CurrentDailyBudgetUsd { get; set; } = 0m;
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
