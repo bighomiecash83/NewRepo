@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "dmf-music-platform",
-    "public": "dmf-music-platform.Web/dist",
+    "public": "web/dist",
     "ignore": [
       "firebase.json",
       "**/.*",
