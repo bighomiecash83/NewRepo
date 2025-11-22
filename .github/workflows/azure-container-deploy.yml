@@ -1,0 +1,58 @@
+name: Build & Deploy to Azure WebApp (Container)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest
+    env:
+      ACR_NAME: ${{ secrets.ACR_NAME }}
+      RESOURCE_GROUP: ${{ secrets.AZURE_RG }}
+      WEBAPP_NAME: ${{ secrets.WEBAPP_NAME }}
+      IMAGE_NAME: dmf-pricing-api
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get ACR login server
+        id: acr-login
+        run: |
+          ACR_LOGIN=$(az acr show -n $ACR_NAME --query loginServer -o tsv)
+          echo "ACR_LOGIN=${ACR_LOGIN}" >> $GITHUB_ENV
+          echo "login_server=${ACR_LOGIN}" >> $GITHUB_OUTPUT
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.ACR_LOGIN }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker tag ${{ env.ACR_LOGIN }}/${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.ACR_LOGIN }}/${{ env.IMAGE_NAME }}:latest
+          echo "Built image: ${{ env.ACR_LOGIN }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+
+      - name: Push to ACR
+        run: |
+          az acr login -n ${{ env.ACR_NAME }} --expose-token | docker login ${{ env.ACR_LOGIN }} -u 00000000-0000-0000-0000-000000000000 --password-stdin
+          docker push ${{ env.ACR_LOGIN }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.ACR_LOGIN }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Deploy to Web App
+        run: |
+          az webapp config container set --name ${{ env.WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} \
+            --docker-custom-image-name ${{ env.ACR_LOGIN }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --docker-registry-server-url "https://${{ env.ACR_LOGIN }}" \
+            --docker-registry-server-user $(az acr credential show -n ${{ env.ACR_NAME }} --query username -o tsv) \
+            --docker-registry-server-password $(az acr credential show -n ${{ env.ACR_NAME }} --query "passwords[0].value" -o tsv)
+
+      - name: Verify deployment
+        run: |
+          echo "Waiting for App Service to restart..."
+          sleep 10
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://${{ env.WEBAPP_NAME }}.azurewebsites.net/health || echo "000")
+          echo "Health check status: $STATUS"
