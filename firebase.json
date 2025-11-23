@@ -9,7 +9,15 @@
     ],
     "rewrites": [
       {
-        "source": "/api/**",
+        "source": "/health",
+        "function": "api"
+      },
+      {
+        "source": "/pricing/**",
+        "function": "api"
+      },
+      {
+        "source": "/ad-orchestration/**",
         "function": "api"
       },
       {
@@ -48,7 +56,7 @@
     "cleanUrls": true
   },
   "functions": {
-    "source": "backend/functions",
+    "source": "Backend/functions",
     "runtime": "nodejs22"
   },
   "emulators": {

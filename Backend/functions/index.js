@@ -13,10 +13,10 @@ app.use(express.json());
 app.get('/health', (req, res) => res.json({ ok: true, time: Date.now() }));
 
 // Public API
-app.use('/api/pricing/public', pricingPublic);
+app.use('/pricing/public', pricingPublic);
 
 // Admin API — JWT protected
-app.use('/api/pricing/admin', (req, res, next) => {
+app.use('/pricing/admin', (req, res, next) => {
   const header = req.headers.authorization || '';
   const token = header.startsWith('Bearer ') ? header.slice(7) : null;
   if (!token) return res.status(401).json({ error: 'Unauthorized - no token' });
@@ -32,7 +32,7 @@ app.use('/api/pricing/admin', (req, res, next) => {
 }, pricingAdmin);
 
 // StreamGod Bot Orchestration API — JWT protected
-app.use('/api/ad-orchestration', (req, res, next) => {
+app.use('/ad-orchestration', (req, res, next) => {
   const header = req.headers.authorization || '';
   const token = header.startsWith('Bearer ') ? header.slice(7) : null;
   if (!token) return res.status(401).json({ error: 'Unauthorized - no token' });
