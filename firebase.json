@@ -49,7 +49,7 @@
   },
   "functions": {
     "source": "backend/functions",
-    "runtime": "node18"
+    "runtime": "nodejs18"
   },
   "emulators": {
     "auth": {
