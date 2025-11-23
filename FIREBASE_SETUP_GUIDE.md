@@ -54,13 +54,15 @@ npm install
 
 #### Backend (`backend/.env.local`)
 ```
-MONGO_URI=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/dmf_db?retryWrites=true&w=majority
-JWT_SECRET=your-super-secret-jwt-key-min-32-chars-long-please
+MONGO_URI=mongodb+srv://bighomiecash8346:<db_password>@cluster0.wf8x1lb.mongodb.net/dmf_db?retryWrites=true&w=majority
+JWT_SECRET=dmf-super-secret-jwt-key-2025-firebase-production
 ```
+
+**Note**: Replace `<db_password>` with your actual MongoDB Atlas password.
 
 Get your MongoDB URI from:
 1. MongoDB Atlas → Your Cluster → Connect → Copy connection string
-2. Replace `<username>` and `<password>` with actual credentials
+2. Replace `<db_password>` with actual credentials
 
 #### Frontend (`frontend/.env.local`)
 ```
