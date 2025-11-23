@@ -48,10 +48,7 @@
     "cleanUrls": true
   },
   "functions": {
-    "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint"
-    ],
-    "source": "functions",
+    "source": "backend/functions",
     "runtime": "node18"
   },
   "emulators": {
