@@ -33,6 +33,9 @@ import AdminRoyaltyBoard from "./pages/AdminRoyaltyBoard";
 // StreamGod Dashboard Pages (v2.0 - Real-time Analytics)
 import OwnerDashboard from "./pages/OwnerDashboard";
 import ArtistDashboard from "./pages/ArtistDashboard";
+// Pricing System Pages
+import PricingPlansPage from "./pages/PricingPlansPage";
+import AdminPricingPlans from "./pages/AdminPricingPlans";
 
 export default function App() {
   return (
@@ -76,6 +79,12 @@ export default function App() {
         
         {/* Artist Performance Dashboard */}
         <Route path="/dashboard/artist/:artistId" element={<ArtistDashboard />} />
+
+        {/* ================================================================ */}
+        {/* PRICING SYSTEM (MongoDB-backed Plans)                           */}
+        {/* ================================================================ */}
+        <Route path="/pricing" element={<PricingPlansPage />} />
+        <Route path="/admin/pricing" element={<AdminPricingPlans />} />
 
         {/* ================================================================ */}
         {/* CUSTOMER PORTAL (Public-Facing for Artists/Clients)             */}
