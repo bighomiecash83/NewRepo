@@ -1,0 +1,29 @@
+{
+  "name": "dmf-music-platform",
+  "version": "1.0.0",
+  "description": "DMF Music Platform - Full stack music distribution with AI",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "functions"
+  ],
+  "scripts": {
+    "dev": "npm -w apps/web run dev",
+    "build": "npm -w apps/web run build && npm -w functions run build",
+    "start:web": "npm -w apps/web run start",
+    "start:functions": "npm -w functions run start",
+    "serve": "firebase emulators:start",
+    "deploy": "firebase deploy --only hosting,functions",
+    "lint": "npm -w apps/web run lint",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "music",
+    "distribution",
+    "firebase",
+    "nextjs",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT"
+}
