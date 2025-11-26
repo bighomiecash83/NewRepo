@@ -1,5 +1,5 @@
 import axios from 'axios'
-const base = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000').replace(/\/$/, '')
+const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001').replace(/\/$/, '')
 const client = axios.create({ baseURL: base })
 
 let _authToken = null
@@ -15,23 +15,23 @@ export function setAuthToken(token){
 
 export default {
   async getPublicPlans(){
-    const r = await client.get('/api/pricing/public/plans')
+    const r = await client.get('/api/pricing')
     return r.data
   },
   async getAdminPlans(){
-    const r = await client.get('/api/pricing/admin/plans')
+    const r = await client.get('/api/pricing')
     return r.data
   },
   async createAdminPlan(payload){
-    const r = await client.post('/api/pricing/admin/plans', payload)
+    const r = await client.post('/api/pricing', payload)
     return r.data
   },
   async toggleAdminPlan(id){
-    const r = await client.put(`/api/pricing/admin/plans/${id}/toggle`)
+    const r = await client.put(`/api/pricing/${id}/toggle`)
     return r.data
   },
   async deleteAdminPlan(id){
-    const r = await client.delete(`/api/pricing/admin/plans/${id}`)
+    const r = await client.delete(`/api/pricing/${id}`)
     return r.data
   }
 }

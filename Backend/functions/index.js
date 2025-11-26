@@ -6,6 +6,11 @@ const pricingAdmin = require('./pricingAdmin');
 const adOrchestration = require('./adOrchestration');
 const jwt = require('jsonwebtoken');
 
+// New production routes
+const artistsRouter = require('./routes/artists');
+const releasesRouter = require('./routes/releases');
+const botsRouter = require('./routes/bots');
+
 const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json());
@@ -14,6 +19,11 @@ app.get('/health', (req, res) => res.json({ ok: true, time: Date.now() }));
 
 // Public API
 app.use('/pricing/public', pricingPublic);
+
+// Production Routes — Artists, Releases, Bots (can be public or JWT-protected)
+app.use('/artists', artistsRouter);
+app.use('/releases', releasesRouter);
+app.use('/bots', botsRouter);
 
 // Admin API — JWT protected
 app.use('/pricing/admin', (req, res, next) => {

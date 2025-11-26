@@ -27,6 +27,7 @@
     <!-- Services -->
     <Compile Include="Backend\Services\Ads\AdActionExecutor.cs" />
     <!-- Controllers -->
+    <Compile Include="Controllers\PricingController.cs" />
     <Compile Include="dmf-music-platform\dmf-music-platform\Controllers\AdOrchestrationController.cs" />
     <Compile Include="dmf-music-platform\dmf-music-platform\Controllers\AdActionExecutionController.cs" />
     <Compile Include="dmf-music-platform\dmf-music-platform\Controllers\AdCampaignChangesController.cs" />

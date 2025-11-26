@@ -2,12 +2,23 @@
   "name": "dmf-functions",
   "version": "1.0.0",
   "description": "DMF Music Platform Firebase Functions",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
+    "serve": "firebase emulators:start --only functions,hosting",
+    "deploy": "firebase deploy --only functions",
     "lint": "echo 'No linting configured'"
   },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.6",
+    "typescript": "^5.3.3"
+  },
   "dependencies": {
+    "@genkit-ai/core": "^1.24.0",
+    "@genkit-ai/google-genai": "^1.24.0",
     "@genkit-ai/googleai": "^1.24.0",
+    "@google-cloud/pubsub": "^5.2.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "firebase-admin": "^11.11.0",
@@ -15,7 +26,9 @@
     "genkit": "^1.24.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^5.9.0",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "uuid": "^13.0.0",
+    "zod": "^4.1.13"
   },
   "engines": {
     "node": "22"

@@ -7,17 +7,19 @@ export default function AdminPricingPlans() {
   const [loading, setLoading] = useState(true)
   const [name, setName] = useState('')
   const [price, setPrice] = useState('0')
-  const [token, setToken] = useState(localStorage.getItem('dmf_admin_token') || '')
+  const [token, setToken] = useState('')
   const [authError, setAuthError] = useState(null)
   const toast = useToast()
 
   useEffect(() => {
-    if (token) {
-      setAuthToken(token)
-      localStorage.setItem('dmf_admin_token', token)
+    // Initialize token from localStorage (client-side only)
+    const storedToken = typeof window !== 'undefined' ? localStorage.getItem('dmf_admin_token') || '' : ''
+    setToken(storedToken)
+    
+    if (storedToken) {
+      setAuthToken(storedToken)
     } else {
       setAuthToken(null)
-      localStorage.removeItem('dmf_admin_token')
     }
     refresh()
     // eslint-disable-next-line react-hooks/exhaustive-deps

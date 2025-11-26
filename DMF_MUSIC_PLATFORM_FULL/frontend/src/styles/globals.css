@@ -1,0 +1,3 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+:root { --dmf-blue:#0b3d91; --dmf-gold:#c9a02b; }
+.text-gold{ color: var(--dmf-gold); }

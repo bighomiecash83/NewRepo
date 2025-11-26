@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "mongodb": "5.7.0",
+    "firebase-functions": "6.0.0",
+    "openai": "4.58.1",
+    "@google-cloud/kms": "4.5.0",
+    "firebase-admin": "12.5.0",
+    "cors": "2.8.5"
+  },
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "serve": "firebase emulators:start",
+    "deploy": "firebase deploy --only functions"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "name": "dmf-functions"
+}

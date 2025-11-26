@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@radix-ui/react-toast": "1.2.1",
+    "autoprefixer": "^10.4.22",
+    "axios": "1.5.0",
+    "class-variance-authority": "0.7.0",
+    "lucide-react": "0.441.0",
+    "next": "14.2.5",
+    "postcss": "^8.5.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "swr": "2.2.0",
+    "tailwindcss": "3.4.10"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "start": "next start -p 3000",
+    "build": "next build"
+  },
+  "name": "dmf-frontend",
+  "version": "1.0.0"
+}

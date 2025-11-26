@@ -65,23 +65,26 @@ app.UseAuthorization();
 app.MapControllers();
 
 // ======== Startup Tasks ========
-using (var scope = app.Services.CreateScope())
+try
 {
-    var adContext = scope.ServiceProvider.GetRequiredService<IAdDataContext>();
-    try
+    using (var scope = app.Services.CreateScope())
     {
-        await adContext.EnsureIndexesAsync();
-        Console.WriteLine("✅ MongoDB indexes ensured");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"⚠️  Warning: MongoDB connection failed ({ex.Message}). API will still start but may not function properly.");
-        Console.WriteLine($"   Ensure MongoDB is running on localhost:27017 or update appsettings.json with valid connection string.");
+        try
+        {
+            var adContext = scope.ServiceProvider.GetRequiredService<IAdDataContext>();
+            await adContext.EnsureIndexesAsync();
+            Console.WriteLine("✅ MongoDB indexes ensured");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"⚠️  MongoDB unavailable: {ex.Message}");
+        }
     }
 }
+catch { }
 
-Console.WriteLine("🚀 DMF Music Platform Backend v1 starting on https://localhost:5001");
-await app.RunAsync("https://localhost:5001");
+Console.WriteLine("🚀 DMF Music Platform Backend v1 starting...");
+await app.RunAsync();
 
 // Helper: Expand environment variables in format ${VAR_NAME}
 static string ExpandEnvironmentVariables(string input)

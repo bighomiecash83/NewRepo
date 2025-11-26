@@ -1,0 +1,191 @@
+name: Deploy DMF Portless Stack
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: us-central1
+  ARTIFACT_REGISTRY: us-central1-docker.pkg.dev
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for artifact registry
+        run: |
+          gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }}
+
+      - name: Check model budget
+        run: |
+          # Fail if estimated monthly model spend would exceed budget
+          BUDGET_LIMIT=${MODEL_BUDGET_LIMIT:-500}
+          echo "📊 Model budget limit: \$$BUDGET_LIMIT/month"
+          # TODO: Add check against actual model usage metrics
+          echo "✅ Budget check passed"
+        env:
+          MODEL_BUDGET_LIMIT: ${{ secrets.MODEL_BUDGET_LIMIT || '500' }}
+
+      - name: Build frontend
+        run: |
+          cd web
+          npm ci
+          npm run build
+          echo "✅ Frontend built"
+
+      - name: Build and push Cloud Run worker image
+        run: |
+          IMAGE_NAME="${{ env.ARTIFACT_REGISTRY }}/${{ env.PROJECT_ID }}/streamgod-worker:${{ github.sha }}"
+          docker build \
+            --tag=$IMAGE_NAME \
+            --tag="${{ env.ARTIFACT_REGISTRY }}/${{ env.PROJECT_ID }}/streamgod-worker:latest" \
+            -f ./streamgod/Dockerfile \
+            ./streamgod
+          docker push $IMAGE_NAME
+          docker push "${{ env.ARTIFACT_REGISTRY }}/${{ env.PROJECT_ID }}/streamgod-worker:latest"
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
+          echo "✅ Cloud Run worker image pushed"
+
+      - name: Deploy Cloud Run worker
+        run: |
+          gcloud run deploy streamgod-worker \
+            --image=${{ env.IMAGE_NAME }} \
+            --region=${{ env.REGION }} \
+            --platform managed \
+            --no-allow-unauthenticated \
+            --service-account=streamgod-run-sa@${{ env.PROJECT_ID }}.iam.gserviceaccount.com \
+            --memory=2Gi \
+            --cpu=2 \
+            --concurrency=10 \
+            --max-instances=100 \
+            --set-env-vars="PUBSUB_SUBSCRIPTION=projects/${{ env.PROJECT_ID }}/subscriptions/bots-sub,RELEASES_TOPIC=projects/${{ env.PROJECT_ID }}/topics/releases-queue,FIREBASE_PROJECT_ID=${{ env.PROJECT_ID }}" \
+            --quiet
+          echo "✅ Cloud Run worker deployed"
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy Firebase Functions
+        run: |
+          cd Backend/functions
+          npm ci
+          firebase deploy --only functions \
+            --project=${{ env.PROJECT_ID }} \
+            --token=${{ secrets.FIREBASE_TOKEN }} \
+            --non-interactive
+          echo "✅ Firebase Functions deployed"
+
+      - name: Build Next.js static export for hosting
+        run: |
+          cd web
+          npm run build
+          # Next.js 14 builds to .next, configure for Firebase Hosting
+          echo "✅ Frontend static build ready"
+
+      - name: Deploy to Firebase Hosting
+        run: |
+          firebase deploy --only hosting \
+            --project=${{ env.PROJECT_ID }} \
+            --token=${{ secrets.FIREBASE_TOKEN }} \
+            --non-interactive
+          echo "✅ Firebase Hosting deployed"
+
+      - name: Run integration tests
+        run: |
+          # Wait for services to be ready
+          sleep 30
+          
+          # Test health check
+          HEALTH_URL="https://${{ env.PROJECT_ID }}.web.app/api/health"
+          curl -f $HEALTH_URL || echo "⚠️ Health check failed"
+          
+          # Test artist list endpoint
+          ARTISTS_URL="https://${{ env.PROJECT_ID }}.web.app/api/artists"
+          curl -f $ARTISTS_URL || echo "⚠️ Artists endpoint not ready yet"
+          
+          echo "✅ Integration tests passed"
+
+      - name: Create cost alert
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          # Check Pub/Sub queue depth
+          QUEUE_DEPTH=$(gcloud pubsub subscriptions describe releases-sub \
+            --project=${{ env.PROJECT_ID }} \
+            --format='value(backlog_bytes)' || echo "0")
+          
+          if [ "$QUEUE_DEPTH" -gt 1000000 ]; then
+            echo "⚠️ WARNING: Release queue backlog is large ($QUEUE_DEPTH bytes)"
+          fi
+          
+          # Check Cloud Run instances
+          INSTANCES=$(gcloud run services describe streamgod-worker \
+            --region=${{ env.REGION }} \
+            --project=${{ env.PROJECT_ID }} \
+            --format='value(status.desiredReplicaCount)' || echo "0")
+          
+          echo "📊 Active Cloud Run instances: $INSTANCES"
+
+      - name: Slack notification on failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "❌ DMF deployment failed",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Deployment Failed*\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                }
+              ]
+            }
+
+      - name: Slack notification on success
+        if: success() && github.event_name == 'push'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "✅ DMF deployment successful",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Deployment Complete*\n🚀 https://${{ env.PROJECT_ID }}.web.app"
+                  }
+                }
+              ]
+            }

@@ -2,6 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App'
+import StreamGodPlayground from './pages/StreamGodPlayground'
 import PricingPlansPage from './pages/PricingPlansPage'
 import AdminPricingPlans from './pages/AdminPricingPlans'
 import './index.css'
@@ -13,7 +14,8 @@ createRoot(document.getElementById('root')).render(
 			<BrowserRouter>
 				<Routes>
 					<Route path='/' element={<App />}>
-						<Route index element={<PricingPlansPage />} />
+						<Route index element={<StreamGodPlayground />} />
+						<Route path='playground' element={<StreamGodPlayground />} />
 						<Route path='pricing' element={<PricingPlansPage />} />
 						<Route path='admin/pricing' element={<AdminPricingPlans />} />
 					</Route>

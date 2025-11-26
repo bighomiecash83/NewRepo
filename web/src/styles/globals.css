@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply border-slate-700;
+}
+
+body {
+  @apply bg-dmf-dark text-white antialiased;
+}
+
+button {
+  @apply transition-all duration-200;
+}
+
+input, textarea, select {
+  @apply bg-slate-900 border border-slate-700 text-white placeholder-slate-500;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}

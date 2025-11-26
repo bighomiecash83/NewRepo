@@ -4,16 +4,22 @@ import api from '../services/pricingPlansApi.js'
 export default function PricingPlansPage() {
   const [plans, setPlans] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     let mounted = true
-    api.getPublicPlans().then(data => { if (mounted) setPlans(data) }).catch(err => {
-      console.error('public plans err', err)
-    }).finally(() => mounted && setLoading(false))
-    return () => mounted = false
+    api.getPublicPlans()
+      .then(data => { if (mounted) setPlans(data) })
+      .catch(err => {
+        console.error('Error loading pricing:', err)
+        if (mounted) setError(err.message)
+      })
+      .finally(() => { if (mounted) setLoading(false) })
+    return () => { mounted = false }
   }, [])
 
   if (loading) return <div>Loading public plans...</div>
+  if (error) return <div style={{color: 'red', padding: 20}}>Error: {error}</div>
 
   return (
     <div className="table-card">
