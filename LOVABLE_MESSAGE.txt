@@ -1,0 +1,24 @@
+For this DMF project, I want v1 to run fully on Lovable Cloud + Supabase. MongoDB will be used later as a catalog/analytics brain, not part of this launch.
+
+What I need right now:
+
+1. **/health endpoint**
+   * Add a `/health` endpoint (or Supabase Edge Function) that:
+     * Returns HTTP 200
+     * Confirms Supabase DB connectivity with a simple SELECT on a small table (like `profiles` or `artists`).
+
+2. **Lock in core Supabase functions**
+   * Please list which Supabase Edge Functions the frontend is using for:
+     * Auth / user profiles
+     * Artists / releases (catalog)
+     * Royalties / dashboards / analytics
+   * Make sure they all use the existing `VITE_SUPABASE_URL` / project ID (no localhost or hardcoded dev URLs).
+
+3. **Remove demo/sample data**
+   * Remove or disable any demo/sample tables and sample content.
+   * Make sure the UI is wired only to my real DMF tables (artists, releases, royalties, etc.) so v1 does not show any placeholder data.
+
+4. **Prep for custom domain**
+   * Once `/health` is green and the full flow is working, confirm the final production URL and the DNS values I'll need (CNAME or A record) so I can point a custom domain at the app.
+
+Supabase env vars are fine as-is; I don't need MongoDB or Stripe wired into this project yet. Priority is: health check, real DMF data, no demos, then custom domain.
