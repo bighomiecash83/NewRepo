@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "dmf-music-platform-e8010",
     "public": "web/.next",
     "ignore": [
       "firebase.json",
