@@ -38,11 +38,10 @@ exports.botsRouter = void 0;
 const express_1 = require("express");
 const admin = __importStar(require("firebase-admin"));
 const pubsub_1 = require("@google-cloud/pubsub");
-const db = admin.firestore();
-const pubsub = new pubsub_1.PubSub();
 exports.botsRouter = (0, express_1.Router)();
 exports.botsRouter.get("/status", async (_req, res) => {
     try {
+        const db = admin.firestore();
         const snap = await db
             .collection("bots")
             .orderBy("lastHeartbeat", "desc")
@@ -62,6 +61,8 @@ exports.botsRouter.post("/start", async (req, res) => {
         if (!botId) {
             return res.status(400).json({ error: "botId required" });
         }
+        const db = admin.firestore();
+        const pubsub = new pubsub_1.PubSub();
         await db.collection("bots").doc(botId).update({
             status: "starting",
             lastUpdated: admin.firestore.FieldValue.serverTimestamp()
@@ -88,6 +89,8 @@ exports.botsRouter.post("/stop", async (req, res) => {
         if (!botId) {
             return res.status(400).json({ error: "botId required" });
         }
+        const db = admin.firestore();
+        const pubsub = new pubsub_1.PubSub();
         await db.collection("bots").doc(botId).update({
             status: "stopping",
             lastUpdated: admin.firestore.FieldValue.serverTimestamp()

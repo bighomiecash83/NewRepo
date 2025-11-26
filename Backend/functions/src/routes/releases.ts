@@ -4,9 +4,6 @@ import * as admin from "firebase-admin";
 import { PubSub } from "@google-cloud/pubsub";
 import { v4 as uuidv4 } from "uuid";
 
-const db = admin.firestore();
-const pubsub = new PubSub();
-
 export async function createReleaseHandler(req: Request, res: Response) {
   try {
     const { artistId, title, tracks } = req.body;
@@ -15,6 +12,8 @@ export async function createReleaseHandler(req: Request, res: Response) {
       return res.status(400).json({ error: "artistId and title required" });
     }
 
+    const db = admin.firestore();
+    const pubsub = new PubSub();
     const releaseId = uuidv4();
     const releaseData = {
       releaseId,
@@ -55,6 +54,7 @@ export async function getReleaseHandler(req: Request, res: Response) {
       return res.status(400).json({ error: "releaseId required" });
     }
 
+    const db = admin.firestore();
     const doc = await db.collection("releases").doc(releaseId).get();
     if (!doc.exists) {
       return res.status(404).json({ error: "release not found" });

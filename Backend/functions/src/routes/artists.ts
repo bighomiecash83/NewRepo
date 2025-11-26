@@ -2,13 +2,12 @@
 import { Request, Response } from "express";
 import * as admin from "firebase-admin";
 
-const db = admin.firestore();
-
 export async function createArtistHandler(req: Request, res: Response) {
   try {
     const { name, email } = req.body;
     if (!name) return res.status(400).json({ error: "name is required" });
 
+    const db = admin.firestore();
     const docRef = db.collection("artists").doc();
     await docRef.set({
       name,
@@ -26,6 +25,7 @@ export async function createArtistHandler(req: Request, res: Response) {
 
 export async function listArtistsHandler(_req: Request, res: Response) {
   try {
+    const db = admin.firestore();
     const snap = await db
       .collection("artists")
       .orderBy("createdAt", "desc")

@@ -36,12 +36,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createArtistHandler = createArtistHandler;
 exports.listArtistsHandler = listArtistsHandler;
 const admin = __importStar(require("firebase-admin"));
-const db = admin.firestore();
 async function createArtistHandler(req, res) {
     try {
         const { name, email } = req.body;
         if (!name)
             return res.status(400).json({ error: "name is required" });
+        const db = admin.firestore();
         const docRef = db.collection("artists").doc();
         await docRef.set({
             name,
@@ -58,6 +58,7 @@ async function createArtistHandler(req, res) {
 }
 async function listArtistsHandler(_req, res) {
     try {
+        const db = admin.firestore();
         const snap = await db
             .collection("artists")
             .orderBy("createdAt", "desc")
