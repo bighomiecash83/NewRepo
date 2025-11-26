@@ -1,0 +1,14 @@
+{
+  "apiBaseUrl": "http://localhost:5000",
+  "apiKey": "CHANGE_ME_DMF_APP_KEY",
+  "llmProviders": {
+    "openai": {
+      "enabled": true,
+      "model": "gpt-4-mini"
+    },
+    "googleGemini": {
+      "enabled": true,
+      "model": "gemini-1.5-flash"
+    }
+  }
+}

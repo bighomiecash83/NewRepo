@@ -1,8 +1,10 @@
 using DmfMusicPlatform.StreamGod.Ads;
 using DmfMusicPlatform.StreamGod.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +32,10 @@ var adDatabaseSettings = new AdDatabaseSettings
 builder.Services.AddSingleton(adDatabaseSettings);
 builder.Services.AddSingleton<IAdDataContext, AdDataContext>();
 
+// Register IMongoClient for dependency injection
+var mongoClient = new MongoClient(mongoConnectionString);
+builder.Services.AddSingleton<IMongoClient>(mongoClient);
+
 // ======== Services ========
 builder.Services.AddScoped<IAdActionExecutor, AdActionExecutor>();
 
@@ -51,6 +57,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// 🔐 Pull the required API key from configuration/env
+var requiredApiKey =
+    app.Configuration["DMF_APP_API_KEY"] ??
+    Environment.GetEnvironmentVariable("DMF_APP_API_KEY");
+
+if (string.IsNullOrWhiteSpace(requiredApiKey))
+{
+    throw new InvalidOperationException(
+        "DMF_APP_API_KEY is not configured. Set it as an environment variable.");
+}
+
 // ======== Middleware ========
 if (app.Environment.IsDevelopment())
 {
@@ -61,6 +78,31 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
+
+// 🔐 Global API key middleware
+app.Use(async (context, next) =>
+{
+    // Let health check through without API key so you can debug
+    if (context.Request.Path.StartsWithSegments("/health"))
+    {
+        await next();
+        return;
+    }
+
+    if (!context.Request.Headers.TryGetValue("x-dmf-api-key", out var providedKey) ||
+        !string.Equals(providedKey, requiredApiKey, StringComparison.Ordinal))
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        await context.Response.WriteAsJsonAsync(new
+        {
+            error = "Invalid or missing API key"
+        });
+        return;
+    }
+
+    await next();
+});
+
 app.UseAuthorization();
 app.MapControllers();
 
