@@ -37,7 +37,6 @@ exports.generateReleaseDescriptionHandler = generateReleaseDescriptionHandler;
 const zod_1 = require("zod");
 const genkit_1 = require("../genkit");
 const admin = __importStar(require("firebase-admin"));
-const db = admin.firestore();
 const inputSchema = zod_1.z.object({
     artistId: zod_1.z.string(),
     trackTitle: zod_1.z.string(),
@@ -47,6 +46,7 @@ const inputSchema = zod_1.z.object({
 });
 async function getRealStats(artistId) {
     try {
+        const db = admin.firestore();
         const doc = await db.collection("artists").doc(artistId).get();
         const data = doc.data();
         return {

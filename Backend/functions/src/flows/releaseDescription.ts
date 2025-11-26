@@ -4,8 +4,6 @@ import { z } from "zod";
 import { generate } from "../genkit";
 import * as admin from "firebase-admin";
 
-const db = admin.firestore();
-
 const inputSchema = z.object({
   artistId: z.string(),
   trackTitle: z.string(),
@@ -16,6 +14,7 @@ const inputSchema = z.object({
 
 async function getRealStats(artistId: string) {
   try {
+    const db = admin.firestore();
     const doc = await db.collection("artists").doc(artistId).get();
     const data = doc.data();
     return {
