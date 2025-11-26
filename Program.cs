@@ -82,8 +82,9 @@ app.UseCors("AllowFrontend");
 // 🔐 Global API key middleware
 app.Use(async (context, next) =>
 {
-    // Let health check through without API key so you can debug
-    if (context.Request.Path.StartsWithSegments("/health"))
+    // Let health check + system status through without API key so dashboards can monitor
+    if (context.Request.Path.StartsWithSegments("/health") || 
+        context.Request.Path.StartsWithSegments("/system/status"))
     {
         await next();
         return;

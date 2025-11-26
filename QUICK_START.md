@@ -1,275 +1,316 @@
-# ?? Du'ryia StreamGod Brain - Quick Start
+# 🚀 QUICK START - Copy & Paste Commands
 
-## **In 3 Steps**
+## Step 1: Configure Your Environment (Edit This File First)
 
-### **Step 1: Configure MongoDB** (30 seconds)
+File: `dmf_bootstrap.sh`
 
-Edit `appsettings.json`:
+Open it and set your real values:
+
+```bash
+# EDIT THESE 4 LINES WITH YOUR ACTUAL CREDENTIALS
+export MONGO_CONNECTION_STRING="mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/dmf_music_platform"
+export DMF_APP_API_KEY="GENERATE_A_STRONG_KEY_HERE"
+export OPENAI_API_KEY="sk-proj-YOUR_KEY_HERE"
+export GEMINI_API_KEY="YOUR_GEMINI_KEY_HERE"
+```
+
+**How to generate a strong API key:**
+
+```bash
+# macOS / Linux
+openssl rand -hex 32
+
+# Windows PowerShell
+[System.BitConverter]::ToString([System.Random]::new().GetBytes(32)) -replace '-',''
+```
+
+Example strong key output:
+```
+a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0
+```
+
+---
+
+## Step 2: Update `dmf_app_config.json`
+
+File: `dmf_app_config.json`
+
+Must match your backend setup:
 
 ```json
 {
-  "MongoDB": {
-    "ConnectionString": "mongodb+srv://bighomiecash8346:<YOUR_PASSWORD>@dmf-music-platform.pfqrhc.mongodb.net/?appName=DMF-MUSIC-platform"
+  "apiBaseUrl": "http://localhost:5000",
+  "apiKey": "SAME_VALUE_AS_DMF_APP_API_KEY_IN_dmf_bootstrap.sh",
+  "llmProviders": {
+    "openai": {
+      "enabled": true,
+      "model": "gpt-4-mini"
+    },
+    "googleGemini": {
+      "enabled": true,
+      "model": "gemini-1.5-flash"
+    }
   }
 }
 ```
 
-Replace `<YOUR_PASSWORD>` with your MongoDB password.
-
 ---
 
-### **Step 2: Run Backend** (F5 in Visual Studio)
+## Step 3: Run the Backend
+
+Copy and paste this into your terminal:
 
 ```bash
-# Or via command line:
-cd DMF-MUSIC-PLATFORM
-dotnet run
+# Navigate to repo root
+cd /path/to/dmf-music-platform
+
+# Make script executable (first time only)
+chmod +x dmf_bootstrap.sh
+
+# Run the bootstrap script
+./dmf_bootstrap.sh
 ```
 
 **Expected output:**
 ```
-info: Microsoft.Hosting.Lifetime[14]
-      Now listening on: https://localhost:5001
-```
+🔥 DMF-MUSIC-PLATFORM tight bootstrap in /path/to/dmf-music-platform
+✅ Env vars loaded:
+   MONGO_CONNECTION_STRING: mongodb+srv://...
+   DMF_APP_API_KEY: a1b2c3d4e5...
+   OPENAI_API_KEY: configured
+   GEMINI_API_KEY: configured
 
-Test it:
-```bash
-curl https://localhost:5001/api/catalog/health-check
-# Should return: {"status":"healthy","mongodb":"connected"}
-```
+➡️ Starting .NET backend...
+⏳ Waiting for backend to start...
 
----
-
-### **Step 3: Add Frontend Components to Lovable**
-
-In your Lovable project, create these 2 files:
-
-#### **File 1: `src/services/catalogService.ts`**
-
-```typescript
-const API_BASE = process.env.REACT_APP_API_URL || 'https://dmf-music-platform.lovable.app/api';
-
-export interface CatalogHealthResponse {
-  summary: {
-    totalReleases: number;
-    totalTracks: number;
-    releasesReadyForDistribution: number;
-    tracksReadyForDistribution: number;
-    avgReleaseReadiness: number;
-    avgTrackReadiness: number;
-    analyzedAt: string;
-  };
-  releases: any[];
-  tracks: any[];
-  isCatalogHealthy: boolean;
-}
-
-async function getAuthToken() {
-  return localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-}
-
-export const catalogService = {
-  async getCatalogHealth(): Promise<CatalogHealthResponse> {
-    const token = await getAuthToken();
-    const response = await fetch(`${API_BASE}/catalog/health`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    return response.json();
-  },
-
-  async getRecommendations() {
-    const token = await getAuthToken();
-    const response = await fetch(`${API_BASE}/catalog/recommendations`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    return response.json();
-  },
-
-  async healthCheck(): Promise<boolean> {
-    try {
-      const response = await fetch(`${API_BASE}/catalog/health-check`);
-      const data = await response.json();
-      return data.status === 'healthy';
-    } catch {
-      return false;
-    }
+🔍 Checking health...
+{
+  "status": "OK",
+  "mongo": "OK",
+  "env": {
+    "hasMongoUri": true,
+    "hasAppKey": true,
+    "hasOpenAiKey": true,
+    "hasGeminiKey": true
   }
-};
+}
+
+✅ Backend should now be live on http://localhost:5000
+
+🔑 Use this API key for all requests:
+   x-dmf-api-key: a1b2c3d4e5...
+
+📝 Example health check:
+   curl -H "x-dmf-api-key: a1b2c3d4e5..." http://localhost:5000/health
+
+📝 Example API call (requires API key):
+   curl -H "x-dmf-api-key: a1b2c3d4e5..." http://localhost:5000/api/catalog/health
+
+🚀 Backend running. Press Ctrl+C to stop.
 ```
 
-#### **File 2: `src/components/CatalogDashboard.tsx`**
+---
 
-```typescript
-import React, { useEffect, useState } from 'react';
-import { catalogService } from '../services/catalogService';
+## Step 4: Test the API
 
-export function CatalogDashboard() {
-  const [health, setHealth] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+Open a **new terminal** (keep the first one running backend):
 
-  useEffect(() => {
-    catalogService.getCatalogHealth()
-      .then(setHealth)
-      .catch(e => setError(e.message))
-      .finally(() => setLoading(false));
-  }, []);
+### Test 1: Health Check (No API Key Required)
 
-  if (loading) return <div className="p-6 text-white">Loading...</div>;
-  if (error) return <div className="p-6 text-red-400">{error}</div>;
-  if (!health) return null;
+```bash
+curl http://localhost:5000/health
+```
 
-  const { summary, releases, tracks } = health;
-
-  return (
-    <div className="p-6 bg-gradient-to-b from-gray-900 to-black text-white space-y-6">
-      <h1 className="text-4xl font-bold text-yellow-400">?? StreamGod Dashboard</h1>
-
-      {/* Summary Cards */}
-      <div className="grid grid-cols-4 gap-4">
-        <Card label="Total Releases" value={summary.totalReleases} />
-        <Card label="Total Tracks" value={summary.totalTracks} />
-        <Card label="Releases Ready" value={summary.releasesReadyForDistribution} />
-        <Card label="Tracks Ready" value={summary.tracksReadyForDistribution} />
-      </div>
-
-      {/* Gauges */}
-      <div className="grid grid-cols-2 gap-6">
-        <Gauge label="Release Readiness" score={summary.avgReleaseReadiness} />
-        <Gauge label="Track Readiness" score={summary.avgTrackReadiness} />
-      </div>
-
-      {/* Lists */}
-      <div className="grid grid-cols-2 gap-6">
-        <ItemList title="Releases" items={releases.slice(0, 5)} />
-        <ItemList title="Tracks" items={tracks.slice(0, 5)} />
-      </div>
-
-      <button
-        onClick={() => location.reload()}
-        className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold rounded"
-      >
-        ?? Refresh
-      </button>
-    </div>
-  );
-}
-
-function Card({ label, value }) {
-  return (
-    <div className="bg-gray-800 p-4 rounded border border-gray-700">
-      <p className="text-gray-400 text-sm">{label}</p>
-      <p className="text-3xl font-bold text-yellow-400 mt-1">{value}</p>
-    </div>
-  );
-}
-
-function Gauge({ label, score }) {
-  const color = score >= 80 ? 'text-green-400' : score >= 70 ? 'text-yellow-400' : 'text-red-400';
-  const bar = score >= 80 ? 'bg-green-600' : score >= 70 ? 'bg-yellow-600' : 'bg-red-600';
-
-  return (
-    <div className="bg-gray-800 p-6 rounded border border-gray-700">
-      <p className="font-semibold mb-2">{label}</p>
-      <p className={`text-3xl font-bold ${color}`}>{score}%</p>
-      <div className="mt-3 w-full h-2 bg-gray-700 rounded-full overflow-hidden">
-        <div className={`h-full ${bar}`} style={{ width: `${score}%` }} />
-      </div>
-    </div>
-  );
-}
-
-function ItemList({ title, items }) {
-  return (
-    <div className="bg-gray-800 p-4 rounded border border-gray-700">
-      <h3 className="font-bold text-yellow-400 mb-3">{title}</h3>
-      <div className="space-y-2">
-        {items.map((item, i) => (
-          <div key={i} className="bg-gray-700 p-2 rounded text-sm">
-            <p className="font-semibold">{item.title}</p>
-            <p className="text-gray-400">{item.score}%</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+Expected response:
+```json
+{
+  "status":"OK",
+  "mongo":"OK",
+  "env":{
+    "hasMongoUri":true,
+    "hasAppKey":true,
+    "hasOpenAiKey":true,
+    "hasGeminiKey":true
+  }
 }
 ```
 
-#### **File 3: `.env.local`**
+If mongo shows `FAIL`: Your MongoDB connection string is wrong.
 
-```
-REACT_APP_API_URL=https://your-backend-url/api
-```
-
----
-
-## **Deploy Backend**
-
-### Option A: Azure App Service
-```bash
-az webapp up --name dmf-music-api --runtime "dotnet:10.0"
-```
-
-### Option B: Docker
-```bash
-docker build -t dmf-api .
-docker run -p 5001:8080 -e MongoDB__ConnectionString="..." dmf-api
-```
-
-### Option C: Self-hosted
-```bash
-dotnet publish -c Release
-# Copy bin/Release/net10.0/publish/* to your server
-```
-
----
-
-## **Deploy Frontend**
-
-### Lovable
-1. Add the 3 files above
-2. Push to git
-3. Lovable auto-deploys to `https://dmf-music-platform.lovable.app`
-
----
-
-## **Test Everything**
+### Test 2: API Without Key (Should Fail)
 
 ```bash
-# 1. Backend running?
-curl https://your-api/api/catalog/health-check
+curl http://localhost:5000/api/catalog/health
+```
 
-# 2. Has data?
-curl -H "Authorization: Bearer YOUR_TOKEN" \
-  https://your-api/api/catalog/health
+Expected response:
+```json
+{
+  "error":"Invalid or missing API key"
+}
+```
 
-# 3. Frontend loads?
-Open https://dmf-music-platform.lovable.app
+HTTP Status: `401 Unauthorized` ✅
+
+### Test 3: API With Correct Key (Should Work)
+
+```bash
+# Replace with YOUR actual API key
+curl -H "x-dmf-api-key: YOUR_API_KEY_HERE" http://localhost:5000/api/catalog/health
+```
+
+Expected response:
+- If endpoint exists: `200 OK` with data
+- If endpoint doesn't exist: `404 Not Found`
+
+Either way, you passed the API key wall! ✅
+
+### Test 4: API With Wrong Key (Should Fail)
+
+```bash
+curl -H "x-dmf-api-key: wrong-key-here" http://localhost:5000/api/catalog/health
+```
+
+Expected response:
+```json
+{
+  "error":"Invalid or missing API key"
+}
+```
+
+HTTP Status: `401 Unauthorized` ✅
+
+---
+
+## Step 5: Test Frontend
+
+In the `web` directory:
+
+```bash
+cd web
+
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+```
+
+The React frontend will:
+1. Read `dmf_app_config.json` from repo root
+2. Get `apiBaseUrl` and `apiKey`
+3. Make requests to backend with header: `x-dmf-api-key: YOUR_API_KEY`
+4. Automatically authenticated! ✅
+
+---
+
+## Troubleshooting
+
+### Issue: "DMF_APP_API_KEY is not configured"
+
+**Fix:**
+```bash
+# Check if env var is set
+echo $DMF_APP_API_KEY
+
+# Should print your key
+
+# If empty, edit dmf_bootstrap.sh again
+nano dmf_bootstrap.sh
+
+# Then run again
+./dmf_bootstrap.sh
+```
+
+### Issue: Health shows `mongo: "FAIL"`
+
+**Fix:**
+```bash
+# 1. Check your connection string
+grep MONGO_CONNECTION_STRING dmf_bootstrap.sh
+
+# 2. Test it directly (if you have mongosh installed)
+mongosh "mongodb+srv://your_connection_string"
+
+# 3. Common issues:
+#    - Wrong username/password
+#    - Wrong cluster name
+#    - MongoDB service not running (Atlas must be running)
+#    - IP whitelist not set (allow 0.0.0.0/0 in Atlas)
+```
+
+### Issue: Frontend can't connect
+
+**Fix:**
+```bash
+# 1. Check config file
+cat dmf_app_config.json
+
+# 2. Verify values match:
+#    - apiBaseUrl matches where backend is running
+#    - apiKey matches DMF_APP_API_KEY in dmf_bootstrap.sh
+
+# 3. Check browser console for errors
+#    Open DevTools → Console tab → look for errors
+```
+
+### Issue: Backend won't start
+
+**Fix:**
+```bash
+# 1. Check if port 5000 is already in use
+lsof -i :5000  # macOS/Linux
+netstat -ano | findstr :5000  # Windows
+
+# 2. Kill the process using it
+kill -9 <PID>  # macOS/Linux
+taskkill /PID <PID> /F  # Windows
+
+# 3. Try again
+./dmf_bootstrap.sh
 ```
 
 ---
 
-## **Troubleshooting**
+## Production Deployment Checklist
 
-| Issue | Solution |
-|-------|----------|
-| **CORS error** | Add frontend URL to CORS policy in Program.cs |
-| **401 Unauthorized** | Check auth token is being sent |
-| **MongoDB connection fails** | Verify connection string and network access |
-| **Port 5001 already in use** | `dotnet run --urls https://localhost:5002` |
-| **Frontend shows "Loading..."** | Check API_BASE URL in catalogService.ts |
+- [ ] Generate strong API key using `openssl rand -hex 32`
+- [ ] Update `dmf_app_config.json` with production backend URL
+- [ ] Deploy backend to Cloud Run / Render / Railway
+- [ ] Set `DMF_APP_API_KEY` env var in cloud platform
+- [ ] Set `MONGO_CONNECTION_STRING` env var in cloud platform
+- [ ] Deploy React frontend to Vercel / Netlify
+- [ ] Test health endpoint: `curl https://your-backend.com/health`
+- [ ] Test with API key: `curl -H "x-dmf-api-key: YOUR_KEY" https://your-backend.com/api/...`
+- [ ] Monitor error logs for `401 Unauthorized` (shouldn't happen if keys match)
 
 ---
 
-## **You're Done!** ??
+## Reference: File Locations
 
-Your StreamGod Brain is now:
+```
+dmf-music-platform/
+├── dmf_bootstrap.sh                    ← Edit this with your credentials
+├── dmf_app_config.json                 ← Frontend reads this
+├── Program.cs                          ← API key middleware (already added)
+├── Controllers/
+│   └── HealthController.cs             ← Health endpoint (already added)
+└── web/
+    └── src/
+        └── lib/
+            └── api.ts                  ← Frontend client (already updated)
+```
 
-? Analyzing your catalog in real-time
-? Scoring releases and tracks (0-100)
-? Providing actionable recommendations
-? Tracking readiness trends
-? Guiding your label to distribution
+---
 
-**The Du'ryia Engine is live.** ??
+## Summary
+
+You now have a **production-grade API key wall** with:
+
+1. ✅ Single `x-dmf-api-key` header authentication
+2. ✅ `/health` endpoint for debugging
+3. ✅ Central `dmf_app_config.json` for all frontends
+4. ✅ One-shot `dmf_bootstrap.sh` startup
+5. ✅ Axios interceptor auto-injects key on every request
+
+**Status**: Ready for production. Run `./dmf_bootstrap.sh` now.
