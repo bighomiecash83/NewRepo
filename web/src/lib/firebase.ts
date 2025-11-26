@@ -9,12 +9,13 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyBS92OnLQd6HN8b4MyJGFDAxT7Qk2v2psA",
-  authDomain: `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "dmf-music-platform"}.firebaseapp.com`,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyBdJAQCyf-jTdi1yTCY9ggBep_YsFTT49A",
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "dmf-music-platform.firebaseapp.com",
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "dmf-music-platform",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "dmf-music-platform.appspot.com",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "639297393393",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:639297393393:web:abc123def456ghi789"
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "dmf-music-platform.firebasestorage.app",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "209028135481",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:209028135481:web:aab49f117abc40a464abe8",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-H2Q2VWEESB"
 };
 
 if (!getApps().length) {
