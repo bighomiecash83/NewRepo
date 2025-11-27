@@ -36,6 +36,9 @@ builder.Services.AddSingleton<IAdDataContext, AdDataContext>();
 var mongoClient = new MongoClient(mongoConnectionString);
 builder.Services.AddSingleton<IMongoClient>(mongoClient);
 
+// Register MongoDbService
+builder.Services.AddSingleton<MongoDbService>();
+
 // ======== Services ========
 builder.Services.AddScoped<IAdActionExecutor, AdActionExecutor>();
 
