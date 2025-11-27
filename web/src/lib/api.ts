@@ -1,18 +1,15 @@
 import axios from 'axios'
 import { getIdToken } from './firebase'
-import appConfig from '../../dmf_app_config.json'
 
-// Supabase Edge Functions backend (multiple frontends, single kitchen)
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || appConfig.apiBaseUrl || 'http://localhost:5000'
-const DMF_API_KEY = process.env.NEXT_PUBLIC_DMF_API_KEY || appConfig.apiKey || ''
+// Firebase Cloud Functions backend (single kitchen for all frontends)
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://us-central1-dmf-music-platform.cloudfunctions.net'
 
-// Create axios instance with auth headers + CORS
+// Create axios instance with auth headers
 const createClient = () => {
   const instance = axios.create({
     baseURL: API_BASE,
     headers: {
       'Content-Type': 'application/json',
-      ...(DMF_API_KEY && { 'x-dmf-api-key': DMF_API_KEY }),
     },
   })
 

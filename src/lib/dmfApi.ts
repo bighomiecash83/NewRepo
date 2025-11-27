@@ -1,16 +1,11 @@
-// src/lib/dmfApi.ts (Vite/React frontend - dmf-hub)
-const API_BASE = import.meta.env.VITE_API_BASE_URL as string;
-const DMF_API_KEY = (import.meta.env.VITE_DMF_API_KEY as string) || "";
+// Firebase Cloud Functions backend (single kitchen for all frontends)
+const API_BASE = import.meta.env.VITE_API_BASE_URL as string || "https://us-central1-dmf-music-platform.cloudfunctions.net";
 
 async function dmfFetch(path: string, options: RequestInit = {}) {
   const headers: HeadersInit = {
     "Content-Type": "application/json",
     ...(options.headers || {}),
   };
-
-  if (DMF_API_KEY) {
-    headers["x-dmf-api-key"] = DMF_API_KEY;
-  }
 
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
