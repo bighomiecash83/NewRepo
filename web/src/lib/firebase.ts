@@ -14,8 +14,8 @@ const firebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "dmf-music-platform",
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "dmf-music-platform.firebasestorage.app",
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "209028135481",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:209028135481:web:aab49f117abc40a464abe8",
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-H2Q2VWEESB"
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:209028135481:web:cea29fa7b1ce479a64abe8",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-2QZBLGWFB9"
 };
 
 if (!getApps().length) {
