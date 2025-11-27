@@ -2,16 +2,17 @@ import axios from 'axios'
 import { getIdToken } from './firebase'
 import appConfig from '../../dmf_app_config.json'
 
-const API_BASE = appConfig.apiBaseUrl || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
-const DMF_API_KEY = appConfig.apiKey
+// Supabase Edge Functions backend (multiple frontends, single kitchen)
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || appConfig.apiBaseUrl || 'http://localhost:5000'
+const DMF_API_KEY = process.env.NEXT_PUBLIC_DMF_API_KEY || appConfig.apiKey || ''
 
-// Create axios instance with auth headers
+// Create axios instance with auth headers + CORS
 const createClient = () => {
   const instance = axios.create({
     baseURL: API_BASE,
     headers: {
       'Content-Type': 'application/json',
-      'x-dmf-api-key': DMF_API_KEY,
+      ...(DMF_API_KEY && { 'x-dmf-api-key': DMF_API_KEY }),
     },
   })
 
