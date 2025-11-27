@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using MongoDB.Bson;
+using System.Linq;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,13 +48,15 @@ builder.Services.AddScoped<IAdActionExecutor, AdActionExecutor>();
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
+    options.AddPolicy("AllowFrontends", policy =>
     {
         policy
-            .WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:5173")
-            .AllowAnyMethod()
+            .WithOrigins(
+                "https://dmf-music-platform.lovable.app",
+                "https://dmf-hub.lovable.app"
+            )
             .AllowAnyHeader()
-            .AllowCredentials();
+            .AllowAnyMethod();
     });
 });
 
@@ -80,7 +84,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowFrontend");
+app.UseCors("AllowFrontends");
 
 // 🔐 Global API key middleware
 app.Use(async (context, next) =>
@@ -108,6 +112,56 @@ app.Use(async (context, next) =>
 });
 
 app.UseAuthorization();
+
+app.MapGet("/health", () =>
+{
+    return Results.Ok(new { status = "ok", service = "dmf-backend" });
+});
+
+app.MapGet("/artists", async (MongoDbService mongo) =>
+{
+    try
+    {
+        var db = mongo.Database;
+        var collection = db.GetCollection<BsonDocument>("artists");
+        var docs = await collection.Find(new BsonDocument()).Limit(200).ToListAsync();
+        var artists = docs.Select(doc => new
+        {
+            id = doc.GetValue("_id").ToString(),
+            name = doc.GetValue("name").AsString,
+            slug = doc.Contains("slug") ? doc.GetValue("slug").AsString : null
+        }).ToList();
+        return Results.Ok(new { artists });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error fetching artists: {ex.Message}");
+    }
+});
+
+app.MapGet("/releases", async (MongoDbService mongo) =>
+{
+    try
+    {
+        var db = mongo.Database;
+        var collection = db.GetCollection<BsonDocument>("releases");
+        var docs = await collection.Find(new BsonDocument()).Limit(300).ToListAsync();
+        var releases = docs.Select(doc => new
+        {
+            id = doc.GetValue("_id").ToString(),
+            title = doc.GetValue("title").AsString,
+            artistId = doc.Contains("artistId") ? doc.GetValue("artistId").ToString() : null,
+            upc = doc.Contains("upc") ? doc.GetValue("upc").AsString : null,
+            isrc = doc.Contains("isrc") ? doc.GetValue("isrc").AsString : null
+        }).ToList();
+        return Results.Ok(new { releases });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error fetching releases: {ex.Message}");
+    }
+});
+
 app.MapControllers();
 
 // ======== Startup Tasks ========
