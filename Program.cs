@@ -93,7 +93,7 @@ app.Use(async (context, next) =>
     if (context.Request.Path.StartsWithSegments("/health") || 
         context.Request.Path.StartsWithSegments("/system/status"))
     {
-        await next();
+        await next.Invoke();
         return;
     }
 
@@ -108,57 +108,48 @@ app.Use(async (context, next) =>
         return;
     }
 
-    await next();
+    await next.Invoke();
 });
 
 app.UseAuthorization();
 
-app.MapGet("/health", () =>
-{
-    return Results.Ok(new { status = "ok", service = "dmf-backend" });
-});
+// ======== API Endpoints ========
 
-app.MapGet("/artists", async (MongoDbService mongo) =>
+// Health endpoint
+app.MapGet("/health", () => Results.Ok(new
+{
+    status = "ok",
+    service = "dmf-backend",
+    timestamp = DateTime.UtcNow
+}));
+
+// Artists endpoint
+app.MapGet("/artists", async (MongoDbService mongoDbService) =>
 {
     try
     {
-        var db = mongo.Database;
-        var collection = db.GetCollection<BsonDocument>("artists");
-        var docs = await collection.Find(new BsonDocument()).Limit(200).ToListAsync();
-        var artists = docs.Select(doc => new
-        {
-            id = doc.GetValue("_id").ToString(),
-            name = doc.GetValue("name").AsString,
-            slug = doc.Contains("slug") ? doc.GetValue("slug").AsString : null
-        }).ToList();
-        return Results.Ok(new { artists });
+        var artistsCollection = mongoDbService.Database.GetCollection<BsonDocument>("artists");
+        var artists = await artistsCollection.Find(new BsonDocument()).ToListAsync();
+        return Results.Ok(artists.Select(a => a.ToDictionary()));
     }
     catch (Exception ex)
     {
-        return Results.Problem($"Error fetching artists: {ex.Message}");
+        return Results.Problem(ex.Message);
     }
 });
 
-app.MapGet("/releases", async (MongoDbService mongo) =>
+// Releases endpoint
+app.MapGet("/releases", async (MongoDbService mongoDbService) =>
 {
     try
     {
-        var db = mongo.Database;
-        var collection = db.GetCollection<BsonDocument>("releases");
-        var docs = await collection.Find(new BsonDocument()).Limit(300).ToListAsync();
-        var releases = docs.Select(doc => new
-        {
-            id = doc.GetValue("_id").ToString(),
-            title = doc.GetValue("title").AsString,
-            artistId = doc.Contains("artistId") ? doc.GetValue("artistId").ToString() : null,
-            upc = doc.Contains("upc") ? doc.GetValue("upc").AsString : null,
-            isrc = doc.Contains("isrc") ? doc.GetValue("isrc").AsString : null
-        }).ToList();
-        return Results.Ok(new { releases });
+        var releasesCollection = mongoDbService.Database.GetCollection<BsonDocument>("releases");
+        var releases = await releasesCollection.Find(new BsonDocument()).ToListAsync();
+        return Results.Ok(releases.Select(r => r.ToDictionary()));
     }
     catch (Exception ex)
     {
-        return Results.Problem($"Error fetching releases: {ex.Message}");
+        return Results.Problem(ex.Message);
     }
 });
 
